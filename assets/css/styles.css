@@ -211,3 +211,52 @@
 .signInSection{
     height: 400px;
 }
+.navbar-text{
+  display: unset!important;
+}
+.logoutImg{
+  margin-top: 8px;
+}
+.logoutLink{
+  font-size: 14px;
+}
+.topDownloadBar{
+    display: flex;
+    justify-content: end;
+    width: 1048px;
+    position: relative;
+    left: 90px;
+    top: 20px;
+    height: 60px;
+    border-radius: 4px;
+    align-items: center;
+    padding-right: 45px;
+}
+.NavbarLogoutLink{
+  margin-right: 19px;
+}
+.topDownloadBar, .createContactSection, .dataListingSection{
+  background-color: white;
+}
+.createContactSection{
+  width: 160px;
+  height: 200px;
+}
+.dataListingSection{
+  width: 870px;
+  height: 200px;
+}
+.listingPageSection{
+  position: relative;
+  top: 34px;
+  gap: 15px;
+  right: 7px;
+}
+.midSection{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+    position: relative;
+    top: 40px;
+}
