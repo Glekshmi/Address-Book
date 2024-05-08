@@ -13,7 +13,10 @@
     background-color: rgb(20 105 173 / 81%);
 }
 .navLinks{
-    text-decoration: none;
+  text-decoration: none;
+    font-size: small;
+    margin-top: 1px;
+    pointer-events: none;
 }
 .navLogoTitle{
     display: flex;
@@ -239,24 +242,152 @@
   background-color: white;
 }
 .createContactSection{
-  width: 160px;
+  width: 170px;
   height: 200px;
+  margin-right: 15px;
 }
 .dataListingSection{
-  width: 870px;
+  width: 860px;
   height: 200px;
 }
 .listingPageSection{
   position: relative;
   top: 34px;
-  gap: 15px;
-  right: 7px;
+  /*gap: 15px;*/
+  right: 10px;
 }
 .midSection{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 17px;
-    position: relative;
-    top: 40px;
+  
+  position: relative;
+  top: 40px;
+  right: 7px;
+}
+.loginUserImg{
+  display: flex;
+  justify-content: center;
+}
+.loginUserImg img{
+  width: 75px;
+  height: 75px;
+  margin-top: 20px;
+}
+.createBtn{
+  padding: 2px!important;
+  border-radius: 20px!important;
+    font-size: 13px!important;
+    color: white!important;
+    background-color: rgb(20 105 173 / 81%)!important;
+    border: none!important;
+}
+.loginUserName,.createBtnSection{
+  display: flex;
+  justify-content: center;
+}
+.navbarLogIcon{
+  color: white;
+  font-size: medium !important;
+  position: relative;
+  top: 9px;
+}
+.popupContactHeader{
+  background-color: white !important;
+  width: 550px;
+  height: 650px;
+}
+.outerContainer{
+  background-color: #DAEEF7 !important;
+  width: 700px !important;
+}
+.subHeader{
+  background-color:#DAEEF7 !important;
+  width: 340px;
+  position: relative;
+  left: 103px;
+  top: 50px;
+  height: 40px;
+}
+.contactMainTitle{
+  position: relative;
+  top: 8px;
+  color: rgb(20 105 173);
+  font-size: larger;
+  font-weight: 700;
+}
+.commonStyle{
+  position: relative;
+  left: 102px;
+  top: 70px;
+}
+.personalContact{
+  border-bottom: 2px solid rgb(20 105 173); 
+  width: 312px;
+}
+.personalContact p{
+  margin-bottom: 1px;
+  color: rgb(20 105 173 / 81%);
+  font-size: large;
+  font-weight: 700;
+}
+.commonInputStyle{
+  border-left: none;
+  border-right: none;
+  border-top-color: #eaeaea;
+  border-bottom-color: #c5c3c3;
+}
+.selectTitle{
+  width: fit-content;
+}
+.setNameWidth{
+  width: 100px;
+  height: 25px;
+}
+.createContactImgSection{
+  position: relative;
+  top: 100px;
+}
+.commonNameStyle{
+  border: none;
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #c5c3c3;
+}
+.firstNameSection, .lastNameSection, .photoStyle{
+  margin-top: 15px;
+}
+.firstNameSection{
+  gap: 23px;
+}
+.lastNameSection{
+  gap: 18px;
+}
+.setGenderWidth{
+  width: 157px;
+}
+.setDateWidth{
+  width: 135px;
+}
+.photoStyle p{
+  color: rgb(20 105 173 / 81%);
+    font-size: medium;
+    font-weight: 500;
+}
+.setFileWidth{
+  width: 218px;
+}
+.loginContainer{
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.loginLeftSection{
+  background-color: burlywood !important;
+  height: 500px;
+  width: 200px;
+}
+.loginRightSection{
+  background-color: aquamarine;
+  height: 500px;
 }

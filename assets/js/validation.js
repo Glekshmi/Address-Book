@@ -112,3 +112,46 @@ function signUpValidate(){
 		return true;
 	}
 }
+
+function contactValidate(){
+	var registerErrorMsg='';
+    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+	var strFullName = $('#fullName').val().trim();
+	var strEmail = $('#email').val().trim();
+    var strUsername = $('#username').val().trim();
+	var strPassword = $('#password').val().trim();
+    var strConfirmpassword = $('#confirmpassword').val().trim();
+    if (strFullName == '' || strEmail == '' || strUsername == '' || strPassword == '' || strConfirmpassword == ''){
+        registerErrorMsg+='All fields are required!'+"<br>";
+    }
+	else if (/\d/.test(strFullName)) {
+		registerErrorMsg+='FullName field should contain alphabets only!'+"<br>";
+       
+	} 
+    else if (!strEmail.match(emailRegex)){
+		registerErrorMsg+='Please enter a valid email id!'+"<br>";
+		//alert(errorMsg);
+	}
+    else if (/\d/.test(strUsername)) {
+		registerErrorMsg+='Username field should contain alphabets only!'+"<br>";
+	}
+    else if(strPassword.length < 8){
+        registerErrorMsg+='Password should be at least 8 characters long!'+"<br>";
+    }
+    else if (!strPassword.match(passwordRegex)){
+		registerErrorMsg+='Password should be a combination of alphabets, digits and special characters!'+"<br>";
+		//alert(errorMsg);
+	}
+    else if(strConfirmpassword != strPassword){
+        registerErrorMsg+='Password did not match!'+"<br>";
+    }
+	
+	if(registerErrorMsg != ''){
+		$("#registerError").html(registerErrorMsg).css("color","red");
+		return false;
+	}
+	else{
+		return true;
+	}
+}
