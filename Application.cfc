@@ -38,7 +38,7 @@ component
 	// I initialize the user's web session.
 	function onSessionStart(){
 		session.result = {};
-		
+		session.userLoggedIn = false;
 		// ...
 		return true;
 	}

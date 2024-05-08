@@ -9,7 +9,7 @@ component {
             local.encryptedPassword = Hash(strPassword, 'SHA-512');
             local.qryUserExist = variables.compObj.checkUserLogin(strUserName=strUserName,strPassword=strPassword);
             if (local.qryUserExist.recordCount){
-                session.userLoggedIn = true;
+                //session.userLoggedIn = true;
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully Logged In";
             }
@@ -64,5 +64,17 @@ component {
         }
          return local.jsonResponse;
     }
+
+    /*public function login() {
+        if(session.userLoggedIn)
+            cflocation(url="?action=display");
+    }*/
     
+    remote any function logout() {
+        if (session.userLoggedIn)
+            structDelete(session, "userLoggedIn");
+            session.userLoggedIn=false;
+            
+            cflocation(url="?action=login");
+    }
 }
