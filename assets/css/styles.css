@@ -16,7 +16,7 @@
   text-decoration: none;
     font-size: small;
     margin-top: 1px;
-    pointer-events: none;
+    
 }
 .navLogoTitle{
     display: flex;
@@ -295,11 +295,12 @@
 .popupContactHeader{
   background-color: white !important;
   width: 550px;
-  height: 650px;
+  height: 698px !important;
 }
 .outerContainer{
   background-color: #DAEEF7 !important;
   width: 700px !important;
+  height: 700px !important;
 }
 .subHeader{
   background-color:#DAEEF7 !important;
@@ -319,7 +320,7 @@
 .commonStyle{
   position: relative;
   left: 102px;
-  top: 70px;
+  top: 82px;
 }
 .personalContact{
   border-bottom: 2px solid rgb(20 105 173); 
@@ -391,3 +392,57 @@
   background-color: aquamarine;
   height: 500px;
 }
+.tableField{
+  color: rgb(20 105 173 / 81%);
+}
+.viewSection{
+  position: relative;
+  left: 75px;
+  top: 70px;
+}
+.viewField{
+  font-size: 14px;
+  font-weight: 700;
+}
+.displayContact{
+  position: relative;
+  left: 75px;
+  top: 85px;
+}
+.contactTextColor{
+  color : rgb(20 105 173 / 97%);
+}
+.tableStyle{
+  margin-left: 12px;
+}
+.FieldFontSize{
+  font-size: small;
+}
+
+.tableBorder{
+  border-top-color: #aa0f0f;
+  border-bottom-color: #080202;
+}
+.tableDataRow{
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+  line-height: 65px;
+}
+.tableHeaderRow{
+  line-height: 53px;
+}
+.tableWidth{
+  position: relative;
+  left: 65px;
+}
+/*.viewBtn{
+  padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    border-radius: 15px !important;
+    border-color: rgb(20 105 173 / 81%) !important;
+    color: rgb(20 105 173 / 81%) !important;
+    font-size: small !important;
+}*/
+

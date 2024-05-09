@@ -17,8 +17,7 @@
             include "/views/listingPage.cfm";
         break;
 
-        case "new":
-             include "/views/header.cfm";
+        case "logout":
             include "/views/newContact.cfm";
         break;
 

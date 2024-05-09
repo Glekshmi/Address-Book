@@ -24,14 +24,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                </ul>
-                <span class="navbar-text">
-                    <span class="material-symbols-outlined">person</span>
-                    <a class="navLinks">SignUp</a>
-                    <span class="material-symbols-outlined navbarLogIcon">login</span>
-                    <a class="navLinks">Login</a>
-                </span>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                <div class="d-flex gap-4">
+                    <div class="d-flex">
+                        <span class="material-symbols-outlined navbarLogIcon">person</span>
+                        <a class="navLinks ">SignUp</a>
+                    </div>
+                    <div class="d-flex">
+                        <span class="material-symbols-outlined navbarLogIcon">login</span>
+                        <a class="navLinks ">Login</a>
+                    </div>
+                </div>
             </div>
             </div>
         </nav>

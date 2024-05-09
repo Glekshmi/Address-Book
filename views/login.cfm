@@ -1,7 +1,6 @@
 <cfoutput>
- <!---<cfset myComponent = createObject("component", "controllers/addressBook")>
-  <cfset myComponent.login()>--->
-  <cfinclude  template="header.cfm">
+    <cfset myComponent = createObject("component", "controllers/addressBook").login()>
+
 <!---<!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,8 +25,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
                 <div class="d-flex gap-4">
                     <div class="d-flex">
                         <span class="material-symbols-outlined navbarLogIcon">person</span>
@@ -42,7 +40,7 @@
             </div>
             </div>
         </nav>
-        <!---<div class="container ">
+        <div class="container ">
             <div class="row ">
                 <div class="col-2 loginSectionImg">
                    <img src="./assets/images/contact-book.png" alt=""  width="100" height="100" class="d-inline-block align-text-top">
@@ -76,16 +74,16 @@
                 </div>
                 </div>
             </div>
-        </div>--->
+        </div>
 
-        <div class="d-flex loginContainer">
+        <!---<div class="d-flex loginContainer">
             <div class="loginLeftSection">
                 <p>hello</p>
             </div>
             <div class="loginRightSection">
                 <p>login</p>
             </div>
-        </div>
+        </div>--->
 
     </body>
 </html>
