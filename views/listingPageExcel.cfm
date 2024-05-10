@@ -1,6 +1,7 @@
 
 <cfoutput>
-    <cfhtmltopdf>
+    <cfheader name="Content-Disposition" value="attachment; filename=contact.xlsx">
+            <cfcontent type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                  <table class="w-100">
                             <thead>
                                 <tr class="text-primary">
@@ -33,6 +34,5 @@
                                 </cfloop>
                             </tbody>
 			            </table>                
-     </cfhtmltopdf>
 
 </cfoutput>

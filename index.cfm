@@ -17,10 +17,15 @@
             include "/views/listingPage.cfm";
         break;
 
-        // case "pdf":
-        //     include "/views/header.cfm";
-        //     include "/views/listingPagePdf.cfm";
-        // break;
+        case "pdf":
+             include "/views/header.cfm";
+             include "/views/listingPagePdf.cfm";
+         break;
+
+        case "sheet":
+             include "/views/header.cfm";
+             include "/views/listingPageExcel.cfm";
+         break;
 
         case "logout":
             include "/views/newContact.cfm";

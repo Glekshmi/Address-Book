@@ -47,10 +47,12 @@
             <div class="topDownloadBar">
                 
                         
-                <a href="./views/listingPage.cfm?downloadPDF=true">
+                <a href="?action=pdf" target="_blank">
                     <img src="./assets/images/pdf.PNG" alt="Download PDF" width="30" height="32" class="d-inline-block align-text-top logoutImg">
                 </a>
-                <img src="./assets/images/excel.PNG" alt="" width="26" height="32" class="d-inline-block align-text-top logoutImg">
+                <a href="?action=sheet" target="_blank">
+                    <img src="./assets/images/excel.PNG" alt="" width="26" height="32" class="d-inline-block align-text-top logoutImg">
+                </a>
                 <img src="./assets/images/printer.PNG" alt="" width="32" height="34" class="d-inline-block align-text-top logoutImg">
             </div>
             <div class="midSection">
