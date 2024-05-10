@@ -62,6 +62,7 @@
         <cfargument name="strStreet" required="true" type="string">
         <cfargument name="strEmail" required="true" type="string">
         <cfargument name="StrPhone" required="true" type="numeric">
+       
         <cfset local.success = ''>
         <cftry>
         <cfquery name="qrySaveContact" result="qryResult" dataSource="coldFusionDb">
@@ -94,10 +95,25 @@
     <cffunction name="getContactDetails" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
         <cfquery name="qryGetContactDetails" datasource="coldfusionDb">
-            select Title,FirstName,LastName,Gender,DOB,Address,Email,Phone from ContactsTable
+            select concat(Title,' ',FirstName,' ',LastName) as Name,Gender,DOB,concat(Address,' ',Street) as Address,Email,Phone from ContactsTable
             where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
         <cfreturn serializeJSON(qryGetContactDetails)>
     </cffunction>
-
+    <cffunction name="getContact" access="remote" returnFormat="json">
+        <cfargument  name="contactId" required="true">
+        <cfquery name="qryGetContactDetails" datasource="coldfusionDb">
+            select Title,FirstName,LastName,Gender,DOB,Address,Email,Phone from ContactsTable
+            where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn {"success":true,"title":qryGetContactDetails.Title}>
+    </cffunction>
+    <cffunction name="deleteContact" access="remote" returnFormat="json">
+        <cfargument  name="contactId" required="true">
+        <cfquery name="qryDeleteContact" datasource="coldfusionDb">
+            delete from ContactsTable
+            where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn {"success":true}>
+    </cffunction>
 </cfcomponent>

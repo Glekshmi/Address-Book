@@ -41,7 +41,7 @@
             </div>
         </nav>
         <div class="container ">
-            <div class="row ">
+            <div class="row loginContainer">
                 <div class="col-2 loginSectionImg">
                    <img src="./assets/images/contact-book.png" alt=""  width="100" height="100" class="d-inline-block align-text-top">
                 </div>
