@@ -339,7 +339,7 @@
   border-bottom-color: #c5c3c3;
 }
 .selectTitle{
-  width: fit-content;
+  width: 63px;
 }
 .setNameWidth{
   width: 100px;
@@ -435,7 +435,7 @@
   position: relative;
   left: 65px;
 }
-/*.viewBtn{
+.viewBtn{
   padding-top: 2px !important;
     padding-bottom: 2px !important;
     padding-left: 25px !important;
@@ -444,5 +444,9 @@
     border-color: rgb(20 105 173 / 81%) !important;
     color: rgb(20 105 173 / 81%) !important;
     font-size: small !important;
-}*/
+}
+.loginContainer{
+  display: flex !important;
+  justify-content: center !important;
+}
 

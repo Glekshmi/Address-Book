@@ -17,6 +17,11 @@
             include "/views/listingPage.cfm";
         break;
 
+        // case "pdf":
+        //     include "/views/header.cfm";
+        //     include "/views/listingPagePdf.cfm";
+        // break;
+
         case "logout":
             include "/views/newContact.cfm";
         break;
@@ -25,7 +30,7 @@
         // The provided event could not be matched.
         default:
            // throw( type="InvalidEvent" );
-           //include "/views/signUp.cfm";
+           //include "/views/pdfFile.cfm";
         break;
     }
 </cfscript>

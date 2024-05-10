@@ -79,7 +79,8 @@ $(document).ready(function(){
         var strStreet = $('#strStreet').val().trim();
         var strEmail = $('#strEmail').val().trim();
         var strPhone = $('#strPhone').val().trim();
-            
+      
+      
             $.ajax({
                 url:"./controllers/addressBook.cfc?method=checkEmailExist",
                 type:'post',
@@ -118,9 +119,101 @@ $(document).ready(function(){
         
     });
     
-   
+    //view
+    $('.btnView').click(function(){
+        var contactId = $(this).data('id');
+        $.ajax({
+            type: 'POST',
+            url: './models/addressBook.cfc?method=getContactDetails',
+            data: {contactId: contactId},
+            success: function(response){
+                
+                var data = JSON.parse(response);
+                var columns = data.COLUMNS;
+                var rowData = data.DATA[0]; 
+               
+                for (var i = 0; i < columns.length; i++) {
+                    var column = columns[i];
+                    var value = rowData[i];
+                   
+                    $('#' + column.toLowerCase()).html(value);
+                }
+                //window.reload();
+            },
+            error: function(xhr, status, error){
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    //edit
+    $('.btnEdit').click(function() {
+        var contactId = $(this).data('id');
+        
+            $.ajax({
+                type: 'POST',
+                url: './models/addressBook.cfc?method=getContact',
+                data: {contactId: contactId},
+                success: function(response) {
+                    alert(response);
+                    var title = response["title"];
+                    alert(title);
+                    if(response.success){
+                        $('#strTitle').html(response.title);
+                    }
+                    /*var selectField = $('#editModal #title');
+                    selectField.empty();
+                    for (var i = 0; i < data.options.length; i++) {
+                        var option = $('<option>', {
+                            value: data.options[i].value,
+                            text: data.options[i].text
+                        });
+                        selectField.append(option);
+                    }*/
+                    
+                    /*var data = JSON.parse(response);
+                    var columns = data.COLUMNS;
+                    var rowData = data.DATA[0]; 
+                   
+                    for (var i = 0; i < columns.length; i++) {
+                        var column = columns[i];
+                        var value = rowData[i];
+                       
+                        $('#' + column.toLowerCase()).html(value);
+                    }*/
+                    
+                },
+                error: function(xhr, status, error) {
+                
+                }
+            });
+        
+    });
 
 
+    $('.btnDelete').click(function(){
+        deleteId = $(this).data('id');
+        delRecord = $(this);
+      });
+      $('.confirmDeleteBtn').click(function(){
+        $.ajax({
+          type: 'POST',
+          url: './models/addressBook.cfc?method=deleteContact',
+          data: {contactId: deleteId},
+          success: function(response) {
+            if(response.success){
+                setTimeout(function(){
+                    window.location.href="?action=display";
+                },1000
+            );
+                //$(deleteId).closest('tr').remove();
+                //window.location.href="?action=display";
+            }
+          },
+          error: function(xhr, status, error) {
+          }
+        });
+      });
 });
 
 function signUpValidate(){
