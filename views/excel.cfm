@@ -1,7 +1,8 @@
 
 <cfoutput>
-    <cfhtmltopdf>
-                 <table class="w-100">
+    <cfsavecontent variable="saveContent1">
+    <cfcontent type="application/msexcel">
+        <table class="w-100">
                             <thead>
                                 <tr class="text-primary">
                                     <th></th>
@@ -32,7 +33,8 @@
                                     </cfif>
                                 </cfloop>
                             </tbody>
-			            </table>                
-     </cfhtmltopdf>
-
+			            </table>      
+    </cfsavecontent>
+<cffile action="write" mode="777" output="#saveContent1#" file="Report.xls">     
 </cfoutput>
+
