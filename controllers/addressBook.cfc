@@ -78,23 +78,27 @@ component {
         cflocation(url="../?action=login");
     }
 
-    remote any function checkEmailExist(strTitle, strFirstName, strLastName, strGender, strDOB,  strAddress, strStreet, strEmail, strPhone) returnFormat="JSON" {
-        local.checkEmailExist=variables.compObj.checkEmailExist(strEmail = strEmail);
-        if(local.checkEmailExist.recordCount) {
+    remote any function checkEmailExist(contactId, strEmail) returnFormat="JSON" {
+        //writeDump(contactId)abort;
+        local.checkEmailExist=variables.compObj.checkEmailExist(contactId = contactId,strEmail = strEmail);
+        if(local.checkEmailExist) {
             local.jsonResponse["success"] = false;
             local.jsonResponse["message"] = "Details of the person already exist!!!";
         } 
-        else { 
-            local.saveContactDetails=variables.compObj.saveContactDetails(strTitle = strTitle, strFirstName = strFirstName, strLastName = strLastName, strGender = strGender, strDOB = strDOB,  strAddress = strAddress, strStreet = strStreet, strEmail = strEmail, strPhone = strPhone);
-            if(local.saveContactDetails EQ "true") {
-                local.jsonResponse["success"] = true;
-                local.jsonResponse["message"] = "Successfully completed registration!!!";
-            } 
-            else{
-                local.jsonResponse["success"] = false;
-                local.jsonResponse["message"] = "Unexpected error has occurend in the DB!!!";
-            }
-        }
-        return local.jsonResponse;
     }
-}
+
+    remote any function updateContact(contactId, strTitle, strFirstName, strLastName, strGender, strDOB,  strAddress, strStreet, strEmail, strPhone) returnFormat="JSON" {
+        //writeDump(contactId)abort;
+       local.saveContactDetails=variables.compObj.saveContactDetails(contactId = contactId, strTitle = strTitle, strFirstName = strFirstName, strLastName = strLastName, strGender = strGender, strDOB = strDOB,  strAddress = strAddress, strStreet = strStreet, strEmail = strEmail, strPhone = strPhone);
+                if(local.saveContactDetails EQ "true") {
+                    local.jsonResponse["success"] = true;
+                    local.jsonResponse["message"] = "Successfully completed registration!!!";
+                }
+                else{
+                    local.jsonResponse["success"] = false;
+                    local.jsonResponse["message"] = "Unexpected error has occurend in the DB!!!";
+                }
+             return local.jsonResponse;
+        }
+    
+    }

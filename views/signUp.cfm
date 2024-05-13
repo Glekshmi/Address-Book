@@ -17,7 +17,7 @@
        <nav class="navbar navbar-expand-lg navbarStyle">
             <div class="container-fluid">
             <div class="navLogoTitle">
-                <img src="../assets/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
+                <img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
                 <a class="navbar-brand" href=""><h3 class="logoTitle">ADDRESS BOOK</h3></a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
         <div class="container ">
             <div class="row loginContainer">
                 <div class="col-2 loginSectionImg signInSection">
-                   <img src="../assets/contact-book.png" alt=""  width="100" height="100" class="d-inline-block align-text-top">
+                   <img src="./assets/images/contact-book.png" alt=""  width="100" height="100" class="d-inline-block align-text-top">
                 </div>
                 <div class="col-4 loginSectionContent signInSection">
                     <p class="loginTitle">SIGN UP</p>
@@ -61,6 +61,9 @@
                   </div>
                   <div class="input-field inputFieldBottom">
                     <input type="password" name="strConfirmPassword" id="confirmpassword" placeholder="Confirm Password">
+                  </div>
+                  <div class="input-field inputFieldBottom">
+                    <input type="file" name="strImageFile" id="image" placeholder="">
                   </div>
                   <div class="loginBtnSection">
                   <button type="submit" class="btn btn-outline-primary btnSubmit" id="registerBtn">Register</button>

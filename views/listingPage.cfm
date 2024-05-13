@@ -128,7 +128,7 @@
                                                     <div class="firstNameSection d-flex">
                                                         <div class="d-flex flex-column ">
                                                             <label for="strTitle">Title*</label>
-                                                            <select name ="strTitle" id="strTitle" value="" class="selectTitle commonInputStyle">
+                                                            <select name ="strTitle" id="strTitle" class="selectTitle commonInputStyle">
                                                                 <option selected value=""></option>
                                                                 <option value="Miss">Miss.</option>
                                                                 <option value="Mr.">Mr.</option>
@@ -194,7 +194,8 @@
                                                     </div>
                                                     
                                                     <div class="d-flex mt-4">
-                                                        <button type="submit" class="btn btn-primary m-0 me-4" id="formSubmit">SUBMIT</button>
+                                                        <input type="hidden" id="hiddenId" value="0">
+                                                        <button type="submit" class="btn btn-primary m-0 me-4  " data-id="#data.getUserId()#" id="formSubmit">SUBMIT</button>
                                                         <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
                                                     </div>
                                                 </form>
@@ -208,105 +209,7 @@
                             </div>
                         </div>
                         <!--create-->
-                        <!--edit-->
-                        <div class="modal bd-example-modal-lg fade contactPopUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="editModal">
-                            <div class="modal-dialog modal-lg p-1">
-                                <div class="modal-content ps-3 outerContainer">
-                                  
-                                    <div class="d-flex justify-content-between ">
-                                        <div class="popupContactHeader">
-                                            <div  class="d-flex justify-content-center subHeader">
-                                                <p class="contactMainTitle">CREATE CONTACT</p>
-                                            </div>
-                                            <p id="contactValidationMsg" class="commonStyle"></p>
-                                            <div class="d-flex personalContact commonStyle">
-                                                <p class="">Personal Contact</p>
-                                            </div>
-                                            <div class="commonStyle contactFormSection"> 
-                                                <form action="" method="post"  enctype="multipart/form-data">
-                                                    <div class="firstNameSection d-flex">
-                                                        <div class="d-flex flex-column ">
-                                                            <label for="strTitle">Title*</label>
-                                                            <select name ="strTitle" id="title" class="selectTitle commonInputStyle">
-                                                                <option></option>
-                                                                <option value="Miss">Miss.</option>
-                                                                <option value="Mister">Mr.</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strFirstName">First Name*</label>
-                                                            <input type="text" id="strFirstName" class="commonNameStyle setNameWidth" name="strFirstName" placeholder="Your First Name" >
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strLastName">Last Name*</label>
-                                                            <input type="text" id="strLastName" class="commonNameStyle setNameWidth" name="strLastName" placeholder="Your Last Name" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="lastNameSection d-flex">
-                                                        <div class="d-flex flex-column ">
-                                                            <label for="strGender">Gender*</label>
-                                                            <select name ="strGender" id="strGender" class="selectTitle commonNameStyle setGenderWidth">
-                                                                <option></option>
-                                                                <option value="Male">Male</option>
-                                                                <option value="Female">Female</option>
-                                                                <option value="Other">Other</option>                    
-                                                            </select>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strDOB">Date Of Birth*</label>
-                                                            <input type="date" id="strDOB" class="commonNameStyle setDateWidth" name="strDOB" placeholder="Your First Name" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="lastNameSection d-flex flex-column">
-                                                        <!---<div class="d-flex">
-                                                            <p class="">Contact Details</p>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <div class="photoStyle">
-                                                                <p class="mb-1">Upload Photo</p>
-                                                            </div>
-                                                            <input type="file" id="strPhoto" class="pt-1 pb-1" name="strPhoto" placeholder="Your First Name" >
-                                                        </div>--->
-                                                    </div>
-                                                    <div class="d-flex mt-4 personalContact">
-                                                        <p class="">Contact Details</p>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strAddress">Address*</label>
-                                                            <input type="text" id="strAddress" class="commonNameStyle setGenderWidth" name="strAddress" placeholder="Your Address" >
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strStreet">Street*</label>
-                                                            <input type="text" id="strStreet" class="commonNameStyle setDateWidth" name="strStreet" placeholder="Your Street Name" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strEmail">Email*</label> 
-                                                            <input type="text" id="strEmail" class="commonNameStyle setGenderWidth" name="strEmail" placeholder="Your Email" >
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strPhone">Phone*</label>
-                                                            <input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" placeholder="Your Phone Number" >
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="d-flex mt-4">
-                                                        <button type="submit" class="btn btn-primary m-0 me-4" id="formSubmit">SUBMIT</button>
-                                                        <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="px-5 createContactImgSection">
-                                            <img src="./assets/images/createContact.PNG" alt=""  class="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--edit-->
+                        
                        <!---view modal--->
                        
                             <div class="modal bd-example-modal-lg fade contactPopUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" class="viewButton" aria-hidden="true" id="viewModal">
@@ -376,11 +279,7 @@
                         </div>
                        <!---delete--->
                     </div>
-                
                 </div>
-                <!------>
-                
-        
             </div>
         </div>
     </body>
