@@ -15,7 +15,7 @@
         <script src="./assets/js/validation.js"></script>
     </head>
     <body class="bodySection">--->
-       <nav class="navbar navbar-expand-lg navbarStyle">
+       <!--<nav class="navbar navbar-expand-lg navbarStyle">
             <div class="container-fluid">
             <div class="navLogoTitle">
                 <img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
@@ -39,7 +39,7 @@
                     
             </div>
             </div>
-        </nav>
+        </nav>-->
         <div class="container ">
             <div class="row loginContainer">
                 <div class="col-2 loginSectionImg">

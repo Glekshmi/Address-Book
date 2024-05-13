@@ -15,7 +15,7 @@
     <body class="bodySection">--->
         <cfoutput>
         
-       <nav class="navbar navbar-expand-lg navbarStyle">
+       <!--<nav class="navbar navbar-expand-lg navbarStyle">
             <div class="container-fluid">
                 <div class="navLogoTitle">
                     <img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
@@ -41,7 +41,7 @@
                     
             </div>
             </div>
-        </nav>
+        </nav>-->
 
         <div class="listingPageSection">
             <div class="topDownloadBar">
@@ -128,8 +128,8 @@
                                                     <div class="firstNameSection d-flex">
                                                         <div class="d-flex flex-column ">
                                                             <label for="strTitle">Title*</label>
-                                                            <select name ="strTitle" id="strTitle" value="" class="selectTitle commonInputStyle">
-                                                                <option selected value=""></option>
+                                                            <select name ="strTitle" id="strTitle" class="selectTitle commonInputStyle">
+                                                                <option selected disabled hidden></option>
                                                                 <option value="Miss">Miss.</option>
                                                                 <option value="Mr.">Mr.</option>
                                                             </select>
@@ -155,7 +155,7 @@
                                                         </div>
                                                         <div class="d-flex flex-column">
                                                             <label for="strDOB">Date Of Birth*</label>
-                                                            <input type="date" id="strDOB" class="commonNameStyle setDateWidth" name="strDOB" placeholder="Your First Name" >
+                                                            <input type="date" id="strDOB" value="" class="commonNameStyle setDateWidth" name="strDOB">
                                                         </div>
                                                     </div>
                                                     <div class="lastNameSection d-flex flex-column">
