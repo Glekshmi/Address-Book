@@ -15,7 +15,7 @@
     <body class="bodySection">--->
         <cfoutput>
         
-       <!--<nav class="navbar navbar-expand-lg navbarStyle">
+       <nav class="navbar navbar-expand-lg navbarStyle">
             <div class="container-fluid">
                 <div class="navLogoTitle">
                     <img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
@@ -41,7 +41,7 @@
                     
             </div>
             </div>
-        </nav>-->
+        </nav>
 
         <div class="listingPageSection">
             <div class="topDownloadBar">
@@ -64,7 +64,7 @@
                         <p class="tableField">#session.UserName#</p>
                     </div>
                     <div class="createBtnSection">
-                        <button type="button" class="btn btn-primary createBtn m-0" data-bs-toggle="modal" data-bs-target="##myModal">CREATE CONTACT</button>
+                        <button type="button" class="btn btn-primary createBtn m-0" id="createContactBtn" data-bs-toggle="modal" data-bs-target="##myModal">CREATE CONTACT</button>
 
                         
                     </div>
@@ -74,7 +74,7 @@
                 
                 
                 <div class="dataListingSection">
-                    <div class="bg-light w-75 tableStyle">
+                    <div class="tableStyle">
                         
                         <table class="w-100">
                             <thead>
@@ -117,120 +117,21 @@
                                     <div class="d-flex justify-content-between ">
                                         <div class="popupContactHeader">
                                             <div  class="d-flex justify-content-center subHeader">
-                                                <p class="contactMainTitle">CREATE CONTACT</p>
+                                                <p class="contactMainTitle" id="setTitle"></p>
                                             </div>
                                             <p id="contactValidationMsg" class="commonStyle"></p>
                                             <div class="d-flex personalContact commonStyle">
                                                 <p class="">Personal Contact</p>
                                             </div>
                                             <div class="commonStyle contactFormSection"> 
-                                                <form action="" method="post"  enctype="multipart/form-data">
+                                                <form action="" method="post" id="submitForm" enctype="multipart/form-data">
                                                     <div class="firstNameSection d-flex">
                                                         <div class="d-flex flex-column ">
                                                             <label for="strTitle">Title*</label>
                                                             <select name ="strTitle" id="strTitle" class="selectTitle commonInputStyle">
-                                                                <option selected disabled hidden></option>
+                                                                <option selected value=""></option>
                                                                 <option value="Miss">Miss.</option>
                                                                 <option value="Mr.">Mr.</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strFirstName">First Name*</label>
-                                                            <input type="text" id="strFirstName" class="commonNameStyle setNameWidth" name="strFirstName" placeholder="Your First Name" >
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strLastName">Last Name*</label>
-                                                            <input type="text" id="strLastName" class="commonNameStyle setNameWidth" name="strLastName" placeholder="Your Last Name" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="lastNameSection d-flex">
-                                                        <div class="d-flex flex-column ">
-                                                            <label for="strGender">Gender*</label>
-                                                            <select name ="strGender" id="strGender" class="selectTitle commonNameStyle setGenderWidth">
-                                                                <option></option>
-                                                                <option value="Male">Male</option>
-                                                                <option value="Female">Female</option>
-                                                                <option value="Other">Other</option>                    
-                                                            </select>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strDOB">Date Of Birth*</label>
-                                                            <input type="date" id="strDOB" value="" class="commonNameStyle setDateWidth" name="strDOB">
-                                                        </div>
-                                                    </div>
-                                                    <div class="lastNameSection d-flex flex-column">
-                                                        <!---<div class="d-flex">
-                                                            <p class="">Contact Details</p>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <div class="photoStyle">
-                                                                <p class="mb-1">Upload Photo</p>
-                                                            </div>
-                                                            <input type="file" id="strPhoto" class="pt-1 pb-1" name="strPhoto" placeholder="Your First Name" >
-                                                        </div>--->
-                                                    </div>
-                                                    <div class="d-flex mt-4 personalContact">
-                                                        <p class="">Contact Details</p>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strAddress">Address*</label>
-                                                            <input type="text" id="strAddress" class="commonNameStyle setGenderWidth" name="strAddress" placeholder="Your Address" >
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strStreet">Street*</label>
-                                                            <input type="text" id="strStreet" class="commonNameStyle setDateWidth" name="strStreet" placeholder="Your Street Name" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strEmail">Email*</label> 
-                                                            <input type="text" id="strEmail" class="commonNameStyle setGenderWidth" name="strEmail" placeholder="Your Email" >
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strPhone">Phone*</label>
-                                                            <input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" placeholder="Your Phone Number" >
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="d-flex mt-4">
-                                                        <button type="submit" class="btn btn-primary m-0 me-4" id="formSubmit">SUBMIT</button>
-                                                        <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="px-5 createContactImgSection">
-                                            <img src="./assets/images/createContact.PNG" alt=""  class="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--create-->
-                        <!--edit-->
-                        <div class="modal bd-example-modal-lg fade contactPopUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="editModal">
-                            <div class="modal-dialog modal-lg p-1">
-                                <div class="modal-content ps-3 outerContainer">
-                                  
-                                    <div class="d-flex justify-content-between ">
-                                        <div class="popupContactHeader">
-                                            <div  class="d-flex justify-content-center subHeader">
-                                                <p class="contactMainTitle">CREATE CONTACT</p>
-                                            </div>
-                                            <p id="contactValidationMsg" class="commonStyle"></p>
-                                            <div class="d-flex personalContact commonStyle">
-                                                <p class="">Personal Contact</p>
-                                            </div>
-                                            <div class="commonStyle contactFormSection"> 
-                                                <form action="" method="post"  enctype="multipart/form-data">
-                                                    <div class="firstNameSection d-flex">
-                                                        <div class="d-flex flex-column ">
-                                                            <label for="strTitle">Title*</label>
-                                                            <select name ="strTitle" id="title" class="selectTitle commonInputStyle">
-                                                                <option></option>
-                                                                <option value="Miss">Miss.</option>
-                                                                <option value="Mister">Mr.</option>
                                                             </select>
                                                         </div>
                                                         <div class="d-flex flex-column">
@@ -258,15 +159,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="lastNameSection d-flex flex-column">
-                                                        <!---<div class="d-flex">
-                                                            <p class="">Contact Details</p>
-                                                        </div>
                                                         <div class="d-flex flex-column">
                                                             <div class="photoStyle">
                                                                 <p class="mb-1">Upload Photo</p>
                                                             </div>
-                                                            <input type="file" id="strPhoto" class="pt-1 pb-1" name="strPhoto" placeholder="Your First Name" >
-                                                        </div>--->
+                                                            <input type="file" id="strPhoto" name="strPhoto" class="pt-1 pb-1">
+                                                            <!--<input type="hidden" id="uploadedFile" name="uploadedFile" >
+                                                            <label for="fileUpload" id="fileLabel" class="btn btn-outline-primary">Choose file</label>
+                                                            <span id="uploadedFileName">No file chosen</span>-->
+                                                        </div>
                                                     </div>
                                                     <div class="d-flex mt-4 personalContact">
                                                         <p class="">Contact Details</p>
@@ -283,17 +184,23 @@
                                                     </div>
                                                     <div class="d-flex mt-4 gap-3">
                                                         <div class="d-flex flex-column">
+                                                            <label for="strPincode">Pincode*</label>
+                                                            <input type="text" id="strPincode" class="commonNameStyle setDateWidth" name="strPincode" placeholder="Your Pincode" >
+                                                        </div>
+                                                        <div class="d-flex flex-column">
                                                             <label for="strEmail">Email*</label> 
                                                             <input type="text" id="strEmail" class="commonNameStyle setGenderWidth" name="strEmail" placeholder="Your Email" >
                                                         </div>
+                                                    </div>
+                                                    <div class="d-flex mt-4 gap-3">
                                                         <div class="d-flex flex-column">
                                                             <label for="strPhone">Phone*</label>
                                                             <input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" placeholder="Your Phone Number" >
                                                         </div>
                                                     </div>
-                                                    
                                                     <div class="d-flex mt-4">
-                                                        <button type="submit" class="btn btn-primary m-0 me-4" id="formSubmit">SUBMIT</button>
+                                                        <input type="hidden" id="hiddenId" value="0">
+                                                        <button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
                                                         <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
                                                     </div>
                                                 </form>
@@ -306,7 +213,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!--edit-->
+                        <!--create-->
+                        
                        <!---view modal--->
                        
                             <div class="modal bd-example-modal-lg fade contactPopUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" class="viewButton" aria-hidden="true" id="viewModal">
@@ -320,35 +228,62 @@
                                             </div>
                                             <div class="displayContact">
                                                 <div class="d-flex">
-                                                    <p class="contactTextColor viewField">Name : </p>
-                                                    <p id="name"></p>&nbsp
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Name</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+                                                    </div>
+                                                    <p id="name" class="contactTextColor viewField"></p>&nbsp
                                                 </div>
                                                 
                                                 <div class="d-flex">
-                                                    <p class="contactTextColor viewField">Gender : </p>
-                                                    <p id="gender"></p>
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Gender</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+                                                    </div>
+                                                    <p id="gender" class="contactTextColor viewField"></p>
                                                 </div>
                                                 
                                                 <div class="d-flex">
-                                                    <p class="contactTextColor viewField">Date Of Birth : </p>
-                                                    <p id="dob"></p>
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Date Of Birth</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+                                                    </div>
+                                                    <p id="dob" class="contactTextColor viewField"></p>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <p class="contactTextColor viewField">Address : </p>
-                                                    <p id="address"></p>
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Address</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+                                                    </div>
+                                                    <p id="address" class="contactTextColor viewField"></p>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <p class="contactTextColor viewField">Email Id : </p>
-                                                    <p id="email"></p>
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Pincode</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+
+                                                    </div>
+                                                    <p id="pincode" class="contactTextColor viewField"></p>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <p class="contactTextColor viewField">Phone : </p>
-                                                    <p id="phone"></p>
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Email Id</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+
+                                                    </div>
+                                                    <p id="email" class="contactTextColor viewField"></p>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="d-flex col-3 justify-content-between">
+                                                        <p class="contactTextColor viewField viewOuterTag">Phone</p>
+                                                        <p class="contactTextColor viewField viewInnerTag">:</p>&nbsp
+                                                    </div>
+                                                    <p id="phone" class="contactTextColor viewField"></p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="px-5 createContactImgSection">
-                                            <img src="./assets/images/createContact.PNG" alt=""  class="">
+                                            <img src="" alt=""  id="photo" width="40" height="40">
                                         </div>
                                     </div>
                                     <!---end--->
@@ -368,7 +303,7 @@
                                 Are you sure you want to delete this item?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger m-0 me-4 confirmDeleteBtn" data-bs-dismiss="modal">SUBMIT</button>
+                                <button type="submit" class="btn btn-danger m-0 me-4 confirmDeleteBtn"  data-id="#contactId#" data-bs-dismiss="modal">SUBMIT</button>
                                 <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
                             </div>
                             </div>
@@ -376,11 +311,7 @@
                         </div>
                        <!---delete--->
                     </div>
-                
                 </div>
-                <!------>
-                
-        
             </div>
         </div>
     </body>

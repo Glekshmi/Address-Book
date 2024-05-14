@@ -50,14 +50,14 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     background-color: rgb(20 105 173 / 81%);
-    height: 360px;
+    height: 450px;
 }
 .loginSectionContent{
     border: 1px solid white;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     background-color: white;
-    height: 360px;
+    height: 450px;
 }
 .container{
     position: relative;
@@ -212,7 +212,7 @@
     text-decoration: none;
 }
 .signInSection{
-    height: 400px;
+    height: 460px;
 }
 .navbar-text{
   display: unset!important;
@@ -295,12 +295,12 @@
 .popupContactHeader{
   background-color: white !important;
   width: 550px;
-  height: 698px !important;
+  height: 748px !important;
 }
 .outerContainer{
   background-color: #DAEEF7 !important;
   width: 700px !important;
-  height: 700px !important;
+  height: 750px !important;
 }
 .subHeader{
   background-color:#DAEEF7 !important;
@@ -449,4 +449,9 @@
   display: flex !important;
   justify-content: center !important;
 }
-
+/* .viewOuterTag{
+  margin-right: 52px;
+}
+.viewInnerTag{
+  margin-right: 20px;
+} */

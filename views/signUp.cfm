@@ -62,6 +62,9 @@
                   <div class="input-field inputFieldBottom">
                     <input type="password" name="strConfirmPassword" id="confirmpassword" placeholder="Confirm Password">
                   </div>
+                  <div class="input-field inputFieldBottom">
+                    <input type="file" name="strImageFile" id="image" placeholder="">
+                  </div>
                   <div class="loginBtnSection">
                   <button type="submit" class="btn btn-outline-primary btnSubmit" id="registerBtn">REGISTER</button>
                     </div>
