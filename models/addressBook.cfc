@@ -1,13 +1,14 @@
 <cfcomponent>
     <cffunction name="checkUserLogin" access="remote" returntype="query">
-        <cfargument  name="strUserName" required="true">
+        <cfargument  name="strEmail" required="true">
         <cfargument  name="strPassword" required="true">
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')>
         <cfquery name="qrycheckLogin" datasource="coldfusionDb">
-            select UserId,FullName,Username,Password from RegisterTable
-            where UserName=<cfqueryparam value="#arguments.strUserName#" cfsqltype="cf_sql_varchar">
+            select UserId,FullName,EmailId,Password from RegisterTable
+            where EmailId=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
             AND Password=<cfqueryparam value="#local.encryptedPassword#" cfsqltype="cf_sql_varchar"> 
         </cfquery>
+        <cfdump  var="#qrycheckLogin#" abort>
         <cfreturn qrycheckLogin>
     </cffunction>
     <cffunction name="registerUser" access="remote" returntype="string">
@@ -15,6 +16,7 @@
         <cfargument name="strEmail" required="true" type="string"> 
         <cfargument name="strUsername" required="true" type="string">
         <cfargument name="strPassword" required="true" type="string">
+        
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')> 
         <cfset local.success = ''>
         <cfif len(arguments.strUsername) NEQ 0 AND  len(arguments.strPassword) NEQ 0>
@@ -44,92 +46,105 @@
     </cffunction>
 
     <cffunction name="checkEmailExist" access="remote" returntype="boolean">
-        <cfargument  name="contactId" required="true">
-        <cfargument  name="strEmail" required="true" >
-      <cfdump  var="#arguments#" abort>
+        <cfargument  name="contactId" required="true" >
+        <cfargument  name="strEmail" required="true" type="string">
         <cfquery name="qrycheckEmail">
             select 1 from ContactsTable
             where Email=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
+            AND Email !=<cfqueryparam value="#session.adminEmail#" cfsqltype="cf_sql_varchar">
+            AND AdminId = <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
             AND UserId != <cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
-<!---         <cfdump  var="#qrycheckEmail.recordCount#" abort> --->
         <cfif qrycheckEmail.recordCount>
-            <cfreturn true>
-        <cfelse>
             <cfreturn false>
+        <cfelse>
+            <cfreturn true>
         </cfif>
     </cffunction>
 
-    <cffunction name="saveContactDetails" access="remote" returntype="string">
-        <cfargument name="contactId" required="true" type="string">
+    <cffunction name="saveContact" access="remote" returnFormat="json">
+        <cfargument name="contactId" required="true" >
         <cfargument name="strTitle" required="true" type="string">
         <cfargument name="strFirstName" required="true" type="string">
         <cfargument name="strLastName" required="true" type="string">
         <cfargument name="strGender" required="true" type="string">
-        <cfargument name="StrDOB" required="true" type="any">
+        <cfargument name="strDOB" required="true" type="any">
+        <cfargument name="imageFile" required="true" type="any">
         <cfargument name="strAddress" required="true" type="string">
         <cfargument name="strStreet" required="true" type="string">
+        <cfargument name="strPincode" required="true" >
         <cfargument name="strEmail" required="true" type="string">
-        <cfargument name="StrPhone" required="true" type="numeric">
+        <cfargument name="strPhone" required="true" >
+
+        <cfset local.contactDate = dateFormat(arguments.strDOB, "dd-mm-yyyy")>
         <cfset local.success = ''>
-        <cfdump  var="#contactId#" abort>
+        <cfset local.path = ExpandPath("../assets/uploads/")>
+        <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
+        <cfset local.photo = cffile.serverFile>
+
         <cfif arguments.contactId GT 0>
-            <cfquery name="qryUpdateContact" result="resultUpdateContact"> 
-                update ContactsTable set Title=<cfqueryparam value="#arguments.strTitle#" cfsqltype="cf_sql_varchar">,
+            <cfquery name="qryUpdateContact">
+                update ContactsTable 
+                set Title=<cfqueryparam value="#arguments.strTitle#" cfsqltype="cf_sql_varchar">,
                 FirstName=<cfqueryparam value="#arguments.strFirstName#" cfsqltype="cf_sql_varchar">,
                 LastName=<cfqueryparam value="#arguments.strLastName#" cfsqltype="cf_sql_varchar">,
                 Gender=<cfqueryparam value="#arguments.strGender#" cfsqltype="cf_sql_varchar">,
-                DOB=<cfqueryparam value="#arguments.StrDOB#" cfsqltype="cf_sql_varchar">,
+                DOB=<cfqueryparam value="#arguments.strDOB#" cfsqltype="cf_sql_date">,
+                Photo=<cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
                 Address=<cfqueryparam value="#arguments.strAddress#" cfsqltype="cf_sql_varchar">,
                 Street=<cfqueryparam value="#arguments.strStreet#" cfsqltype="cf_sql_varchar">,
+                Pincode=<cfqueryparam value="#arguments.strPincode#" cfsqltype="cf_sql_varchar">,
                 Email=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">,
-                Phone=<cfqueryparam value="#arguments.StrPhone#" cfsqltype="cf_sql_varchar">,
+                Phone=<cfqueryparam value="#arguments.strPhone#" cfsqltype="cf_sql_varchar">,
+                AdminId=<cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
                 where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
             </cfquery>
-            <cfset local.success = 'true'>
+            <cfreturn {"success":true, "message":"Updated successfully"}>
         <cfelse>
-            <cftry>
-            <cfquery name="qrySaveContact" result="qryResult" dataSource="coldFusionDb">
-                insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Address,Street,Email,Phone,AdminId)
+            <cfquery name="qrySaveContact" result="resultSaveContact">
+                insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
                 values(
                     <cfqueryparam value="#arguments.strTitle#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strFirstName#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strLastName#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strGender#" cfsqltype="cf_sql_varchar">,
-                    <cfqueryparam value="#arguments.StrDOB#" cfsqltype="cf_sql_date">,
+                    <cfqueryparam value="#local.contactDate#" cfsqltype="cf_sql_date">,
+                    <cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strAddress#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strStreet#" cfsqltype="cf_sql_varchar">,
+                    <cfqueryparam value="#arguments.strPincode#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">,
-                    <cfqueryparam value="#arguments.StrPhone#" cfsqltype="cf_sql_varchar">,
-                    <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
+                    <cfqueryparam value="#arguments.strPhone#" cfsqltype="cf_sql_varchar">,
+                    <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
                 )
-            </cfquery>        
-            <cfif qryResult.recordCount>
-                <cfset local.success = "true">
-            </cfif>
-            <cfcatch type="any"> 
-                <cfset local.success = "false">
-            </cfcatch>
-        </cftry>
-        <cfreturn local.success>
-    </cfif>
+            </cfquery>
+            <cftry>
+                <cfif resultSaveContact.recordCount>
+                    <cfset local.success = true>
+                </cfif>
+                <cfcatch type="any"> 
+                    <cfset local.success = false>
+                </cfcatch>
+            </cftry>
+                <cfreturn {"success":local.success,"message":''}>
+        </cfif>
     </cffunction>
 
     <cffunction name="getContactDetails" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
         <cfquery name="qryGetContactDetails" datasource="coldfusionDb">
-            select concat(Title,' ',FirstName,' ',LastName) as Name,Gender,DOB,concat(Address,' ',Street) as Address,Email,Phone from ContactsTable
+            select concat(Title,' ',FirstName,' ',LastName) as Name,Gender,DOB,Photo,concat(Address,' ',Street) as Address,Pincode,Email,Phone from ContactsTable
             where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
         <cfreturn serializeJSON(qryGetContactDetails)>
     </cffunction>
     <cffunction name="getContact" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
-        <cfquery name="qryGetContactDetails" datasource="coldfusionDb">
-            select Title,FirstName,LastName,Gender,DOB,Address,Street,Email,Phone from ContactsTable
+        <cfquery name="qryGetContactDetails" >
+            select Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone from ContactsTable
             where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
-        <cfreturn {"success":true,"title":qryGetContactDetails.Title,"firstname":qryGetContactDetails.Firstname,"lastname":qryGetContactDetails.LastName,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"address":qryGetContactDetails.Address,"street":qryGetContactDetails.Street,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone}>
+        <cfreturn {"success":true,"title":qryGetContactDetails.Title,"firstname":qryGetContactDetails.Firstname,"lastname":qryGetContactDetails.LastName,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"photo":qryGetContactDetails.Photo,"address":qryGetContactDetails.Address,"street":qryGetContactDetails.Street,"pincode":qryGetContactDetails.Pincode,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone}>
     </cffunction>
 
     

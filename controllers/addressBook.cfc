@@ -4,15 +4,16 @@ component {
         local.errorMSg='';
         local.qryUserExist ='';
         local.jsonResponse = {};
-        if(len(trim(strUserName)) EQ 0 || len(trim(strPassword)) EQ 0)
+        if(len(trim(strEmail)) EQ 0 || len(trim(strPassword)) EQ 0)
             local.errorMSg='Required user name and password';
         if(len(local.errorMSg) EQ 0){
             local.encryptedPassword = Hash(strPassword, 'SHA-512');
-            local.qryUserExist = variables.compObj.checkUserLogin(strUserName=strUserName,strPassword=strPassword);
+            local.qryUserExist = variables.compObj.checkUserLogin(strEmail=strEmail,strPassword=strPassword);
             if (local.qryUserExist.recordCount){
                 session.userLoggedIn = true;
                 session.UserId = local.qryUserExist.UserId;
                 session.UserName = local.qryUserExist.FullName;
+                session.adminEmail = local.qryUserExist.EmailId;
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully Logged In";
             }
@@ -78,27 +79,36 @@ component {
         cflocation(url="../?action=login");
     }
 
-    remote any function checkEmailExist(contactId, strEmail) returnFormat="JSON" {
-        //writeDump(contactId)abort;
-        local.checkEmailExist=variables.compObj.checkEmailExist(contactId = contactId,strEmail = strEmail);
-        if(local.checkEmailExist) {
-            local.jsonResponse["success"] = false;
-            local.jsonResponse["message"] = "Details of the person already exist!!!";
-        } 
-    }
-
-    remote any function updateContact(contactId, strTitle, strFirstName, strLastName, strGender, strDOB,  strAddress, strStreet, strEmail, strPhone) returnFormat="JSON" {
-        //writeDump(contactId)abort;
-       local.saveContactDetails=variables.compObj.saveContactDetails(contactId = contactId, strTitle = strTitle, strFirstName = strFirstName, strLastName = strLastName, strGender = strGender, strDOB = strDOB,  strAddress = strAddress, strStreet = strStreet, strEmail = strEmail, strPhone = strPhone);
-                if(local.saveContactDetails EQ "true") {
-                    local.jsonResponse["success"] = true;
-                    local.jsonResponse["message"] = "Successfully completed registration!!!";
-                }
-                else{
-                    local.jsonResponse["success"] = false;
-                    local.jsonResponse["message"] = "Unexpected error has occurend in the DB!!!";
-                }
-             return local.jsonResponse;
+    remote any function checkEmailExist(contactId, strEmail) returnFormat="JSON"{
+        local.error='';
+        if(strEmail==''){
+            error+="Fill all the fields";
         }
+        if(len(local.error) EQ 0){
+            local.checkEmailExist=variables.compObj.checkEmailExist(contactId=contactId,strEmail=strEmail);
+            if (local.checkEmailExist) {
+                return {"success":true};
+            } 
+            else {
+                return {"success": false,"message":"Email already exist!!!"};
+            }
+        }
+        else{
+            return {"success":false,"message":local.error};
+        }
+           
+    }
+    // remote any function checkEmailExist(contactId, strEmail) returnFormat="JSON"{
+    //     local.checkEmailExist = variables.compObj.checkEmailExist(contactId = contactId, strEmail = strEmail);
+    //     if(local.checkEmailExist.recordCount){   
+    //         return {"result":"exist"};
+    //     }else{  
+    //         local.saveContact = variables.compObj.saveContact(contactId = contactId, strTitle = strTitle,strFirstName = strFirstName,strLastName = strLastName,strGender = strGender,strDOB = strDOB,imageFile = imageFile,strAddress = strAddress,strStreet = strStreet,strPinCode = strPinCode,strEmail = strEmail,strPhone = strPhone );
+    //         if(local.saveContact.success == "edited"){
+    //             return {"result":"edited"};  
+    //         }else{
+    //             return {"result":"added"};
+    //         }
+    //     }
     
     }

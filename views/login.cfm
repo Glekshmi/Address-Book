@@ -50,7 +50,7 @@
                     <p id="validationMsg"></p><br>
                 <form action="?action=login" method="post">
                   <div class="input-field">
-                    <input type="text" name="strUserName" id="username" placeholder="username">  
+                    <input type="text" name="strEmail" id="email" placeholder="email">  
                   </div>
                   <div class="input-field inputFieldBottom">
                     <input type="password" name="strPassword" id="password" placeholder="password">
