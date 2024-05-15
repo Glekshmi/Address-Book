@@ -29,7 +29,7 @@ component {
         return local.jsonResponse;
     }
 
-    remote any function registerUser(strFullName, strEmail, strUsername, strPassword) returnFormat="JSON" {
+    remote any function registerUser() returnFormat="JSON" {
         local.errorsMsg ='';
         local.emailRegex = "^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$";
         local.passwordRegex  = '^[a-zA-Z]+[\W_][0-9]+$';
@@ -51,7 +51,7 @@ component {
         local.jsonResponse = {};
 
         if (len(local.errorsMsg) EQ 0){
-            local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword);
+            local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword, strPhoto = strPhoto);
             //writeDump(local.registerUser)abort;
             if(local.registerUser EQ "true") {
                 local.jsonResponse["success"] = true;
@@ -98,17 +98,10 @@ component {
         }
            
     }
-    // remote any function checkEmailExist(contactId, strEmail) returnFormat="JSON"{
-    //     local.checkEmailExist = variables.compObj.checkEmailExist(contactId = contactId, strEmail = strEmail);
-    //     if(local.checkEmailExist.recordCount){   
-    //         return {"result":"exist"};
-    //     }else{  
-    //         local.saveContact = variables.compObj.saveContact(contactId = contactId, strTitle = strTitle,strFirstName = strFirstName,strLastName = strLastName,strGender = strGender,strDOB = strDOB,imageFile = imageFile,strAddress = strAddress,strStreet = strStreet,strPinCode = strPinCode,strEmail = strEmail,strPhone = strPhone );
-    //         if(local.saveContact.success == "edited"){
-    //             return {"result":"edited"};  
-    //         }else{
-    //             return {"result":"added"};
-    //         }
-    //     }
-    
+    remote any function checkExcelFileExist() returnFormat="JSON"{
+        local.excelFile = fileExcel;
+        local.getExcelFile=variables.compObj.getExcelFile(fileExcel = local.excelFile);
+        
+        
     }
+}

@@ -35,14 +35,22 @@ $(document).ready(function(){
         var strEmail = $('#email').val().trim();
         var strUsername = $('#username').val().trim();
         var strPassword = $('#password').val().trim();
-        var strImageFile = $('#image').val().trim();
-        alert(strImageFile);
+        var strPhoto = $('#photo')[0].files[0];
+        var formData = new FormData();
+        formData.append('strFullName', strFullName);
+        formData.append('strEmail', strEmail);
+        formData.append('strUsername', strUsername);
+        formData.append('strPassword', strPassword);
+        formData.append('strPhoto', strPhoto);
+        
         if(signUpValidate()){
             $.ajax({
                 url:"./controllers/addressBook.cfc?method=registerUser",
                 type:'post',
-                data: {strFullName:strFullName,strEmail:strEmail,strUsername:strUsername,strPassword:strPassword},
-                dataType:'JSON',
+                data: formData,
+                contentType: false, 
+                processData: false, 
+                dataType: 'JSON',
                 success: function(response) {
                     
                     if (response.success == true) {
@@ -72,10 +80,6 @@ $(document).ready(function(){
         $("#submitForm")[0].reset();
         $('#setTitle').html("CREATE CONTACT");
     }); 
-
-    
-
-    
 
     //view
     $('.btnView').click(function(){
@@ -108,8 +112,6 @@ $(document).ready(function(){
                         $('#' + column.toLowerCase()).html(value);
                     }
                    
-                    
-                    //$('#photo').attr('src','./assets/uploads/'+response.photo);
                 }
                 //window.reload();
             },
@@ -191,70 +193,30 @@ $(document).ready(function(){
         return false;
                     
     });
-    
-    // $('#submitForm').on('submit',function(){ 
-    //     var contactId = $('#hiddenId').val().trim(); 
-    //     var strTitle = $('#strTitle').val().trim();
-    //     var strFirstName = $('#strFirstName').val().trim();
-    //     var strLastName = $('#strLastName').val().trim();
-    //     var strGender = $('#strGender').val().trim();
-    //     var strDOB=$('#strDOB').val().trim();
-    //     var strAddress=$('#strAddress').val().trim();
-    //     var strStreet=$('#strStreet').val().trim();
-    //     var strPhone=$('#strPhone').val().trim();
-    //     var strEmail=$('#strEmailId').val().trim();
-    //     var strPincode=$('#strPincode').val().trim();
-    //     var imageFile = $('#strPhoto')[0].files[0];
-    //     var formData = new FormData();
-    //     formData.append('contactId', contactId);
-    //     formData.append('strTitle', strTitle);
-    //     formData.append('strFirstName', strFirstName);
-    //     formData.append('strLastName', strLastName);
-    //     formData.append('strGender', strGender);
-    //     formData.append('strDOB', strDOB);
-    //     formData.append('imageFile', imageFile); 
-    //     formData.append('strAddress', strAddress);
-    //     formData.append('strStreet', strStreet);
-    //     formData.append('strPincode', strPincode);
-    //     formData.append('strEmail', strEmail);
-    //     formData.append('strPhone', strPhone);
-        
-    //     if (contactValidate()) {
-    //         $.ajax({
-    //             url: './controllers/addressBook.cfc?method=checkEmail',
-    //             type: 'post',
-    //             data: formData,
-    //             contentType: false, 
-    //             processData: false,
-    //             dataType: "json",
-    //             success: function (response) {
-    //                 alert(response);
-    //                 if (response.result == "edited") {
-    //                     $("#contactValidationMsg").html("Contact Edited Successfully").css('color','green');
-    //                     setTimeout(function() {
-    //                         window.location.href="?action=display";
-    //                     },1000);
-    //                 } else if (response.result == "added"){
-    //                     $("#contactValidationMsg").html("New Contact Added Successfully").css('color','green');
-    //                     setTimeout(function() {
-    //                         window.location.href="?action=display";
-    //                     },1000);
-    //                 }else{
-    //                     $("#contactValidationMsg").html("Contact with same Email ID already Existing").css('color','red');
-    //                 }
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 alert("An error occurred: " + error);
-    //             }
-    //         });
-    // }
 
-    //end
+    $('#submitExcel').on('submit',function(){ 
+        var fileExcel = $('#fileExcel')[0].files[0];
+        var formData = new FormData();
+        formData.append('fileExcel', fileExcel);
+        $.ajax({
+            url:"./controllers/addressBook.cfc?method=checkExcelFileExist",
+            type:'post',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            dataType: 'JSON',
+            success: function(response) {
+                console.log(response);
+                
+            },
+            error: function(xhr, status, error) {
+                alert("An error occurred:"+error);
+            }
+            
+        });
+        return false;
+    });
     
-    // $('.btnDelete').click(function(){
-    //     deleteId = $(this).data('id');
-    // });
-
     $('.confirmDeleteBtn').click(function(){
         deleteId = $(this).data('id');
         var deleteElement = $(this).closest('tr');
@@ -275,7 +237,6 @@ $(document).ready(function(){
 
     function saveContact(){
         var contactId = $('#hiddenId').val().trim();
-        console.log(contactId);
         var strTitle = $('#strTitle').val().trim();
         var strFirstName = $('#strFirstName').val().trim();
         var strLastName = $('#strLastName').val().trim();
@@ -287,7 +248,6 @@ $(document).ready(function(){
         var strEmail=$('#strEmail').val().trim();
         var strPincode=$('#strPincode').val().trim();
         var imageFile = $('#strPhoto')[0].files[0];
-        console.log(imageFile);
         var formData = new FormData();
         formData.append('contactId', contactId);
         formData.append('strTitle', strTitle);

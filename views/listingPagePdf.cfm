@@ -4,13 +4,15 @@
                  <table class="w-100">
                             <thead>
                                 <tr class="text-primary">
-                                    <th></th>
-                                    <th class="tableField FieldFontSize">NAME</th>
-                                    <th class="tableField FieldFontSize">EMAIL ID</th>
-                                    <th class="tableField FieldFontSize">PHONE NUMBER</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th class="tableField FieldFontSize">Photo</th>
+                                    <th class="tableField FieldFontSize">Name</th>
+                                    <th class="tableField FieldFontSize">Gender</th>
+                                    <th class="tableField FieldFontSize">DOB</th>
+                                    <th class="tableField FieldFontSize">Address</th>
+                                    <th class="tableField FieldFontSize">Street</th>
+                                    <th class="tableField FieldFontSize">Pincode</th>
+                                    <th class="tableField FieldFontSize">Email</th>
+                                    <th class="tableField FieldFontSize">Phone</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -20,13 +22,15 @@
                                     <cfif session.UserId EQ data.getAdminId()>
                                         <div>
                                             <tr class="ms-5">
-                                                <td></td>
+                                                <td><img src="./assets/uploads/#data.getPhoto()#" alt="image" width="30" height="30"></td>
                                                 <td>#data.getFirstName()# #data.getLastName()#</td>
+                                                <td>#data.getGender()#</td>
+                                                <td>#data.getDOB()#</td>
+                                                <td>#data.getAddress()#</td>
+                                                <td>#data.getStreet()#</td>
+                                                <td>#data.getPincode()#</td>
                                                 <td>#data.getEmail()#</td>
                                                 <td>#data.getPhone()#</td>
-                                                <th><button type="button" class="btn btn-outline-primary viewBtn  m-0 btnEdit" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##myModal">EDIT</button></th>
-                                                <th><button type="button" class="btn btn-outline-primary viewBtn btnDelete m-0" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##deleteModal">DELETE</button></th>
-                                                <th><button type="button" class="btn btn-outline-primary viewBtn btnView m-0" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##viewModal">VIEW</button></th>
                                             </tr>
                                         </div>
                                     </cfif>
@@ -34,5 +38,4 @@
                             </tbody>
 			            </table>                
      </cfhtmltopdf>
-
 </cfoutput>

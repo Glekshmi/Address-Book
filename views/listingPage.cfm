@@ -15,7 +15,7 @@
     <body class="bodySection">--->
         <cfoutput>
         
-       <nav class="navbar navbar-expand-lg navbarStyle">
+       <!---<nav class="navbar navbar-expand-lg navbarStyle">
             <div class="container-fluid">
                 <div class="navLogoTitle">
                     <img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
@@ -41,7 +41,7 @@
                     
             </div>
             </div>
-        </nav>
+        </nav>--->
 
         <div class="listingPageSection">
             <div class="topDownloadBar">
@@ -63,10 +63,9 @@
                     <div class="loginUserName">
                         <p class="tableField">#session.UserName#</p>
                     </div>
-                    <div class="createBtnSection">
+                    <div class="d-flex flex-column justify-content-center align-items-center gap-2">
                         <button type="button" class="btn btn-primary createBtn m-0" id="createContactBtn" data-bs-toggle="modal" data-bs-target="##myModal">CREATE CONTACT</button>
-
-                        
+                        <button type="button" class="btn btn-primary createBtn m-0" id="uploadContactBtn" data-bs-toggle="modal" data-bs-target="##uploadModal">UPLOAD FILE</button>
                     </div>
                 </div>
                 <div>
@@ -76,10 +75,10 @@
                 <div class="dataListingSection">
                     <div class="tableStyle">
                         
-                        <table class="w-100">
+                        <table class="dataTable w-100">
                             <thead>
-                                <tr class="text-primary">
-                                    <th></th>
+                                <tr class="text-primary tableRowStyle">
+                                    <th class="tableField FieldFontSize"></th>
                                     <th class="tableField FieldFontSize">NAME</th>
                                     <th class="tableField FieldFontSize">EMAIL ID</th>
                                     <th class="tableField FieldFontSize">PHONE NUMBER</th>
@@ -92,10 +91,12 @@
                                 <cfset contacts = EntityLoad("ContactsTable")>
                                 <cfloop array="#contacts#" index="data">
                                     <cfset  contactId= data.getUserId()>
+                                    <!---<cfset  photo= data.getPhoto()>
+                                    <cfdump  var="#contacts#">--->
                                     <cfif session.UserId EQ data.getAdminId()>
                                         <div>
-                                            <tr class="ms-5">
-                                                <td></td>
+                                            <tr class="">
+                                                <td><img src="./assets/uploads/#data.getPhoto()#" alt="image" width="30" height="30"></td>
                                                 <td>#data.getFirstName()# #data.getLastName()#</td>
                                                 <td>#data.getEmail()#</td>
                                                 <td>#data.getPhone()#</td>
@@ -209,6 +210,44 @@
                                         <div class="px-5 createContactImgSection">
                                             <img src="./assets/images/createContact.PNG" alt=""  class="">
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--create-->
+                        <!--upload-->
+                        <div class="modal bd-example-modal-lg fade contactPopUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="uploadModal">
+                            <div class="modal-dialog modal-lg p-1">
+                                <div class="modal-content ps-3 uploadContainer">
+                                  
+                                    <div class="d-flex ">
+                                        <div class="uploadPopup">
+                                            <div  class="d-flex subHeader">
+                                                <p class="contactMainTitle" id="setTitle">UPLOAD CONTACT</p>
+                                            </div>
+                                            <p id="contactValidationMsg" class="commonStyle"></p>
+                                            
+                                            <div class="commonStyle contactFormSection"> 
+                                                <form action="" method="post" id="submitExcel" enctype="multipart/form-data">
+                                                    
+                                                    
+                                                    <div class="lastNameSection d-flex flex-column">
+                                                        <div class="d-flex flex-column">
+                                                            <div class="photoStyle">
+                                                                <p class="mb-1">Upload Photo</p>
+                                                            </div>
+                                                            <input type="file" id="fileExcel" name="fileExcel" class="pt-1 pb-1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex mt-4">
+                                                        <input type="hidden" id="hiddenId" value="0">
+                                                        <button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
+                                                        <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

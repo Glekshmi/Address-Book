@@ -243,12 +243,12 @@
 }
 .createContactSection{
   width: 170px;
-  height: 200px;
+  padding-bottom: 20px;
   margin-right: 15px;
 }
 .dataListingSection{
   width: 860px;
-  height: 200px;
+  min-height: 300px;
 }
 .listingPageSection{
   position: relative;
@@ -258,7 +258,7 @@
 }
 .midSection{
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   
   position: relative;
@@ -292,13 +292,18 @@
   position: relative;
   top: 9px;
 }
+.popupContactHeader, .uploadPopup{
+  background-color: white !important;
+}
 .popupContactHeader{
   background-color: white !important;
   width: 550px;
   height: 748px !important;
 }
-.outerContainer{
+.outerContainer, .uploadContainer{
   background-color: #DAEEF7 !important;
+}
+.outerContainer{
   width: 700px !important;
   height: 750px !important;
 }
@@ -412,13 +417,21 @@
 .contactTextColor{
   color : rgb(20 105 173 / 97%);
 }
-.tableStyle{
-  margin-left: 12px;
+.tableRowStyle{
+  line-height: 52px;
+}
+.dataTable{
+  margin-top: 16px;
 }
 .FieldFontSize{
   font-size: small;
 }
-
+tr,thead{
+  border-bottom: 1px solid #eaeaea !important;
+}
+td{
+  padding: 10px;
+}
 .tableBorder{
   border-top-color: #aa0f0f;
   border-bottom-color: #080202;
@@ -435,6 +448,17 @@
   position: relative;
   left: 65px;
 }
+.uploadContainer{
+  height: 340px !important;
+}
+.uploadPopup{
+  height: 338px !important;
+  width: 490px;
+}
+.uploadContainer{
+  width: fit-content !important;
+}
+  
 .viewBtn{
   padding-top: 2px !important;
     padding-bottom: 2px !important;
