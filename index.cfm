@@ -4,16 +4,19 @@
     switch(lcase(url.action)){
         case "login":
             include "/views/header.cfm";
+            include "/views/navbar.cfm";
             include "/views/login.cfm";
         break;
 
         case "signup":
              include "/views/header.cfm";
+             include "/views/navbar.cfm";
             include "/views/signUp.cfm";
         break;
 
         case "display":
              include "/views/header.cfm";
+             include "/views/navbar.cfm";
             include "/views/listingPage.cfm";
         break;
 

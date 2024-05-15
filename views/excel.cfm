@@ -1,40 +1,35 @@
-
 <cfoutput>
-    <cfsavecontent variable="saveContent1">
-    <cfcontent type="application/msexcel">
-        <table class="w-100">
-                            <thead>
-                                <tr class="text-primary">
-                                    <th></th>
-                                    <th class="tableField FieldFontSize">NAME</th>
-                                    <th class="tableField FieldFontSize">EMAIL ID</th>
-                                    <th class="tableField FieldFontSize">PHONE NUMBER</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <cfset contacts = EntityLoad("ContactsTable")>
-                                <cfloop array="#contacts#" index="data">
-                                    <cfset  contactId= data.getUserId()>
-                                    <cfif session.UserId EQ data.getAdminId()>
-                                        <div>
-                                            <tr class="ms-5">
-                                                <td></td>
-                                                <td>#data.getFirstName()# #data.getLastName()#</td>
-                                                <td>#data.getEmail()#</td>
-                                                <td>#data.getPhone()#</td>
-                                                <th><button type="button" class="btn btn-outline-primary viewBtn  m-0 btnEdit" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##myModal">EDIT</button></th>
-                                                <th><button type="button" class="btn btn-outline-primary viewBtn btnDelete m-0" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##deleteModal">DELETE</button></th>
-                                                <th><button type="button" class="btn btn-outline-primary viewBtn btnView m-0" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##viewModal">VIEW</button></th>
-                                            </tr>
-                                        </div>
-                                    </cfif>
-                                </cfloop>
-                            </tbody>
-			            </table>      
-    </cfsavecontent>
-<cffile action="write" mode="777" output="#saveContent1#" file="Report.xls">     
+    <cfset contacts = EntityLoad("ContactsTable")>
+    <cfset excelQuery = queryNew("Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone","varchar,varchar,varchar,varchar,date,varchar,varchar,varchar,varchar,varchar,varchar")> 
+    <cfloop array="#contacts#" index="contact">
+        <cfif session.UserId Eq contact.getAdminId()>
+            <cfset local.title = contact.getTitle()>
+            <cfset local.firstName = contact.getFirstName()>
+            <cfset local.lastName = contact.getLastName()>
+            <cfset local.gender = contact.getGender()>
+            <cfset local.dob = contact.getDOB()>
+            <cfset local.photo = contact.getPhoto()>
+            <cfset local.address = contact.getAddress()>
+            <cfset local.street = contact.getStreet()>
+            <cfset local.pincode = contact.getPincode()>
+            <cfset local.email = contact.getEmail()>
+            <cfset local.phone = contact.getPhone()>
+            <cfset queryAddRow(excelQuery, 1)>
+            <cfset querySetCell(excelQuery, "Title", local.title)>
+            <cfset querySetCell(excelQuery, "FirstName", local.firstName)>
+            <cfset querySetCell(excelQuery, "LastName", local.lastName)>
+            <cfset querySetCell(excelQuery, "Gender", local.gender)>
+            <cfset querySetCell(excelQuery, "DOB", local.dob)>
+            <cfset querySetCell(excelQuery, "Photo", local.photo)>
+            <cfset querySetCell(excelQuery, "Address", local.address)>
+            <cfset querySetCell(excelQuery, "Street", local.street)>
+            <cfset querySetCell(excelQuery, "Pincode", local.pincode)>
+            <cfset querySetCell(excelQuery, "Email", local.email)>
+            <cfset querySetCell(excelQuery, "Phone", local.phone)>
+        </cfif>
+    </cfloop>
+    <cfset excelPath = ExpandPath("./contactDetail.xlsx")>
+    <cfspreadsheet action="write" filename="#excelPath#" query="excelQuery" sheetname="contacts">
+    <cfheader name="Content-Disposition" value="attachment; filename=contactDetail.xlsx">
+    <cfcontent type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" file="#excelPath#" deleteFile="true">
 </cfoutput>
-

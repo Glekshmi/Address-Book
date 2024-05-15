@@ -8,7 +8,7 @@
             where EmailId=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
             AND Password=<cfqueryparam value="#local.encryptedPassword#" cfsqltype="cf_sql_varchar"> 
         </cfquery>
-        <cfdump  var="#qrycheckLogin#" abort>
+<!---         <cfdump  var="#qrycheckLogin#" abort> --->
         <cfreturn qrycheckLogin>
     </cffunction>
     <cffunction name="registerUser" access="remote" returntype="string">
@@ -16,7 +16,11 @@
         <cfargument name="strEmail" required="true" type="string"> 
         <cfargument name="strUsername" required="true" type="string">
         <cfargument name="strPassword" required="true" type="string">
-        
+        <cfargument name="strPhoto" required="true" type="any">
+
+        <cfset local.path = ExpandPath("../assets/uploads/")>
+        <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
+        <cfset local.photo = cffile.serverFile>
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')> 
         <cfset local.success = ''>
         <cfif len(arguments.strUsername) NEQ 0 AND  len(arguments.strPassword) NEQ 0>
@@ -27,12 +31,13 @@
             </cfquery>
             <cfif qrycheckLogin.recordCount EQ 0> 
                 <cfquery name="qryAddUser" dataSource="coldFusionDb" result="qryResult">
-                    insert into RegisterTable (FullName,EmailId,Username,Password)
+                    insert into RegisterTable (FullName,EmailId,Username,Password,Photo)
                     values(
                     <cfqueryparam value="#arguments.strFullName#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strUsername#" cfsqltype="cf_sql_varchar">,
-                    <cfqueryparam value="#local.encryptedPassword#" cfsqltype="cf_sql_varchar">
+                    <cfqueryparam value="#local.encryptedPassword#" cfsqltype="cf_sql_varchar">,
+                    <cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">
                     )
                 </cfquery>
                 <cfif qryResult.recordCount>
@@ -158,4 +163,38 @@
         <cfreturn {"success":true}>
     </cffunction>
 
+    <cffunction name="getExcelFile" access="remote" returnFormat="json">
+        <cfargument  name="fileExcel" required="true">
+        <cfset local.path = ExpandPath("../assets/uploads/")>
+        <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
+        <cfset local.excelSheet = cffile.serverFile>
+
+        <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
+        <cfdump  var="#spreadsheetData#">
+        <cfloop query="#spreadsheetData#">
+            <cfset local.title = spreadsheetData.Title>
+            <cfdump  var="#local.title#" abort>
+            <!---<cfif structKeyExists(spreadsheetData, Name) AND structKeyExists(spreadsheetData, Place) AND structKeyExists(spreadsheetData, Age) AND structKeyExists(spreadsheetData, Address)>
+                <cfreturn "The spreadsheet contain all the required fields">   
+            <cfelse>
+                 <cfreturn "The spreadsheet doesn't contain required fields">  
+            </cfif>
+                <cfset local.errors &= "Expecting Name field">
+            <cfelseif not isDefined(Place)>
+                <cfset local.errors = "Expecting Place field">
+            <cfelseif not isDefined(Age)>
+                <cfset local.errors = "Expecting Age field">
+            <cfelseif not isDefined(Address)>
+                <cfset local.errors = "Expecting Address field">
+            <cfelseif trim(Name) eq "">
+                <cfset local.errors &=  "Name cannot be empty">
+            <cfelseif trim(Place) eq "">
+                <cfset local.errors &=  "Place cannot be empty">
+            <cfelseif trim(Age) eq "">
+                <cfset local.errors &=  "Age cannot be empty">
+            <cfelseif trim(Address) eq "">
+                <cfset local.errors &=  "Address cannot be empty">
+            </cfif>--->
+       </cfloop>
+    </cffunction>    
 </cfcomponent>
