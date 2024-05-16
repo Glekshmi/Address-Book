@@ -170,31 +170,47 @@
         <cfset local.excelSheet = cffile.serverFile>
 
         <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
-        <cfdump  var="#spreadsheetData#">
+<!---         <cfdump  var="#spreadsheetData#"> --->
         <cfloop query="#spreadsheetData#">
             <cfset local.title = spreadsheetData.Title>
-            <cfdump  var="#local.title#" abort>
-            <!---<cfif structKeyExists(spreadsheetData, Name) AND structKeyExists(spreadsheetData, Place) AND structKeyExists(spreadsheetData, Age) AND structKeyExists(spreadsheetData, Address)>
-                <cfreturn "The spreadsheet contain all the required fields">   
+            <cfset local.firstName = spreadsheetData.FirstName>
+            <cfset local.lastName = spreadsheetData.LastName>
+            <cfset local.gender = spreadsheetData.Gender>
+            <cfset local.dob = spreadsheetData.DOB>
+            <cfset local.photo = spreadsheetData.Photo>
+            <cfset local.address = spreadsheetData.Address>
+            <cfset local.street = spreadsheetData.Street>
+            <cfset local.pincode = spreadsheetData.Pincode>
+            <cfset local.email = spreadsheetData.Email>
+            <cfset local.phone = spreadsheetData.Phone>
+            <cfset local.requiredPincode = replace(local.pincode, ",", "", "all")>
+            <cfset local.requiredPhone = replace(local.phone, ",", "", "all")>
+            
+            <cfquery name="qryGetEmail" >
+                select 1 from ContactsTable
+                where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+            </cfquery>
+            <cfif qryGetEmail.recordCount>
+                <cfcontinue>
             <cfelse>
-                 <cfreturn "The spreadsheet doesn't contain required fields">  
+                <cfquery name="qrySaveContact" result="resultSaveContact">
+                    insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
+                    values(
+                        <cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.lastName#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.gender#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.dob#" cfsqltype="cf_sql_date">,
+                        <cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.address#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.street#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.requiredPincode#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#local.requiredPhone#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
+                    )
+                </cfquery>
             </cfif>
-                <cfset local.errors &= "Expecting Name field">
-            <cfelseif not isDefined(Place)>
-                <cfset local.errors = "Expecting Place field">
-            <cfelseif not isDefined(Age)>
-                <cfset local.errors = "Expecting Age field">
-            <cfelseif not isDefined(Address)>
-                <cfset local.errors = "Expecting Address field">
-            <cfelseif trim(Name) eq "">
-                <cfset local.errors &=  "Name cannot be empty">
-            <cfelseif trim(Place) eq "">
-                <cfset local.errors &=  "Place cannot be empty">
-            <cfelseif trim(Age) eq "">
-                <cfset local.errors &=  "Age cannot be empty">
-            <cfelseif trim(Address) eq "">
-                <cfset local.errors &=  "Address cannot be empty">
-            </cfif>--->
        </cfloop>
     </cffunction>    
 </cfcomponent>

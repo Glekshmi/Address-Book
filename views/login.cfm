@@ -67,8 +67,7 @@
                 <div>
                     <div class="footerMediaIcons">
                         <img src="./assets/images/pngtree-facebook-logo-icon-design-vector-free-logo-design-template-png-image_3652951.png" alt="" width="65" height="62"  class="d-inline-block align-text-top mediaIcons">
-                        <div class="g-signin2" data-onsuccess="onSignIn">
-<!---                             <img src="./assets/images/google-symbol-logo-white-design-illustration-with-red-background-free-vector.jpg" alt="" width="42" height="39"  class="d-inline-block align-text-top mediaIcons"> --->
+                        <img src="./assets/images/google-symbol-logo-white-design-illustration-with-red-background-free-vector.jpg" alt="" width="42" height="39"  class="d-inline-block align-text-top mediaIcons" id="googleSignIn">
                         </div>
                         
                     </div>
