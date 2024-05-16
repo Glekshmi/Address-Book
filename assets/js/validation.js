@@ -140,7 +140,7 @@ $(document).ready(function(){
                 $('#strLastName').val(data.lastname);
                 $('#strGender').val(data.gender);
                 $('#strDOB').val(formattedDate);
-                //$('#strPhoto').val(data.photo);
+                $('#fileName').text(data.photo);
                 $('#strAddress').val(data.address);
                 $('#strStreet').val(data.street);
                 $('#strPincode').val(data.pincode);
@@ -233,7 +233,26 @@ $(document).ready(function(){
           }
         });
     });
+    
+     $('#imagePath').change(function() {
+        updateFileName(this);
+     });
+    
+     $('#googleSignIn').click(function(){
+        
+        
+    });
+
 });
+
+     function updateFileName(input) {
+         var fileNamePlaceholder = document.getElementById("fileName");
+     if (input.files.length > 0) {
+        fileNamePlaceholder.textContent = input.files[0].name;
+         } else {
+            fileNamePlaceholder.textContent = 'No file chosen'; 
+        }
+     }
 
     function saveContact(){
         var contactId = $('#hiddenId').val().trim();

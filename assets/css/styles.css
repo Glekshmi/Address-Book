@@ -50,18 +50,18 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     background-color: rgb(20 105 173 / 81%);
-    height: 450px;
+    height: 430px;
 }
 .loginSectionContent{
     border: 1px solid white;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     background-color: white;
-    height: 450px;
+    height: 430px;
 }
 .container{
     position: relative;
-    top: 100px;
+    top: 60px;
 }
 .loginSectionImg img{
     position: relative;
@@ -473,9 +473,29 @@ td{
   display: flex !important;
   justify-content: center !important;
 }
-/* .viewOuterTag{
-  margin-right: 52px;
+.file-upload-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 255px;
+  height: 110px;
 }
-.viewInnerTag{
-  margin-right: 20px;
-} */
+
+.file-upload-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-upload-button {
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.contactDetailsContainer{
+  left : 100px;
+}
+  

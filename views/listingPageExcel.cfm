@@ -1,65 +1,54 @@
-<cfoutput>
-    <cfset poiSheet = spreadsheetNew()>
-    
+<cfscript>
+    poi = createObject("java", "org.apache.poi.xssf.usermodel.XSSFWorkbook");
+    fileOutputStream = createObject("java", "java.io.FileOutputStream");
 
-    <cfset contacts = EntityLoad("ContactsTable")>
-    
+    workbook = poi.init();
+    sheet = workbook.createSheet("DataWithImages");
 
-    <cfset excelQuery = queryNew("Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone","varchar,varchar,varchar,varchar,date,varchar,varchar,varchar,varchar,varchar,varchar")> 
-    
- 
-    <cfloop array="#contacts#" index="contact">
-        <cfif session.UserId EQ contact.getAdminId()>
+    function addTextToCell(sheet, col, row, text) {
+        rowRef = sheet.getRow(row);
+        if (isNull(rowRef)) {
+            rowRef = sheet.createRow(row);
+        }
+        cell = rowRef.createCell(col);
+        cell.setCellValue(text);
+    }
 
-            <cfset local.title = contact.getTitle()>
-            <cfset local.firstName = contact.getFirstName()>
-            <cfset local.lastName = contact.getLastName()>
-            <cfset local.gender = contact.getGender()>
-            <cfset local.dob = contact.getDOB()>
-            <cfset local.photo = contact.getPhoto()>
-            <cfset local.address = contact.getAddress()>
-            <cfset local.street = contact.getStreet()>
-            <cfset local.pincode = contact.getPincode()>
-            <cfset local.email = contact.getEmail()>
-            <cfset local.phone = contact.getPhone()>
-            
-            
-            <cfset queryAddRow(excelQuery, 1)>
-       
-
-            <cfset querySetCell(excelQuery, "Title", local.title)>
-            <cfset querySetCell(excelQuery, "FirstName", local.firstName)>
-            <cfset querySetCell(excelQuery, "LastName", local.lastName)>
-            <cfset querySetCell(excelQuery, "Gender", local.gender)>
-            <cfset querySetCell(excelQuery, "DOB", local.dob)>
-            
+    function addImageToCell(workbook, sheet, imagePath, col, row) {
+        if (fileExists(imagePath)) {
            
-            <cfset imagePath = ExpandPath("./uploads/#local.photo#")> 
-            
-            
-            <cfif fileExists(imagePath)>
-                <cfset imageIndex = spreadsheetAddImage(poiSheet, imagePath, 1, 6)> 
-                
-                <cfset querySetCell(excelQuery, "Photo", local.photo & "," & imageIndex)>
-            <cfelse>
-               
-                <cfset querySetCell(excelQuery, "Photo", "Image Not Found")>
-            </cfif>
-            
-            
-            <cfset querySetCell(excelQuery, "Address", local.address)>
-            <cfset querySetCell(excelQuery, "Street", local.street)>
-            <cfset querySetCell(excelQuery, "Pincode", local.pincode)>
-            <cfset querySetCell(excelQuery, "Email", local.email)>
-            <cfset querySetCell(excelQuery, "Phone", local.phone)>
-        </cfif>
-    </cfloop>
+            fileInputStream = createObject("java", "java.io.FileInputStream").init(imagePath);
+            imageByte = createObject("java", "org.apache.commons.io.IOUtils").toByteArray(fileInputStream);
 
+            pictureIndex = workbook.addPicture(imageByte, poi.PICTURE_TYPE_PNG);
+            fileInputStream.close();
+            drawing = sheet.createDrawingPatriarch();
+            helper = workbook.getCreationHelper();
+            anchor = helper.createClientAnchor();
+            anchor.setCol1(col);
+            anchor.setRow1(row);
+            anchor.setCol2(col + 1); 
+            anchor.setRow2(row + 1); 
 
-    <cfset excelPath = ExpandPath("./contactDetail.xlsx")>
-    <cfspreadsheet action="write" filename="#excelPath#" query="excelQuery" sheetname="contacts">
-    
+            picture = drawing.createPicture(anchor, pictureIndex);
+            picture.resize();
+        }
+    }
+    contacts = EntityLoad("ContactsTable")
+    addTextToCell(sheet, 0, 0, "FirstName");
+    addTextToCell(sheet, 1, 0, "Email");
+    addTextToCell(sheet, 2, 0, "Image");
 
-    <cfheader name="Content-Disposition" value="attachment; filename=contactDetail.xlsx">
-    <cfcontent type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" file="#excelPath#" deleteFile="true">
-</cfoutput>
+    for (i = 1; i <= arrayLen(contacts); i++) {
+        user = contacts[i];
+        addTextToCell(sheet, 0, i, user.getFirstName());
+        addTextToCell(sheet, 1, i, user.getEmail());
+        if (len(trim(user.getPhoto()))) {
+            addImageToCell(workbook, sheet, user.getPhoto(), 2, i);
+        }
+    }
+
+    fileOut = fileOutputStream.init("./contactDetail.xlsx");
+    workbook.write(fileOut);
+    fileOut.close();
+</cfscript>

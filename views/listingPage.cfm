@@ -164,45 +164,52 @@
                                                             <div class="photoStyle">
                                                                 <p class="mb-1">Upload Photo</p>
                                                             </div>
-                                                            <input type="file" id="strPhoto" name="strPhoto" class="pt-1 pb-1">
-                                                            <!--<input type="hidden" id="uploadedFile" name="uploadedFile" >
-                                                            <label for="fileUpload" id="fileLabel" class="btn btn-outline-primary">Choose file</label>
-                                                            <span id="uploadedFileName">No file chosen</span>-->
+                                                            <!--<input type="file" id="strPhoto" name="strPhoto" class="pt-1 pb-1">-->
+                                                            <div class="file-upload-wrapper">
+                                                                <input type="file" id="imagePath" name="imagePath">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="file-upload-button">Choose File</div>
+                                                                            <span id="fileName"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="d-flex mt-4 personalContact">
-                                                        <p class="">Contact Details</p>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strAddress">Address*</label>
-                                                            <input type="text" id="strAddress" class="commonNameStyle setGenderWidth" name="strAddress" placeholder="Your Address" >
+                                                    <div class="position-relative contactDetailsContainer">
+                                                        <div class="d-flex mt-4 personalContact">
+                                                            <p class="">Contact Details</p>
                                                         </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strStreet">Street*</label>
-                                                            <input type="text" id="strStreet" class="commonNameStyle setDateWidth" name="strStreet" placeholder="Your Street Name" >
+                                                        <div class="d-flex mt-4 gap-3">
+                                                            <div class="d-flex flex-column">
+                                                                <label for="strAddress">Address*</label>
+                                                                <input type="text" id="strAddress" class="commonNameStyle setGenderWidth" name="strAddress" placeholder="Your Address" >
+                                                            </div>
+                                                            <div class="d-flex flex-column">
+                                                                <label for="strStreet">Street*</label>
+                                                                <input type="text" id="strStreet" class="commonNameStyle setDateWidth" name="strStreet" placeholder="Your Street Name" >
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strPincode">Pincode*</label>
-                                                            <input type="text" id="strPincode" class="commonNameStyle setDateWidth" name="strPincode" placeholder="Your Pincode" >
+                                                        <div class="d-flex mt-4 gap-3">
+                                                            <div class="d-flex flex-column">
+                                                                <label for="strPincode">Pincode*</label>
+                                                                <input type="text" id="strPincode" class="commonNameStyle setDateWidth" name="strPincode" placeholder="Your Pincode" >
+                                                            </div>
+                                                            <div class="d-flex flex-column">
+                                                                <label for="strEmail">Email*</label> 
+                                                                <input type="text" id="strEmail" class="commonNameStyle setGenderWidth" name="strEmail" placeholder="Your Email" >
+                                                            </div>
                                                         </div>
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strEmail">Email*</label> 
-                                                            <input type="text" id="strEmail" class="commonNameStyle setGenderWidth" name="strEmail" placeholder="Your Email" >
+                                                        <div class="d-flex mt-4 gap-3">
+                                                            <div class="d-flex flex-column">
+                                                                <label for="strPhone">Phone*</label>
+                                                                <input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" placeholder="Your Phone Number" >
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="d-flex mt-4 gap-3">
-                                                        <div class="d-flex flex-column">
-                                                            <label for="strPhone">Phone*</label>
-                                                            <input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" placeholder="Your Phone Number" >
+                                                        <div class="d-flex mt-4">
+                                                            <input type="hidden" id="hiddenId" value="0">
+                                                            <button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
+                                                            <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="d-flex mt-4">
-                                                        <input type="hidden" id="hiddenId" value="0">
-                                                        <button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
-                                                        <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
                                                     </div>
                                                 </form>
                                             </div>

@@ -12,8 +12,8 @@
         <script src="./assets/js/jquery.js"></script>
         <script src="./assets/js/validation.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <script src="./assets/js/script.js"></script>
+        <!--<script src="./assets/js/script.js"></script>
         <script src="./assets/js/verifyToken.js"></script>
-        <script src="./assets/js/server.js"></script>
+        <script src="./assets/js/server.js"></script>-->
     </head>
     <body class="bodySection">

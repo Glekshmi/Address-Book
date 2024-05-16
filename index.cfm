@@ -38,7 +38,7 @@
         // The provided event could not be matched.
         default:
            // throw( type="InvalidEvent" );
-           //include "/views/pdfFile.cfm";
+           //include "/views/dummy.cfm";
         break;
     }
 </cfscript>
