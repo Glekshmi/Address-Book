@@ -16,7 +16,6 @@
 
         case "display":
              include "/views/header.cfm";
-             include "/views/navbar.cfm";
             include "/views/listingPage.cfm";
         break;
 

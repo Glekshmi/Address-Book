@@ -1,11 +1,11 @@
 component {
     variables.compObj = createObject("component","models/addressBook");
-    remote any function doLogin(strUsername, strPassword) returnFormat="JSON"{
+    remote any function doLogin(strEmail, strPassword) returnFormat="JSON"{
         local.errorMSg='';
         local.qryUserExist ='';
         local.jsonResponse = {};
         if(len(trim(strEmail)) EQ 0 || len(trim(strPassword)) EQ 0)
-            local.errorMSg='Required user name and password';
+            local.errorMSg='Required email and password';
         if(len(local.errorMSg) EQ 0){
             local.encryptedPassword = Hash(strPassword, 'SHA-512');
             local.qryUserExist = variables.compObj.checkUserLogin(strEmail=strEmail,strPassword=strPassword);
@@ -14,6 +14,34 @@ component {
                 session.UserId = local.qryUserExist.UserId;
                 session.UserName = local.qryUserExist.FullName;
                 session.adminEmail = local.qryUserExist.EmailId;
+                local.jsonResponse["success"] = true;
+                local.jsonResponse["message"] = "Successfully Logged In";
+            }
+            else{
+                local.jsonResponse["success"] = false;
+                local.jsonResponse["message"] = "Invalid email or password";
+            }
+        }
+        else{
+            local.jsonResponse["success"] = false;
+            local.jsonResponse["message"] = "#local.errorMSg#";
+        }
+        return local.jsonResponse;
+    }
+
+    remote any function ssoLogin() returnFormat="JSON"{
+        local.errorMSg='';
+        local.qryUserExist ='';
+        local.jsonResponse = {};
+        if(len(trim(strEmail)) EQ 0)
+            local.errorMSg='Required email';
+        if(len(local.errorMSg) EQ 0){
+            local.qryUserExist = variables.compObj.checkUserLogin(strEmail=strEmail);
+            if (local.qryUserExist.recordCount){
+                session.ssoUserLoggedIn = true;
+                session.ssoUserId = local.qryUserExist.UserId;
+                session.ssoUserName = local.qryUserExist.FullName;
+                session.ssoAdminEmail = local.qryUserExist.EmailId;
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully Logged In";
             }

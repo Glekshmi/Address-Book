@@ -1,4 +1,63 @@
 $(document).ready(function(){
+    
+
+    $(document).ready(function(){
+        let params = {};
+        let regex = /([^&=]+)=([^&]*)/g,m;
+
+        while ((m = regex.exec(location.href)) !== null) {
+            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        }
+
+        if (Object.keys(params).length > 0) {
+            localStorage.setItem('authInfo', JSON.stringify(params));
+            //window.history.pushState({}, document.title, "/Address-Book/?action=display");
+        }
+
+        let info = JSON.parse(localStorage.getItem('authInfo'));
+    
+        if (info) {
+            $.ajax({
+                url: "https://www.googleapis.com/oauth2/v3/userinfo",
+                headers: {
+                    "Authorization": `Bearer ${info['access_token']}`
+                },
+                success: function(response) {
+                    
+                    var loggedInUserEmail = response.email;
+                    console.log(loggedInUserEmail);
+                    $.ajax({
+                        url:"./controllers/addressBook.cfc?method=ssoLogin",
+                        type:'post',
+                        data: {strEmail:loggedInUserEmail},
+                        dataType:'JSON',
+                        success: function(response) {
+                            if (response.success == true) {
+                                $("#validationMsg").html(response.message).css("color","green");
+                                setTimeout(function(){
+                                    window.location.href="?action=display";
+                                },1000
+                            );
+                            } else { 
+                                 $("#validationMsg").html(response.message).css("color","red");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert("An error occurred while checking:"+error);
+                        }
+                        
+                    });
+                    return false;
+                    
+                },
+                 error: function(xhr, status, error) {
+                //     alert("An error occurred: " + error);
+                }
+            });
+        }
+    });
+    
+
     $('#loginSubmit').click(function(){
         var strEmail = $('#email').val().trim();
         var strPassword = $('#password').val().trim();
@@ -234,79 +293,106 @@ $(document).ready(function(){
         });
     });
     
-     $('#imagePath').change(function() {
-        updateFileName(this);
-     });
-    
-     $('#googleSignIn').click(function(){
-        
-        
+    $('#imagePath').change(function() {
+    updateFileName(this);
     });
 
-});
+    $('#googleSignIn').on("click",function(){
+    signIn();
+    });
 
-     function updateFileName(input) {
-         var fileNamePlaceholder = document.getElementById("fileName");
-     if (input.files.length > 0) {
+}); 
+
+function signIn() {
+    let oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+
+    let $form = $('<form>')
+        .attr('method', 'GET')
+        .attr('action', oauth2Endpoint);
+
+    let params = {
+        "client_id": "662790131837-emjjrjcck71ier01p7c22cidel397q82.apps.googleusercontent.com",
+        "redirect_uri": "http://127.0.0.1:8500/Address%20Book%20Task/Address-Book/?action=display",
+        "response_type": "token",
+        "scope": "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+        "include_granted_scopes": "true",
+        "state": 'pass-through-value'
+    };
+
+    $.each(params, function (name, value) {
+        $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', name)
+            .attr('value', value)
+            .appendTo($form);
+    });
+
+    $form.appendTo('body').submit();
+}
+
+
+function updateFileName(input) {
+    var fileNamePlaceholder = document.getElementById("fileName");
+    if (input.files.length > 0) {
         fileNamePlaceholder.textContent = input.files[0].name;
-         } else {
-            fileNamePlaceholder.textContent = 'No file chosen'; 
-        }
-     }
-
-    function saveContact(){
-        var contactId = $('#hiddenId').val().trim();
-        var strTitle = $('#strTitle').val().trim();
-        var strFirstName = $('#strFirstName').val().trim();
-        var strLastName = $('#strLastName').val().trim();
-        var strGender = $('#strGender').val().trim();
-        var strDOB=$('#strDOB').val().trim();
-        var strAddress=$('#strAddress').val().trim();
-        var strStreet=$('#strStreet').val().trim();
-        var strPhone=$('#strPhone').val().trim();
-        var strEmail=$('#strEmail').val().trim();
-        var strPincode=$('#strPincode').val().trim();
-        var imageFile = $('#strPhoto')[0].files[0];
-        var formData = new FormData();
-        formData.append('contactId', contactId);
-        formData.append('strTitle', strTitle);
-        formData.append('strFirstName', strFirstName);
-        formData.append('strLastName', strLastName);
-        formData.append('strGender', strGender);
-        formData.append('strDOB', strDOB);
-        formData.append('imageFile', imageFile); 
-        formData.append('strAddress', strAddress);
-        formData.append('strStreet', strStreet);
-        formData.append('strPincode', strPincode);
-        formData.append('strEmail', strEmail);
-        formData.append('strPhone', strPhone);
-        
-        $.ajax({
-            url:'./models/addressBook.cfc?method=saveContact',
-            type:'post',
-            data: formData,
-            contentType: false, 
-            processData: false, 
-            dataType: 'json',
-            success: function(response) {
-                
-                if (response.success){
-                    if(response.message==''){
-                        $("#contactValidationMsg").html("Successfully completed registration").css("color", "green");
-                        window.location.href="?action=display";
-                    }
-                    else{
-                        $("#contactValidationMsg").html(response.message).css("color","green");
-                            window.location.href="?action=display";
-                    }
-                } 
-                else {
-                    $("#contactValidationMsg").html("You can now update the contact").css("color", "red");
-                    return false;
-                }
-            },
-        });   
+    } else {
+        fileNamePlaceholder.textContent = 'No file chosen'; 
     }
+}
+
+function saveContact(){
+    var contactId = $('#hiddenId').val().trim();
+    var strTitle = $('#strTitle').val().trim();
+    var strFirstName = $('#strFirstName').val().trim();
+    var strLastName = $('#strLastName').val().trim();
+    var strGender = $('#strGender').val().trim();
+    var strDOB=$('#strDOB').val().trim();
+    var strAddress=$('#strAddress').val().trim();
+    var strStreet=$('#strStreet').val().trim();
+    var strPhone=$('#strPhone').val().trim();
+    var strEmail=$('#strEmail').val().trim();
+    var strPincode=$('#strPincode').val().trim();
+    var imageFile = $('#strPhoto')[0].files[0];
+    var formData = new FormData();
+    formData.append('contactId', contactId);
+    formData.append('strTitle', strTitle);
+    formData.append('strFirstName', strFirstName);
+    formData.append('strLastName', strLastName);
+    formData.append('strGender', strGender);
+    formData.append('strDOB', strDOB);
+    formData.append('imageFile', imageFile); 
+    formData.append('strAddress', strAddress);
+    formData.append('strStreet', strStreet);
+    formData.append('strPincode', strPincode);
+    formData.append('strEmail', strEmail);
+    formData.append('strPhone', strPhone);
+    
+    $.ajax({
+        url:'./models/addressBook.cfc?method=saveContact',
+        type:'post',
+        data: formData,
+        contentType: false, 
+        processData: false, 
+        dataType: 'json',
+        success: function(response) {
+            
+            if (response.success){
+                if(response.message==''){
+                    $("#contactValidationMsg").html("Successfully completed registration").css("color", "green");
+                    window.location.href="?action=display";
+                }
+                else{
+                    $("#contactValidationMsg").html(response.message).css("color","green");
+                        window.location.href="?action=display";
+                }
+            } 
+            else {
+                $("#contactValidationMsg").html("You can now update the contact").css("color", "red");
+                return false;
+            }
+        },
+    });   
+}
    
 
 function signUpValidate(){
