@@ -1,7 +1,7 @@
 <cfcomponent>
     <cffunction name="checkUserLogin" access="remote" returntype="query">
         <cfargument  name="strEmail" required="true">
-        <cfargument  name="strPassword" required="true">
+        <cfargument  name="strPassword" required="true" default="">
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')>
         <cfquery name="qrycheckLogin" datasource="coldfusionDb">
             select UserId,FullName,EmailId,Password from RegisterTable
