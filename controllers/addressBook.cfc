@@ -11,9 +11,17 @@ component {
             local.qryUserExist = variables.compObj.checkUserLogin(strEmail=strEmail,strPassword=strPassword);
             if (local.qryUserExist.recordCount){
                 session.userLoggedIn = true;
+                session.profile = local.qryUserExist.Photo;
                 session.UserId = local.qryUserExist.UserId;
                 session.UserName = local.qryUserExist.FullName;
                 session.adminEmail = local.qryUserExist.EmailId;
+                if(intSubId EQ 0)
+                {
+                 session.profileURL = true;   
+                }
+                else{
+                    session.profileURL = false;   
+                }
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully Logged In";
             }
@@ -29,32 +37,31 @@ component {
         return local.jsonResponse;
     }
 
-    remote any function ssoLogin() returnFormat="JSON"{
-        local.errorMSg='';
-        local.qryUserExist ='';
-        local.jsonResponse = {};
-        if(len(trim(strEmail)) EQ 0)
-            local.errorMSg='Required email';
-        if(len(local.errorMSg) EQ 0){
-            local.qryUserExist = variables.compObj.checkUserLogin(strEmail=strEmail);
-            if (local.qryUserExist.recordCount){
-                session.ssoUserLoggedIn = true;
-                session.ssoUserId = local.qryUserExist.UserId;
-                session.ssoUserName = local.qryUserExist.FullName;
-                session.ssoAdminEmail = local.qryUserExist.EmailId;
-                local.jsonResponse["success"] = true;
-                local.jsonResponse["message"] = "Successfully Logged In";
+    remote any function ssoLogin() returnFormat='json'{
+        //writeDump(strEmail)abort;
+        if(emailExist){
+            local.strcheckUserResult=variables.compObj.checkUserExistInRegister(strEmail=strEmail);
+            if(local.strcheckUserResult.success){
+                return { "success": true,'message':'not exists'}; 
+                       
             }
             else{
-                local.jsonResponse["success"] = false;
-                local.jsonResponse["message"] = "Invalid userrname or password";
+                //local.strPassword=Hash('NULL',"MD5");
+                local.qryResult=variables.compObj.checkUserLogin(strEmail=strEmail,strPassword=strPassword);
+                if (local.qryResult.recordCount) {
+                    session.UserId= local.qryResult.UserId;
+                    //session.userLoggedIn = true;
+                    session.UserName= local.qryResult.FullName;
+                    session.profile=local.qryResult.Photo;
+                    session.profileURL=true;
+                    return { "success": true,'message':''};
+                } 
+                else{
+                    return { "success": false };
+                }
             }
+            return {"success":false,'message':'Some error has occurred!'}
         }
-        else{
-            local.jsonResponse["success"] = false;
-            local.jsonResponse["message"] = "#local.errorMSg#";
-        }
-        return local.jsonResponse;
     }
 
     remote any function registerUser() returnFormat="JSON" {
@@ -79,7 +86,7 @@ component {
         local.jsonResponse = {};
 
         if (len(local.errorsMsg) EQ 0){
-            local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword, strPhoto = strPhoto);
+            local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword, strPhoto = strPhoto, intSubId = intSubId);
             //writeDump(local.registerUser)abort;
             if(local.registerUser EQ "true") {
                 local.jsonResponse["success"] = true;
@@ -128,7 +135,7 @@ component {
     }
     remote any function checkExcelFileExist() returnFormat="JSON"{
         local.excelFile = fileExcel;
-        local.getExcelFile=variables.compObj.getExcelFile(fileExcel = local.excelFile);
+        local.getExcelFile=variables.compObj.checkExcelFileExist(fileExcel = local.excelFile);
         
         
     }

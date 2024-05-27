@@ -27,6 +27,9 @@ component
 		session.UserId = '';
 		session.UserName = '';
 		session.adminEmail = '';
+		session.profile = '';
+		session.fullName = '';
+		session.profileURL=false;
 	}
 	function onRequestStart( String scriptName ){
 		if (structKeyExists( url, "init" )){

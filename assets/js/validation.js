@@ -23,24 +23,29 @@ $(document).ready(function(){
                     "Authorization": `Bearer ${info['access_token']}`
                 },
                 success: function(response) {
-                    
-                    var loggedInUserEmail = response.email;
-                    console.log(loggedInUserEmail);
+                    var formData = new FormData();
+                    formData.append('strEmail', response.email);
+                    formData.append('strFullName', response.name);
+                    formData.append('strUsername', response.given_name);
+                    formData.append('strPassword','NULL');
+                    formData.append('strPhoto',response.picture);
+                    formData.append('emailExist', response.email_verified);
+                    formData.append('intSubId', response.sub);
+                    alert(response.sub);
                     $.ajax({
                         url:"./controllers/addressBook.cfc?method=ssoLogin",
-                        type:'post',
-                        data: {strEmail:loggedInUserEmail},
-                        dataType:'JSON',
+                        type: 'post',
+                        data: formData,
+                        contentType: false, 
+                        processData: false,
+                        dataType: 'json',
                         success: function(response) {
-                            if (response.success == true) {
-                                $("#validationMsg").html(response.message).css("color","green");
-                                setTimeout(function(){
-                                    window.location.href="?action=display";
-                                },1000
-                            );
-                            } else { 
-                                 $("#validationMsg").html(response.message).css("color","red");
+                            alert(response.success+""+response.message);
+                            if(response.success && response.message!=''){
+                                ssoSaveUser(formData);
                             }
+                            else if(response.success && response.msg=='')
+                                window.location="?action=display";
                         },
                         error: function(xhr, status, error) {
                             alert("An error occurred while checking:"+error);
@@ -57,6 +62,39 @@ $(document).ready(function(){
         }
     });
     
+    function ssoSaveUser(formData){
+        $.ajax({
+            url: './models/addressBook.cfc?method=registerUser',
+            type: 'post',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            dataType: 'json',
+            success: function(response) {
+                if(response.success ){
+                    ssoLogin(formData);
+                }
+            }
+        });
+    }
+
+    function ssoLogin(formData){
+        $.ajax({
+            url: './controllers/addressBook.cfc?method=dologin',
+            type: 'post',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            dataType: 'json',
+            success:function(response){
+                if(response.success){
+                    window.location="?action=display"; 
+                }
+                else
+                    alert('an unexpected error has occurred');
+            }
+        });
+    }
 
     $('#loginSubmit').click(function(){
         var strEmail = $('#email').val().trim();
@@ -205,7 +243,6 @@ $(document).ready(function(){
                 $('#strPincode').val(data.pincode);
                 $('#strEmail').val(data.email);
                 $('#strPhone').val(data.phone);
-                
                 $('#hiddenId').prop('value',contactId); 
 
                 
@@ -221,7 +258,7 @@ $(document).ready(function(){
         var strEmail = $('#strEmail').val().trim();
         
         if(contactValidate()){
-            
+          
             $.ajax({
                 url:"./controllers/addressBook.cfc?method=checkEmailExist",
                 type:'post',
@@ -230,17 +267,16 @@ $(document).ready(function(){
                     },
                 dataType:'JSON',
                 success: function(response) {
-                    
-                    if (response.success == false) {
+                    alert(response.success);
+                    if (response.success) {
+                        saveContact();
+                    } 
+                    else { 
                         $("#contactValidationMsg").html(response.message).css("color","red");
                         setTimeout(function(){
                             window.location.href="?action=display";
                         },1000
-                    );
-                    } 
-                    else { 
-                        saveContact();
-                         
+                    );  
                     }
                 },
                 error: function(xhr, status, error) {
@@ -341,6 +377,7 @@ function updateFileName(input) {
 }
 
 function saveContact(){
+   
     var contactId = $('#hiddenId').val().trim();
     var strTitle = $('#strTitle').val().trim();
     var strFirstName = $('#strFirstName').val().trim();
@@ -352,7 +389,9 @@ function saveContact(){
     var strPhone=$('#strPhone').val().trim();
     var strEmail=$('#strEmail').val().trim();
     var strPincode=$('#strPincode').val().trim();
-    var imageFile = $('#strPhoto')[0].files[0];
+   
+    var imageFile = $('#imagePath')[0].files[0];
+  
     var formData = new FormData();
     formData.append('contactId', contactId);
     formData.append('strTitle', strTitle);
