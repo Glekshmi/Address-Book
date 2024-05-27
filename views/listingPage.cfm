@@ -14,7 +14,7 @@
     </head>
     <body class="bodySection">--->
         <cfoutput>
-        
+        <cfset variables.profilePhoto = session.profileURL?session.profile:"./assets/uploads/#session.profile#">
        <nav class="navbar navbar-expand-lg navbarStyle">
             <div class="container-fluid">
                 <div class="navLogoTitle">
@@ -58,7 +58,7 @@
             <div class="midSection">
                 <div class="createContactSection">
                     <div class="loginUserImg">
-                        <img src="./assets/images/Capture.PNG" alt=""  class="d-inline-block align-text-top">
+                        <img src="#variables.profilePhoto#" alt=""  class="d-inline-block align-text-top">
                     </div>
                     <div class="loginUserName">
                         <p class="tableField">#session.UserName#</p>
@@ -120,7 +120,7 @@
                                             <div  class="d-flex justify-content-center subHeader">
                                                 <p class="contactMainTitle" id="setTitle"></p>
                                             </div>
-                                            <p id="contactValidationMsg" class="commonStyle"></p>
+                                            
                                             <div class="d-flex personalContact commonStyle">
                                                 <p class="">Personal Contact</p>
                                             </div>
@@ -209,6 +209,7 @@
                                                             <input type="hidden" id="hiddenId" value="0">
                                                             <button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
                                                             <button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
+                                                        <p id="contactValidationMsg" class="commonStyle"></p>
                                                         </div>
                                                     </div>
                                                 </form>

@@ -2,13 +2,15 @@
     <cffunction name="checkUserLogin" access="remote" returntype="query">
         <cfargument  name="strEmail" required="true">
         <cfargument  name="strPassword" required="true" default="">
+       
+
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')>
         <cfquery name="qrycheckLogin" datasource="coldfusionDb">
-            select UserId,FullName,EmailId,Password from RegisterTable
+            select UserId,FullName,EmailId,Password,Photo from RegisterTable
             where EmailId=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
             AND Password=<cfqueryparam value="#local.encryptedPassword#" cfsqltype="cf_sql_varchar"> 
         </cfquery>
-<!---         <cfdump  var="#qrycheckLogin#" abort> --->
+        
         <cfreturn qrycheckLogin>
     </cffunction>
     <cffunction name="registerUser" access="remote" returntype="string">
@@ -17,10 +19,17 @@
         <cfargument name="strUsername" required="true" type="string">
         <cfargument name="strPassword" required="true" type="string">
         <cfargument name="strPhoto" required="true" type="any">
-
-        <cfset local.path = ExpandPath("../assets/uploads/")>
-        <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
-        <cfset local.photo = cffile.serverFile>
+        <cfargument name="intSubId"  type="any" default=0>
+        
+        
+        <cfif intSubId EQ 0>
+            <cfset local.path = ExpandPath("../assets/uploads/")>
+            <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
+            <cfset local.photo = cffile.serverFile>
+            <cfelse>
+                <cfset local.photo=arguments.strPhoto>
+        </cfif>
+        
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')> 
         <cfset local.success = ''>
         <cfif len(arguments.strUsername) NEQ 0 AND  len(arguments.strPassword) NEQ 0>
@@ -64,6 +73,20 @@
             <cfreturn false>
         <cfelse>
             <cfreturn true>
+        </cfif>
+    </cffunction>
+
+    <cffunction name="checkUserExistInRegister" access="remote" returnFormat="json">
+        <cfargument name="strEmail"  required="true" type="string">
+        <cfquery name="qryCheckEmail">
+            select 1 
+            from RegisterTable
+            where EmailId=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
+        </cfquery>
+        <cfif qryCheckEmail.recordCount>
+                <cfreturn {"success":false,"message":"Email Id already present"}>
+            <cfelse>
+                <cfreturn {"success":true}>
         </cfif>
     </cffunction>
 
@@ -163,7 +186,7 @@
         <cfreturn {"success":true}>
     </cffunction>
 
-    <cffunction name="getExcelFile" access="remote" returnFormat="json">
+    <cffunction name="checkExcelFileExist" access="remote" returnFormat="json">
         <cfargument  name="fileExcel" required="true">
         <cfset local.path = ExpandPath("../assets/uploads/")>
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
