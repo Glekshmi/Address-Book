@@ -33,8 +33,6 @@ component
 	}
 	function onRequestStart( String scriptName ){
 		if (structKeyExists( url, "init" )){
-			
-			// Manually invoke the application and session reset.
 			this.onApplicationStart();
 			this.onSessionStart();
 			

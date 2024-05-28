@@ -15,13 +15,7 @@ component {
                 session.UserId = local.qryUserExist.UserId;
                 session.UserName = local.qryUserExist.FullName;
                 session.adminEmail = local.qryUserExist.EmailId;
-                if(intSubId EQ 0)
-                {
                  session.profileURL = true;   
-                }
-                else{
-                    session.profileURL = false;   
-                }
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully Logged In";
             }
@@ -38,19 +32,16 @@ component {
     }
 
     remote any function ssoLogin() returnFormat='json'{
-        //writeDump(strEmail)abort;
         if(emailExist){
             local.strcheckUserResult=variables.compObj.checkUserExistInRegister(strEmail=strEmail);
             if(local.strcheckUserResult.success){
-                return { "success": true,'message':'not exists'}; 
-                       
+                return { "success": true,'message':'not exists'};           
             }
             else{
-                //local.strPassword=Hash('NULL',"MD5");
                 local.qryResult=variables.compObj.checkUserLogin(strEmail=strEmail,strPassword=strPassword);
                 if (local.qryResult.recordCount) {
                     session.UserId= local.qryResult.UserId;
-                    //session.userLoggedIn = true;
+                    session.userLoggedIn = true;
                     session.UserName= local.qryResult.FullName;
                     session.profile=local.qryResult.Photo;
                     session.profileURL=true;
@@ -68,10 +59,8 @@ component {
         local.errorsMsg ='';
         local.emailRegex = "^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$";
         local.passwordRegex  = '^[a-zA-Z]+[\W_][0-9]+$';
-    
         if (len(strFullName) EQ 0 || len(strEmail) EQ 0 || len(strUsername) EQ 0 || len(strPassword) EQ 0)
             local.errorsMsg &= "All fields are required"&"<br>";
-            //writeDump(local.errorsMsg)abort;
         else if (reFind("\d", strFullName))
             local.errorsMsg &= "Full Name should contain alphabets only"&"<br>";
         else if (reFind("\d", strUsername))
@@ -82,12 +71,9 @@ component {
             local.errorsMsg &= "Password should be at least 8 characters long"&"<br>";
         else if (NOT reFind(local.passwordRegex, strPassword))
             local.errorsMsg &= "Password should be a combination of alphabets, digits and special characters"&"<br>";
-
         local.jsonResponse = {};
-
         if (len(local.errorsMsg) EQ 0){
             local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword, strPhoto = strPhoto, intSubId = intSubId);
-            //writeDump(local.registerUser)abort;
             if(local.registerUser EQ "true") {
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully completed registration!!!";
@@ -131,12 +117,14 @@ component {
         else{
             return {"success":false,"message":local.error};
         }
-           
     }
+
     remote any function checkExcelFileExist() returnFormat="JSON"{
         local.excelFile = fileExcel;
         local.getExcelFile=variables.compObj.checkExcelFileExist(fileExcel = local.excelFile);
-        
-        
+        if(local.getExcelFile.recordCount)
+            return {"success":true,"message":"successfully inserted"};
+        else
+            return {"success":false,"message":"error has occurred"};
     }
 }
