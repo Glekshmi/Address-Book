@@ -27,6 +27,7 @@ component
 		session.UserId = '';
 		session.UserName = '';
 		session.adminEmail = '';
+		session.photo = '';
 		session.profile = '';
 		session.fullName = '';
 		session.profileURL=false;

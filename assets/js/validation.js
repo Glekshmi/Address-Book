@@ -68,7 +68,7 @@ $(document).ready(function () {
 
 	function ssoLogin(formData) {
 		$.ajax({
-			url: './controllers/addressBook.cfc?method=dologin',
+			url: './controllers/addressBook.cfc?method=doLogin',
 			type: 'post',
 			data: formData,
 			contentType: false,
@@ -76,7 +76,8 @@ $(document).ready(function () {
 			dataType: 'json',
 			success: function (response) {
 				if (response.success) {
-					window.location = "?action=display";
+					
+					window.location ="?action=display";
 				} else
 					console.log('an unexpected error has occurred');
 			}
@@ -86,6 +87,7 @@ $(document).ready(function () {
 	$('#loginSubmit').click(function () {
 		var strEmail = $('#email').val().trim();
 		var strPassword = $('#password').val().trim();
+		var intSubId = 0;
 		if (strEmail === '' || strPassword === '') {
 			$('#validationMsg').html('fill all the required fields!').css("color", "red");
 			return false;
@@ -95,7 +97,8 @@ $(document).ready(function () {
 			type: 'post',
 			data: {
 				strEmail: strEmail,
-				strPassword: strPassword
+				strPassword: strPassword,
+				intSubId:intSubId
 			},
 			dataType: 'JSON',
 			success: function (response) {
@@ -125,6 +128,7 @@ $(document).ready(function () {
 		formData.append('strUsername', strUsername);
 		formData.append('strPassword', strPassword);
 		formData.append('strPhoto', strPhoto);
+		formData.append('intSubId', '0');
 		if (signUpValidate()) {
 			$.ajax({
 				url: "./controllers/addressBook.cfc?method=registerUser",
@@ -136,7 +140,7 @@ $(document).ready(function () {
 				success: function (response) {
 					if (response.success == true) {
 						$("#registerError").html(response.message).css("color", "green");
-						window.location.href = "?action=display";
+						window.location.href = "?action=login";
 					} else {
 						$("#registerError").html(response.message).css("color", "red");
 					}
@@ -302,7 +306,12 @@ $(document).ready(function () {
 		signIn();
 	});
 
-
+	$('#print').on('click', function () {
+        var printArea = $('#printContent').html();
+        $('body').html(printArea);
+        window.print();
+        window.location.href = "?action=display";
+    });
 
 });
 

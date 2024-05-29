@@ -250,15 +250,14 @@ button {
 
 .topDownloadBar {
 	display: flex;
-	justify-content: end;
-	width: 1048px;
-	position: relative;
-	left: 90px;
-	top: 20px;
-	height: 60px;
-	border-radius: 4px;
-	align-items: center;
-	padding-right: 45px;
+    justify-content: end;
+    width: 100%;
+    left: 90px;
+    top: 20px;
+    height: 60px;
+    border-radius: 4px;
+    align-items: center;
+    padding-right: 45px;
 }
 
 .NavbarLogoutLink {
@@ -272,30 +271,33 @@ button {
 }
 
 .createContactSection {
-	width: 170px;
-	padding-bottom: 20px;
-	margin-right: 15px;
+	display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 20%;
 }
 
 .dataListingSection {
-	width: 860px;
-	min-height: 300px;
+	width: 100%;
+    min-height: 300px;
 }
 
 .listingPageSection {
-	position: relative;
-	top: 34px;
-	right: 10px;
+	padding: 0 8%;
+    margin: 30px 0px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .midSection {
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-
-	position: relative;
-	top: 40px;
-	right: 7px;
+	width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .loginUserImg {
@@ -354,7 +356,7 @@ button {
 
 .subHeader {
 	background-color: #DAEEF7 !important;
-	width: 340px;
+	width: 352px;
 	position: relative;
 	left: 103px;
 	top: 50px;
@@ -377,7 +379,7 @@ button {
 
 .personalContact {
 	border-bottom: 2px solid rgb(20 105 173);
-	width: 312px;
+	width: 338px;
 }
 
 .personalContact p {
@@ -399,7 +401,7 @@ button {
 }
 
 .setNameWidth {
-	width: 100px;
+	width: 115px;
 	height: 25px;
 }
 
@@ -466,6 +468,7 @@ button {
 
 .tableField {
 	color: rgb(20 105 173 / 81%);
+	padding: 0 20px !important;
 }
 
 .viewSection {
@@ -507,7 +510,7 @@ thead {
 }
 
 td {
-	padding: 10px;
+	padding: 10px 20px;
 }
 
 .tableBorder {
@@ -544,19 +547,11 @@ td {
 }
 
 .viewBtn {
-	padding-top: 2px !important;
-	padding-bottom: 2px !important;
-	padding-left: 25px !important;
-	padding-right: 25px !important;
+	padding : 2px 25px !important;
 	border-radius: 15px !important;
 	border-color: rgb(20 105 173 / 81%) !important;
 	color: rgb(20 105 173 / 81%) !important;
 	font-size: small !important;
-}
-
-.loginContainer {
-	display: flex !important;
-	justify-content: center !important;
 }
 
 .file-upload-wrapper {

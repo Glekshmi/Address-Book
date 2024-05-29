@@ -1,5 +1,5 @@
 <cfoutput>
-	<cfset variables.profilePhoto = session.profileURL?session.profile:"./assets/uploads/#session.profile#">
+	<cfset variables.profilePhoto = session.profileURL?session.profile:"./assets/uploads/"&session.photo>
 	<nav class="navbar navbar-expand-lg navbarStyle">
 		<div class="container-fluid">
 			<div class="navLogoTitle">
@@ -23,37 +23,39 @@
 		</div>
 	</nav>
 	<div class="listingPageSection">
-		<div class="topDownloadBar">
+		<div class="topDownloadBar gap-2">
 			<a href="?action=pdf" target="_blank">
-			<img src="./assets/images/pdf.PNG" alt="Download PDF" width="30" height="32" class="d-inline-block align-text-top logoutImg">
+				<img src="./assets/images/pdf.PNG" alt="Download PDF" width="30" height="32" class="d-inline-block align-text-top logoutImg">
 			</a>
 			<a href="?action=sheet" target="_blank">
-			<img src="./assets/images/excel.PNG" alt="" width="26" height="32" class="d-inline-block align-text-top logoutImg">
+				<img src="./assets/images/excel.PNG" alt="" width="26" height="32" class="d-inline-block align-text-top logoutImg">
 			</a>
-			<img src="./assets/images/printer.PNG" alt="" width="32" height="34" class="d-inline-block align-text-top logoutImg">
+			<a>
+				<img src="./assets/images/printer.PNG" alt="" width="32" height="34" id="print" class="d-inline-block align-text-top logoutImg">
+			</a>
 		</div>
 		<div class="midSection">
 			<div class="createContactSection">
 				<div class="loginUserImg">
-					<img src="#variables.profilePhoto#" alt=""  class="d-inline-block align-text-top">
+					<img src="#variables.profilePhoto#" alt="" width="20" height="20" class="d-inline-block align-text-top">
 				</div>
 				<div class="loginUserName">
-					<p class="tableField">#session.UserName#</p>
+					<p class="tableField">#UCase(session.UserName)#</p>
 				</div>
 				<div class="d-flex flex-column justify-content-center align-items-center gap-2">
-					<button type="button" class="btn btn-primary createBtn m-0" id="createContactBtn" data-bs-toggle="modal" data-bs-target="##myModal">CREATE CONTACT</button>
-					<button type="button" class="btn btn-primary createBtn m-0" id="uploadContactBtn" data-bs-toggle="modal" data-bs-target="##uploadModal">UPLOAD FILE</button>
+					<button type="button" class="btn btn-primary p-2 createBtn m-0" id="createContactBtn" data-bs-toggle="modal" data-bs-target="##myModal">CREATE CONTACT</button>
+					<button type="button" class="btn btn-primary p-2 createBtn m-0" id="uploadContactBtn" data-bs-toggle="modal" data-bs-target="##uploadModal">UPLOAD FILE</button>
 				</div>
 			</div>
 			<div>
 			</div>
 			<div class="dataListingSection">
-				<div class="tableStyle">
-					<table class="dataTable w-100">
+				<div class="tableStyle" id="printContent">
+					<table class="dataTable col-12">
 						<thead>
 							<tr class="text-primary tableRowStyle">
 								<th class="tableField FieldFontSize"></th>
-								<th class="tableField FieldFontSize">NAME</th>
+								<th class="tableField tableField2 FieldFontSize">NAME</th>
 								<th class="tableField FieldFontSize">EMAIL ID</th>
 								<th class="tableField FieldFontSize">PHONE NUMBER</th>
 								<th></th>
@@ -182,7 +184,7 @@
 										</form>
 									</div>
                                     <div class="px-5 createContactImgSection">
-									    <img src="./assets/images/createContact.PNG" alt="" id="filePhoto">
+									    <img src="./assets/images/createContact.PNG" alt="" width="50" height="50" id="filePhoto">
 								    </div>
 								</div>
 							</div>

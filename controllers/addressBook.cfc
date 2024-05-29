@@ -1,6 +1,6 @@
 component {
     variables.compObj = createObject("component","models/addressBook");
-    remote any function doLogin(strEmail, strPassword) returnFormat="JSON"{
+    remote any function doLogin(strEmail, strPassword, intSubId) returnFormat="JSON"{
         local.errorMSg='';
         local.qryUserExist ='';
         local.jsonResponse = {};
@@ -11,11 +11,14 @@ component {
             local.qryUserExist = variables.compObj.checkUserLogin(strEmail=strEmail,strPassword=strPassword);
             if (local.qryUserExist.recordCount){
                 session.userLoggedIn = true;
-                session.profile = local.qryUserExist.Photo;
+                session.photo = local.qryUserExist.Photo;
                 session.UserId = local.qryUserExist.UserId;
                 session.UserName = local.qryUserExist.FullName;
                 session.adminEmail = local.qryUserExist.EmailId;
-                 session.profileURL = true;   
+                if(intSubId EQ 0)
+                    session.profileURL=false;
+                else
+                    session.profileURL=true;
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully Logged In";
             }
@@ -35,6 +38,11 @@ component {
         if(emailExist){
             local.strcheckUserResult=variables.compObj.checkUserExistInRegister(strEmail=strEmail);
             if(local.strcheckUserResult.success){
+                session.UserId= local.strcheckUserResult.UserId;
+                session.userLoggedIn = true;
+                session.UserName= local.strcheckUserResult.FullName;
+                session.profile=local.strcheckUserResult.Photo;
+                session.profileURL=true;
                 return { "success": true,'message':'not exists'};           
             }
             else{
@@ -73,7 +81,7 @@ component {
             local.errorsMsg &= "Password should be a combination of alphabets, digits and special characters"&"<br>";
         local.jsonResponse = {};
         if (len(local.errorsMsg) EQ 0){
-            local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword, strPhoto = strPhoto, intSubId = intSubId);
+            local.registerUser=variables.compObj.registerUser(strFullName = strFullName, strEmail = strEmail, strUsername = strUsername, strPassword = strPassword, strPhoto = strPhoto);
             if(local.registerUser EQ "true") {
                 local.jsonResponse["success"] = true;
                 local.jsonResponse["message"] = "Successfully completed registration!!!";
@@ -97,6 +105,10 @@ component {
     
     remote any function logout() {
         session.userLoggedIn=false;
+        session.UserName= '';
+        session.profile='';
+        session.photo='';
+        session.profileURL = false;
         cflocation(url="../?action=login");
     }
 
