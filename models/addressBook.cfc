@@ -2,17 +2,15 @@
     <cffunction name="checkUserLogin" access="remote" returntype="query">
         <cfargument  name="strEmail" required="true">
         <cfargument  name="strPassword" required="true" default="">
-       
-
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')>
         <cfquery name="qrycheckLogin" datasource="coldfusionDb">
             select UserId,FullName,EmailId,Password,Photo from RegisterTable
             where EmailId=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
             AND Password=<cfqueryparam value="#local.encryptedPassword#" cfsqltype="cf_sql_varchar"> 
         </cfquery>
-        
         <cfreturn qrycheckLogin>
     </cffunction>
+
     <cffunction name="registerUser" access="remote" returntype="string">
         <cfargument name="strFullName" required="true" type="string">
         <cfargument name="strEmail" required="true" type="string"> 
@@ -20,16 +18,13 @@
         <cfargument name="strPassword" required="true" type="string">
         <cfargument name="strPhoto" required="true" type="any">
         <cfargument name="intSubId"  type="any" default=0>
-        
-        
         <cfif intSubId EQ 0>
             <cfset local.path = ExpandPath("../assets/uploads/")>
             <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
             <cfset local.photo = cffile.serverFile>
-            <cfelse>
-                <cfset local.photo=arguments.strPhoto>
+        <cfelse>
+            <cfset local.photo=arguments.strPhoto>
         </cfif>
-        
         <cfset local.encryptedPassword = Hash(arguments.strPassword, 'SHA-512')> 
         <cfset local.success = ''>
         <cfif len(arguments.strUsername) NEQ 0 AND  len(arguments.strPassword) NEQ 0>
@@ -84,9 +79,9 @@
             where EmailId=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">
         </cfquery>
         <cfif qryCheckEmail.recordCount>
-                <cfreturn {"success":false,"message":"Email Id already present"}>
-            <cfelse>
-                <cfreturn {"success":true}>
+            <cfreturn {"success":false,"message":"Email Id already present"}>
+        <cfelse>
+            <cfreturn {"success":true}>
         </cfif>
     </cffunction>
 
@@ -103,13 +98,11 @@
         <cfargument name="strPincode" required="true" >
         <cfargument name="strEmail" required="true" type="string">
         <cfargument name="strPhone" required="true" >
-
         <cfset local.contactDate = dateFormat(arguments.strDOB, "dd-mm-yyyy")>
         <cfset local.success = ''>
         <cfset local.path = ExpandPath("../assets/uploads/")>
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
         <cfset local.photo = cffile.serverFile>
-
         <cfif arguments.contactId GT 0>
             <cfquery name="qryUpdateContact">
                 update ContactsTable 
@@ -154,7 +147,7 @@
                     <cfset local.success = false>
                 </cfcatch>
             </cftry>
-                <cfreturn {"success":local.success,"message":''}>
+            <cfreturn {"success":local.success,"message":''}>
         </cfif>
     </cffunction>
 
@@ -166,6 +159,7 @@
         </cfquery>
         <cfreturn serializeJSON(qryGetContactDetails)>
     </cffunction>
+
     <cffunction name="getContact" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
         <cfquery name="qryGetContactDetails" >
@@ -175,25 +169,21 @@
         <cfreturn {"success":true,"title":qryGetContactDetails.Title,"firstname":qryGetContactDetails.Firstname,"lastname":qryGetContactDetails.LastName,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"photo":qryGetContactDetails.Photo,"address":qryGetContactDetails.Address,"street":qryGetContactDetails.Street,"pincode":qryGetContactDetails.Pincode,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone}>
     </cffunction>
 
-    
-
     <cffunction name="deleteContact" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
-        <cfquery name="qryDeleteContact" datasource="coldfusionDb">
+        <cfquery name="qryDeleteContact" datasource="coldfusionDb" result="delResult">
             delete from ContactsTable
             where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
-        <cfreturn {"success":true}>
+        <cfreturn {"success":"true"}>
     </cffunction>
 
-    <cffunction name="checkExcelFileExist" access="remote" returnFormat="json">
+    <cffunction name="checkExcelFileExist" access="remote" returntype="query">
         <cfargument  name="fileExcel" required="true">
         <cfset local.path = ExpandPath("../assets/uploads/")>
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
         <cfset local.excelSheet = cffile.serverFile>
-
         <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
-<!---         <cfdump  var="#spreadsheetData#"> --->
         <cfloop query="#spreadsheetData#">
             <cfset local.title = spreadsheetData.Title>
             <cfset local.firstName = spreadsheetData.FirstName>
@@ -208,7 +198,6 @@
             <cfset local.phone = spreadsheetData.Phone>
             <cfset local.requiredPincode = replace(local.pincode, ",", "", "all")>
             <cfset local.requiredPhone = replace(local.phone, ",", "", "all")>
-            
             <cfquery name="qryGetEmail" >
                 select 1 from ContactsTable
                 where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
@@ -235,5 +224,6 @@
                 </cfquery>
             </cfif>
        </cfloop>
+       <cfreturn resultSaveContact>
     </cffunction>    
 </cfcomponent>

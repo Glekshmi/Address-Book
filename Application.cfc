@@ -27,14 +27,13 @@ component
 		session.UserId = '';
 		session.UserName = '';
 		session.adminEmail = '';
+		session.photo = '';
 		session.profile = '';
 		session.fullName = '';
 		session.profileURL=false;
 	}
 	function onRequestStart( String scriptName ){
 		if (structKeyExists( url, "init" )){
-			
-			// Manually invoke the application and session reset.
 			this.onApplicationStart();
 			this.onSessionStart();
 			
