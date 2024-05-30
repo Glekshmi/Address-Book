@@ -1,4 +1,5 @@
 <cfoutput>
+	<cfif session.userLoggedIn>
 	<cfset variables.profilePhoto = session.profileURL?session.profile:"./assets/uploads/"&session.photo>
 	<nav class="navbar navbar-expand-lg navbarStyle">
 		<div class="container-fluid">
@@ -234,7 +235,7 @@
 										<div class="d-flex">
 											<div class="d-flex col-3 justify-content-between">
 												<p class="contactTextColor viewField viewOuterTag">Name</p>
-												<p class="contactTextColor viewField viewInnerTag">:</p>
+												<p class="contactTextColor viewField viewInnerTag viewName">:</p>
 												&nbsp
 											</div>
 											<p id="name" class="contactTextColor viewField"></p>
@@ -243,7 +244,7 @@
 										<div class="d-flex">
 											<div class="d-flex col-3 justify-content-between">
 												<p class="contactTextColor viewField viewOuterTag">Gender</p>
-												<p class="contactTextColor viewField viewInnerTag">:</p>
+												<p class="contactTextColor viewField viewInnerTag viewGender">:</p>
 												&nbsp
 											</div>
 											<p id="gender" class="contactTextColor viewField"></p>
@@ -259,7 +260,7 @@
 										<div class="d-flex">
 											<div class="d-flex col-3 justify-content-between">
 												<p class="contactTextColor viewField viewOuterTag">Address</p>
-												<p class="contactTextColor viewField viewInnerTag">:</p>
+												<p class="contactTextColor viewField viewInnerTag viewAddress">:</p>
 												&nbsp
 											</div>
 											<p id="address" class="contactTextColor viewField"></p>
@@ -267,7 +268,7 @@
 										<div class="d-flex">
 											<div class="d-flex col-3 justify-content-between">
 												<p class="contactTextColor viewField viewOuterTag">Pincode</p>
-												<p class="contactTextColor viewField viewInnerTag">:</p>
+												<p class="contactTextColor viewField viewInnerTag viewPincode">:</p>
 												&nbsp
 											</div>
 											<p id="pincode" class="contactTextColor viewField"></p>
@@ -275,7 +276,7 @@
 										<div class="d-flex">
 											<div class="d-flex col-3 justify-content-between">
 												<p class="contactTextColor viewField viewOuterTag">Email Id</p>
-												<p class="contactTextColor viewField viewInnerTag">:</p>
+												<p class="contactTextColor viewField viewInnerTag viewEmail">:</p>
 												&nbsp
 											</div>
 											<p id="email" class="contactTextColor viewField"></p>
@@ -283,7 +284,7 @@
 										<div class="d-flex">
 											<div class="d-flex col-3 justify-content-between">
 												<p class="contactTextColor viewField viewOuterTag">Phone</p>
-												<p class="contactTextColor viewField viewInnerTag">:</p>
+												<p class="contactTextColor viewField viewInnerTag viewPhone">:</p>
 												&nbsp
 											</div>
 											<p id="phone" class="contactTextColor viewField"></p>
@@ -318,5 +319,6 @@
 	</div>
 	</div>
 	</body>
+	</cfif>
 </cfoutput>
 </html>

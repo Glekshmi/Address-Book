@@ -2,12 +2,69 @@
 	padding: 0;
 	margin: 0;
 }
+.logoTitle,
+.navLinks,
+.navLogoTitle,
+.inputField,
+.container,
+.loginInnerSection,
+.navbarLogIcon,
+.subHeader,
+.contactMainTitle,
+.commonStyle,
+.createContactImgSection,
+.viewSection,
+.displayContact,
+.tableWidth,
+.file-upload-wrapper {
+	position: relative;
+}
+.navLogoTitle,
+.navbar-text,
+.loginTitle,
+.formSection,
+.footerMediaIcons,
+.loginBtnSection,
+.topDownloadBar,
+.createContactSection,
+.listingPageSection,
+.midSection,
+.loginUserImg,
+.loginUserName,
+.createBtnSection {
+	display: flex;
+}
+.loginTitle,
+.footerMediaIcons,
+.loginBtnSection,
+.listingPageSection,
+.loginUserImg,
+.loginUserName,
+.createBtnSection,
+.loginContainer,
+.formSection {
+	justify-content: center;
+}	
+
+.footerMediaIcons,
+.loginBtnSection,
+.topDownloadBar,
+.listingPageSection,
+.loginContainer {
+	align-items: center;
+}
+
+.loginContainer,
+.midSection,
+.dataListingSection,
+.topDownloadBar {
+	width: 100%;
+}
 
 .logoTitle,
 .navLinks {
 	color: white;
 	font-size: 15px;
-	position: relative;
 	top: 5px;
 }
 
@@ -23,9 +80,7 @@
 }
 
 .navLogoTitle {
-	display: flex;
 	margin-left: 25px;
-	position: relative;
 	top: 4px;
 }
 
@@ -35,12 +90,10 @@
 }
 
 .navbar-text {
-	display: flex;
 	gap: 35px;
 }
 
 .inputField {
-	position: relative;
 	left: 10px;
 	top: 10px;
 	outline: none;
@@ -52,25 +105,24 @@
 .bodySection {
 	background-color: #b1cce463;
 }
-
+.loginSectionImg,
+.loginSectionContent{
+	height: 430px;
+}
 .loginSectionImg {
 	border: 1px solid rgb(20 105 173 / 81%);
 	border-top-left-radius: 20px;
 	border-bottom-left-radius: 20px;
 	background-color: rgb(20 105 173 / 81%);
-	height: 430px;
 }
 
 .loginSectionContent {
 	border: 1px solid white;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
-	background-color: white;
-	height: 430px;
 }
 
 .container {
-	position: relative;
 	top: 60px;
 }
 
@@ -83,17 +135,9 @@
 .loginTitle {
 	color: rgb(20 105 173 / 81%);
 	font-size: 28px;
-	display: flex;
-	justify-content: center;
-}
-
-.formSection {
-	display: flex;
-	justify-content: center;
 }
 
 .loginInnerSection {
-	position: relative;
 	left: 1px;
 }
 
@@ -115,7 +159,6 @@ h2 {
 }
 
 .input-field {
-	position: relative;
 	border-bottom: 2px solid #ccc;
 	margin: 15px 0;
 }
@@ -147,25 +190,6 @@ h2 {
 	top: 10px;
 	transform: translateY(-120%);
 }
-
-.forget {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 25px 0 35px 0;
-	color: #e6cdcd;
-}
-
-
-.forget label {
-	display: flex;
-	align-items: center;
-}
-
-.forget label p {
-	margin-left: 100px;
-}
-
 .wrapper a {
 	color: #aa0f0f;
 	text-decoration: none;
@@ -216,13 +240,6 @@ button {
 	border-radius: 50%;
 }
 
-.footerMediaIcons,
-.loginBtnSection {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 .footerSignInSection {
 	margin-bottom: 0px;
 	margin-top: 15px;
@@ -249,15 +266,12 @@ button {
 }
 
 .topDownloadBar {
-	display: flex;
-    justify-content: end;
-    width: 100%;
-    left: 90px;
-    top: 20px;
-    height: 60px;
-    border-radius: 4px;
-    align-items: center;
-    padding-right: 45px;
+        justify-content: end;
+        left: 90px;
+        top: 20px;
+        height: 60px;
+        border-radius: 4px;
+        padding-right: 45px;
 }
 
 .NavbarLogoutLink {
@@ -266,43 +280,33 @@ button {
 
 .topDownloadBar,
 .createContactSection,
-.dataListingSection {
+.dataListingSection,
+.loginSectionContent {
 	background-color: white;
 }
-
+.createContactSection,
+.listingPageSection {
+	flex-direction: column;
+}
 .createContactSection {
-	display: flex;
-    flex-direction: column;
-    padding: 20px;
-    width: 20%;
+    	padding: 20px;
+    	width: 20%;
 }
 
 .dataListingSection {
-	width: 100%;
-    min-height: 300px;
+    	min-height: 300px;
 }
 
 .listingPageSection {
 	padding: 0 8%;
-    margin: 30px 0px;
-    gap: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+   	margin: 30px 0px;
+    	gap: 20px;
 }
 
 .midSection {
-	width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-}
-
-.loginUserImg {
-	display: flex;
-	justify-content: center;
+    	align-items: flex-start;
+    	justify-content: flex-start;
+    	gap: 10px;
 }
 
 .loginUserImg img {
@@ -320,32 +324,26 @@ button {
 	border: none !important;
 }
 
-.loginUserName,
-.createBtnSection {
-	display: flex;
-	justify-content: center;
-}
-
 .navbarLogIcon {
 	color: white;
 	font-size: medium !important;
-	position: relative;
 	top: 9px;
 }
 
 .popupContactHeader,
-.uploadPopup {
+.uploadPopup,
+.popupContactHeader {
 	background-color: white !important;
 }
 
 .popupContactHeader {
-	background-color: white !important;
 	width: 550px;
 	height: 748px !important;
 }
 
 .outerContainer,
-.uploadContainer {
+.uploadContainer,
+.subHeader {
 	background-color: #DAEEF7 !important;
 }
 
@@ -355,16 +353,13 @@ button {
 }
 
 .subHeader {
-	background-color: #DAEEF7 !important;
 	width: 352px;
-	position: relative;
 	left: 103px;
 	top: 50px;
 	height: 40px;
 }
 
 .contactMainTitle {
-	position: relative;
 	top: 8px;
 	color: rgb(20 105 173);
 	font-size: larger;
@@ -372,7 +367,6 @@ button {
 }
 
 .commonStyle {
-	position: relative;
 	left: 102px;
 	top: 82px;
 }
@@ -406,7 +400,6 @@ button {
 }
 
 .createContactImgSection {
-	position: relative;
 	top: 100px;
 }
 
@@ -449,21 +442,19 @@ button {
 }
 
 .loginContainer {
-	width: 100%;
-	justify-content: center;
-	align-items: center;
 	margin-top: 50px;
 }
-
+.loginLeftSection,
+.loginRightSection {
+	height: 500px;
+}
 .loginLeftSection {
 	background-color: burlywood !important;
-	height: 500px;
 	width: 200px;
 }
 
 .loginRightSection {
 	background-color: aquamarine;
-	height: 500px;
 }
 
 .tableField {
@@ -472,7 +463,6 @@ button {
 }
 
 .viewSection {
-	position: relative;
 	left: 75px;
 	top: 70px;
 }
@@ -483,7 +473,6 @@ button {
 }
 
 .displayContact {
-	position: relative;
 	left: 75px;
 	top: 85px;
 }
@@ -529,7 +518,6 @@ td {
 }
 
 .tableWidth {
-	position: relative;
 	left: 65px;
 }
 
@@ -555,7 +543,6 @@ td {
 }
 
 .file-upload-wrapper {
-	position: relative;
 	overflow: hidden;
 	display: inline-block;
 	width: 255px;
@@ -579,4 +566,24 @@ td {
 
 .contactDetailsContainer {
 	left: 100px;
+}
+
+.viewName{
+	padding-left: 48px;
+}
+
+.viewGender{
+	padding-left: 41px;
+}
+
+.viewAddress, .viewEmail{
+	padding-left: 36px;
+}
+
+.viewPincode{
+	padding-left: 37px;
+}
+
+.viewPhone{
+	padding-left: 45px;
 }
