@@ -34,7 +34,7 @@ $(document).ready(function () {
 						success: function (response) {
 							if (response.success && response.message != '') {
 								ssoSaveUser(formData);
-							} else if (response.success && response.msg == '')
+							} else if (response.success)
 								window.location = "?action=display";
 						},
 						error: function (xhr, status, error) {
@@ -76,7 +76,6 @@ $(document).ready(function () {
 			dataType: 'json',
 			success: function (response) {
 				if (response.success) {
-					
 					window.location ="?action=display";
 				} else
 					console.log('an unexpected error has occurred');
