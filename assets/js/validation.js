@@ -87,6 +87,8 @@ $(document).ready(function () {
 		var strEmail = $('#email').val().trim();
 		var strPassword = $('#password').val().trim();
 		var intSubId = 0;
+		alert(strEmail);
+		alert(strPassword);
 		if (strEmail === '' || strPassword === '') {
 			$('#validationMsg').html('fill all the required fields!').css("color", "red");
 			return false;
@@ -193,39 +195,40 @@ $(document).ready(function () {
 	$('.btnEdit').click(function () {
 		var contactId = $(this).data('id');
 		$('#setTitle').html("EDIT CONTACT");
-		$.ajax({
-			type: 'POST',
-			url: './models/addressBook.cfc?method=getContact',
-			data: {
-				contactId: contactId
-			},
-			success: function (response) {
-				var data = JSON.parse(response);
-				var dateString = data.dob;
-				var date = new Date(dateString);
-				var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-				$('#strTitle').val(data.title);
-				$('#strFirstName').val(data.firstname);
-				$('#strLastName').val(data.lastname);
-				$('#strGender').val(data.gender);
-				$('#strDOB').val(formattedDate);
-                $('#filePhoto').attr('src', './assets/uploads/' + data.photo);
-				$('#strAddress').val(data.address);
-				$('#strStreet').val(data.street);
-				$('#strPincode').val(data.pincode);
-				$('#strEmail').val(data.email);
-				$('#strPhone').val(data.phone);
-				$('#hiddenId').prop('value', contactId);
-			},
-			error: function (xhr, status, error) {
-				console.log("An error occurred:" + error);
-			}
-		});
+			$.ajax({
+				type: 'POST',
+				url: './models/addressBook.cfc?method=getContact',
+				data: {
+					contactId: contactId
+				},
+				success: function (response) {
+					var data = JSON.parse(response);
+					var dateString = data.dob;
+					var date = new Date(dateString);
+					var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+					$('#strTitle').val(data.title);
+					$('#strFirstName').val(data.firstname);
+					$('#strLastName').val(data.lastname);
+					$('#strGender').val(data.gender);
+					$('#strDOB').val(formattedDate);
+					$('#filePhoto').attr('src', './assets/uploads/' + data.photo);
+					$('#strAddress').val(data.address);
+					$('#strStreet').val(data.street);
+					$('#strPincode').val(data.pincode);
+					$('#strEmail').val(data.email);
+					$('#strPhone').val(data.phone);
+					$('#hiddenId').prop('value', contactId);
+				},
+				error: function (xhr, status, error) {
+					console.log("An error occurred:" + error);
+				}
+			});	
 	});
+
 	$('#submitForm').on('submit', function () {
 		var contactId = $('#hiddenId').val().trim();
 		var strEmail = $('#strEmail').val().trim();
-		if (contactValidate()) {
+		if(contactValidate()) {
 			$.ajax({
 				url: "./controllers/addressBook.cfc?method=checkEmailExist",
 				type: 'post',
@@ -238,17 +241,14 @@ $(document).ready(function () {
 					if (response.success) {
 						saveContact();
 					} else {
-						$("#contactValidationMsg").html(response.message).css("color", "red");
-						window.location.href = "?action=display";
+						$("#contactValidationMsg").html(response.message).css("color","red");
 					}
 				},
 				error: function (xhr, status, error) {
 					console.log("An error occurred:" + error);
 				}
-
 			});
-		}
-		return false;
+		} return false;
 	});
 
 	$('#submitExcel').on('submit', function () {
@@ -264,6 +264,7 @@ $(document).ready(function () {
 			dataType: 'JSON',
 			success: function (response) {
 				if (response.success) {
+
 					$("#contactValidationMsg").html(response.message).css("color", "green");
 				} else {
 					$("#contactValidationMsg").html(response.message).css("color", "red");
@@ -286,7 +287,6 @@ $(document).ready(function () {
 				contactId: deleteId
 			},
 			success: function (response) {
-                alert(response.success);
 				if (response.success == "true") {
 					deleteElement.remove();
 				}
@@ -381,6 +381,7 @@ function saveContact() {
 		dataType: 'json',
 		success: function (response) {
 			if (response.success) {
+				alert(response.success);
 				if (response.message == '') {
 					$("#contactValidationMsg").html("Successfully completed registration").css("color", "green");
 					window.location.href = "?action=display";
@@ -431,7 +432,6 @@ function signUpValidate() {
 
 function contactValidate() {
 	var contactErrorMsg = '';
-	var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 	var strTitle = $('#strTitle').val().trim();
 	var strFirstName = $('#strFirstName').val().trim();
 	var strLastName = $('#strLastName').val().trim();
@@ -441,22 +441,33 @@ function contactValidate() {
 	var strStreet = $('#strStreet').val().trim();
 	var strEmail = $('#strEmail').val().trim();
 	var strPhone = $('#strPhone').val().trim();
+	var phoneRegex = /^\+91\d{10}$/;
+	var addressRegex = /^[\w\d\s.,#\-\/]+$/; 
+	var emailRegex =/^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 	if (strTitle == '' || strFirstName == '' || strLastName == '' || strGender == '' || strDOB == '' || strAddress == '' || strStreet == '' || strEmail == '' || strPhone == '') {
 		contactErrorMsg += 'All fields are required!' + "<br>";
 	} else if (/\d/.test(strFirstName)) {
 		contactErrorMsg += 'First Name field should contain alphabets only!' + "<br>";
-	} else if (/\d/.test(strLastName)) {
+	} 
+	else if (/\d/.test(strLastName)) {
 		contactErrorMsg += 'Last Name field should contain alphabets only!' + "<br>";
 	} else if (!strEmail.match(emailRegex)) {
 		contactErrorMsg += 'Please enter a valid email id!' + "<br>";
 	} else if (!isNaN(strAddress)) {
 		contactErrorMsg += 'Address field should not contain digits only!' + "<br>";
+	} else if (!addressRegex.test(strAddress)) {
+		contactErrorMsg += 'Address entered is not valid!' + "<br>";
 	} else if (!isNaN(strStreet)) {
 		contactErrorMsg += 'Street field should not contain digits only!' + "<br>";
 	} else if (isNaN(strPhone)) {
 		contactErrorMsg += 'Phone field should contain digits only!' + "<br>";
+	} else if (!phoneRegex.test(strPhone)){
+		contactErrorMsg += 'Invalid phone number format. Phone number must begin with "+91"'
 	}
+	
 	if (contactErrorMsg != '') {
+		alert(contactErrorMsg);
 		$("#contactValidationMsg").html(contactErrorMsg).css("color", "red");
 		return false;
 	} else {

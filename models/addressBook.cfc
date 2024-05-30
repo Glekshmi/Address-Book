@@ -224,6 +224,7 @@
                 </cfquery>
             </cfif>
        </cfloop>
-       <cfreturn resultSaveContact>
+       <cfdump  var="#resultSaveContact#" abort>
+<!---        <cfreturn resultSaveContact> --->
     </cffunction>    
 </cfcomponent>

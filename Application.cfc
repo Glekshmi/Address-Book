@@ -38,7 +38,7 @@ component
 			this.onSessionStart();
 			
 		}
-		ORMReload();
+		//ORMReload();
 		request.event = [];
 		if (
 			!isNull( url.event ) &&

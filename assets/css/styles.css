@@ -487,17 +487,25 @@ button {
 
 .dataTable {
 	margin-top: 16px;
+	position: static;
 }
 
 .FieldFontSize {
 	font-size: small;
 }
-
+.setRowWidth{
+	width:100px;
+}
 tr,
 thead {
 	border-bottom: 1px solid #eaeaea !important;
 }
-
+th, td {
+	text-align: left;
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow: ellipsis; 
+  }
 td {
 	padding: 10px 20px;
 }
@@ -586,4 +594,28 @@ td {
 
 .viewPhone{
 	padding-left: 45px;
+}
+
+.dataTable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.dataTable th,
+.dataTable td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.dataTable td.setRowWidth {
+	max-width: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.word-wrap {
+	width: 200px;
+	word-wrap: break-word;
 }
