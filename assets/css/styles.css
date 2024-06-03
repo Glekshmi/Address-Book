@@ -553,7 +553,7 @@ td {
 .file-upload-wrapper {
 	overflow: hidden;
 	display: inline-block;
-	width: 255px;
+	width: auto;
 	height: 110px;
 }
 
@@ -620,4 +620,7 @@ td {
 	word-wrap: break-word;
 }
 
+.uploadExcel{
+	padding: 18px;
+}
 

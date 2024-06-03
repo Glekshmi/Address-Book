@@ -265,10 +265,9 @@ $(document).ready(function () {
 			dataType: 'JSON',
 			success: function (response) {
 				if (response.success) {
-
-					$("#contactValidationMsg").html(response.message).css("color", "green");
+					$("#excelUploadMsg").html(response.message).css("color", "green");
 				} else {
-					$("#contactValidationMsg").html(response.message).css("color", "red");
+					$("#excelUploadMsg").html(response.message).css("color", "red");
 				}
 			},
 			error: function (xhr, status, error) {
@@ -437,9 +436,10 @@ function contactValidate() {
 	var strLastName = $('#strLastName').val().trim();
 	var strGender = $('#strGender').val().trim();
 	var strDOB = $('#strDOB').val().trim();
-	var strAddress = $('#strAddress').val().trim();
-	var strStreet = $('#strStreet').val().trim();
+	var strAddress = DOMPurify.sanitize($('#strAddress').val().trim());
+	var strStreet =  DOMPurify.sanitize($('#strStreet').val().trim());
 	var strEmail = $('#strEmail').val().trim();
+	var strPincode = $('#strPincode').val().trim();
 	var strPhone = $('#strPhone').val().trim();
 	var phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
 	//var addressRegex = /^[\w\d\s.,#\-\/]+$/; 
@@ -447,8 +447,8 @@ function contactValidate() {
 
 	var currentYear = new Date().getFullYear();
 	var enteredYear = parseInt(strDOB, 10);
-	
-	if (strTitle == '' || strFirstName == '' || strLastName == '' || strGender == '' || strDOB == '' || strAddress == '' || strStreet == '' || strEmail == '' || strPhone == '') {
+
+	if (strTitle == '' || strFirstName == '' || strLastName == '' || strGender == '' || strDOB == '' || strAddress == '' || strStreet == '' || strEmail == '' || strPhone == '' || strPincode == '') {
 		contactErrorMsg += 'All fields are required!';
 	} else if (/\d/.test(strFirstName)) {
 		contactErrorMsg += 'First Name field should contain alphabets only!';
@@ -462,16 +462,22 @@ function contactValidate() {
 		contactErrorMsg += 'Please enter a valid email id!';
 	} else if (!isNaN(strAddress)) {
 		contactErrorMsg += 'Address field should not contain digits only!';
-	} else if (strAddress.includes("<script>")) {
-    	contactErrorMsg += 'Invalid address format. Please remove script tags if any!';
-	}else if (!isNaN(strStreet)) {
+	} else if (strAddress.length > 150) {
+		contactErrorMsg += 'Exceeded the limit of address field!';
+	}  else if (!isNaN(strStreet)) {
 		contactErrorMsg += 'Street field should not contain digits only!';
-	} else if (isNaN(strPhone)) {
+	}  else if (strStreet.length > 50) {
+		contactErrorMsg += 'Exceeded the limit of street field!';
+	}  else if (isNaN(strPhone)) {
 		contactErrorMsg += 'Phone field should contain digits only!';
 	} else if (!phoneRegex.test(strPhone)){
 		contactErrorMsg += 'Invalid phone number format. Phone number should either begin with "+91" or should have at least 10 digits!';
 	} else if (enteredYear > currentYear) {
 		contactErrorMsg += 'Entered year is invalid!';
+	} else if (isNaN(strPincode)) {
+		contactErrorMsg += 'Phone field should contain digits only!';
+	} else if (strPincode.length > 6) {
+		contactErrorMsg += 'Exceeded the limit of pincode!';
 	}
 	
 	if (contactErrorMsg != '') {
