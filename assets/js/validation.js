@@ -7,6 +7,7 @@ $(document).ready(function () {
 		}
 		if (Object.keys(params).length > 0) {
 			localStorage.setItem('authInfo', JSON.stringify(params));
+			window.history.pushState({}, document.title, "http://127.0.0.1:8500/Address%20Book%20Task/Address-Book/");
 		}
 		let info = JSON.parse(localStorage.getItem('authInfo'));
 		if (info) {
@@ -87,8 +88,6 @@ $(document).ready(function () {
 		var strEmail = $('#email').val().trim();
 		var strPassword = $('#password').val().trim();
 		var intSubId = 0;
-		alert(strEmail);
-		alert(strPassword);
 		if (strEmail === '' || strPassword === '') {
 			$('#validationMsg').html('fill all the required fields!').css("color", "red");
 			return false;
@@ -159,6 +158,7 @@ $(document).ready(function () {
 		$("#submitForm")[0].reset();
 		$('#setTitle').html("CREATE CONTACT");
 	});
+
 
 	$('.btnView').click(function () {
 		var contactId = $(this).data('id');
@@ -247,8 +247,9 @@ $(document).ready(function () {
 				error: function (xhr, status, error) {
 					console.log("An error occurred:" + error);
 				}
-			});
-		} return false;
+			}); return false;
+		}
+		return false;
 	});
 
 	$('#submitExcel').on('submit', function () {
@@ -264,10 +265,9 @@ $(document).ready(function () {
 			dataType: 'JSON',
 			success: function (response) {
 				if (response.success) {
-
-					$("#contactValidationMsg").html(response.message).css("color", "green");
+					$("#excelUploadMsg").html(response.message).css("color", "green");
 				} else {
-					$("#contactValidationMsg").html(response.message).css("color", "red");
+					$("#excelUploadMsg").html(response.message).css("color", "red");
 				}
 			},
 			error: function (xhr, status, error) {
@@ -311,6 +311,7 @@ $(document).ready(function () {
         window.print();
         window.location.href = "?action=display";
     });
+
 
 });
 
@@ -381,7 +382,6 @@ function saveContact() {
 		dataType: 'json',
 		success: function (response) {
 			if (response.success) {
-				alert(response.success);
 				if (response.message == '') {
 					$("#contactValidationMsg").html("Successfully completed registration").css("color", "green");
 					window.location.href = "?action=display";
@@ -418,7 +418,6 @@ function signUpValidate() {
 		registerErrorMsg += 'Password should be at least 8 characters long!' + "<br>";
 	} else if (!strPassword.match(passwordRegex)) {
 		registerErrorMsg += 'Password should be a combination of alphabets, digits and special characters!' + "<br>";
-
 	} else if (strConfirmpassword != strPassword) {
 		registerErrorMsg += 'Password did not match!' + "<br>";
 	}
@@ -437,40 +436,53 @@ function contactValidate() {
 	var strLastName = $('#strLastName').val().trim();
 	var strGender = $('#strGender').val().trim();
 	var strDOB = $('#strDOB').val().trim();
-	var strAddress = $('#strAddress').val().trim();
-	var strStreet = $('#strStreet').val().trim();
+	var strAddress = DOMPurify.sanitize($('#strAddress').val().trim());
+	var strStreet =  DOMPurify.sanitize($('#strStreet').val().trim());
 	var strEmail = $('#strEmail').val().trim();
+	var strPincode = $('#strPincode').val().trim();
 	var strPhone = $('#strPhone').val().trim();
-	var phoneRegex = /^\+91\d{10}$/;
-	var addressRegex = /^[\w\d\s.,#\-\/]+$/; 
+	var phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
+	//var addressRegex = /^[\w\d\s.,#\-\/]+$/; 
 	var emailRegex =/^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-	if (strTitle == '' || strFirstName == '' || strLastName == '' || strGender == '' || strDOB == '' || strAddress == '' || strStreet == '' || strEmail == '' || strPhone == '') {
-		contactErrorMsg += 'All fields are required!' + "<br>";
+	var currentYear = new Date().getFullYear();
+	var enteredYear = parseInt(strDOB, 10);
+
+	if (strTitle == '' || strFirstName == '' || strLastName == '' || strGender == '' || strDOB == '' || strAddress == '' || strStreet == '' || strEmail == '' || strPhone == '' || strPincode == '') {
+		contactErrorMsg += 'All fields are required!';
 	} else if (/\d/.test(strFirstName)) {
-		contactErrorMsg += 'First Name field should contain alphabets only!' + "<br>";
-	} 
-	else if (/\d/.test(strLastName)) {
-		contactErrorMsg += 'Last Name field should contain alphabets only!' + "<br>";
+		contactErrorMsg += 'First Name field should contain alphabets only!';
+	} else if (strFirstName.length > 15 || strFirstName.length < 3) {
+		contactErrorMsg += 'Exceeded the length of First Name!';
+	}else if (/\d/.test(strLastName)) {
+		contactErrorMsg += 'Last Name field should contain alphabets only!';
+	} else if (strLastName.length > 15) {
+		contactErrorMsg += 'Exceeded the length of Last Name!';
 	} else if (!strEmail.match(emailRegex)) {
-		contactErrorMsg += 'Please enter a valid email id!' + "<br>";
+		contactErrorMsg += 'Please enter a valid email id!';
 	} else if (!isNaN(strAddress)) {
-		contactErrorMsg += 'Address field should not contain digits only!' + "<br>";
-	} else if (!addressRegex.test(strAddress)) {
-		contactErrorMsg += 'Address entered is not valid!' + "<br>";
-	} else if (!isNaN(strStreet)) {
-		contactErrorMsg += 'Street field should not contain digits only!' + "<br>";
-	} else if (isNaN(strPhone)) {
-		contactErrorMsg += 'Phone field should contain digits only!' + "<br>";
+		contactErrorMsg += 'Address field should not contain digits only!';
+	} else if (strAddress.length > 150) {
+		contactErrorMsg += 'Exceeded the limit of address field!';
+	}  else if (!isNaN(strStreet)) {
+		contactErrorMsg += 'Street field should not contain digits only!';
+	}  else if (strStreet.length > 50) {
+		contactErrorMsg += 'Exceeded the limit of street field!';
+	}  else if (isNaN(strPhone)) {
+		contactErrorMsg += 'Phone field should contain digits only!';
 	} else if (!phoneRegex.test(strPhone)){
-		contactErrorMsg += 'Invalid phone number format. Phone number must begin with "+91"'
+		contactErrorMsg += 'Invalid phone number format. Phone number should either begin with "+91" or should have at least 10 digits!';
+	} else if (enteredYear > currentYear) {
+		contactErrorMsg += 'Entered year is invalid!';
+	} else if (isNaN(strPincode)) {
+		contactErrorMsg += 'Phone field should contain digits only!';
+	} else if (strPincode.length > 6) {
+		contactErrorMsg += 'Exceeded the limit of pincode!';
 	}
 	
 	if (contactErrorMsg != '') {
-		alert(contactErrorMsg);
-		$("#contactValidationMsg").html(contactErrorMsg).css("color", "red");
+		$("#contactValidationMsg").text(contactErrorMsg).css("color", "red");
 		return false;
-	} else {
+	} 
 		return true;
-	}
 }

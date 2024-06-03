@@ -178,12 +178,23 @@
         <cfreturn {"success":"true"}>
     </cffunction>
 
-    <cffunction name="checkExcelFileExist" access="remote" returntype="query">
+    <cffunction name="checkExcelFileExist" access="remote" returntype="any">
         <cfargument  name="fileExcel" required="true">
         <cfset local.path = ExpandPath("../assets/uploads/")>
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
         <cfset local.excelSheet = cffile.serverFile>
         <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
+        <cfset columnNames = ListToArray(spreadsheetData.columnList)>
+        <cfset predefinedTitles = ["Title", "FirstName", "LastName", "Gender", "DOB", "Photo", "Address", "Street", "Pincode", "Email", "Phone"]>
+        <cfloop array="#columnNames#" index="columnName">
+            <cfset isTitleMatch = false>
+            <cfloop array="#predefinedTitles#" index="title">
+                <cfif CompareNoCase(columnName, title) EQ 0>
+                    <cfset isTitleMatch = true>
+                </cfif>
+            </cfloop>
+        </cfloop>
+        <cfdump  var="#isTitleMatch#" abort>
         <cfloop query="#spreadsheetData#">
             <cfset local.title = spreadsheetData.Title>
             <cfset local.firstName = spreadsheetData.FirstName>
@@ -224,7 +235,10 @@
                 </cfquery>
             </cfif>
        </cfloop>
-       <cfdump  var="#resultSaveContact#" abort>
-<!---        <cfreturn resultSaveContact> --->
+       <cfif resultSaveContact.recordCount>
+            <cfreturn true>
+        <cfelse>
+            <cfreturn false>
+       </cfif>
     </cffunction>    
 </cfcomponent>

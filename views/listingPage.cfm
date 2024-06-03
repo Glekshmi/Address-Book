@@ -4,15 +4,15 @@
 		<nav class="navbar navbar-expand-lg navbarStyle">
 			<div class="container-fluid">
 				<div class="navLogoTitle">
-					<a href="">
+					<a href="?action=display">
 						<img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
 					</a>
-					<a class="navbar-brand" href="">
+					<a class="navbar-brand" href="?action=display">
 						<h3 class="logoTitle">ADDRESS BOOK</h3>
 					</a>
 				</div>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarText">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
@@ -77,7 +77,7 @@
 												<td class="setRowWidth">#data.getFirstName()# #data.getLastName()#</td>
 												<td>#data.getEmail()#</td>
 												<td>#data.getPhone()#</td>
-												<th><button type="button" class="btn btn-outline-primary viewBtn  m-0 btnEdit" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##myModal">EDIT</button></th>
+												<th><button type="button" class="btn btn-outline-primary viewBtn  m-0 btnEdit" id="clearEditForm" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##myModal">EDIT</button></th>
 												<th><button type="button" class="btn btn-outline-primary viewBtn btnDelete m-0" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##deleteModal">DELETE</button></th>
 												<th><button type="button" class="btn btn-outline-primary viewBtn btnView m-0" data-id="#contactId#" data-bs-toggle="modal" data-bs-target="##viewModal">VIEW</button></th>
 											</tr>
@@ -180,11 +180,11 @@
 													
 													<div class="d-flex mt-4">
 														<input type="hidden" id="hiddenId" value="0">
-														<button type="submit" class="btn btn-primary m-0 me-4" data-bs-dismiss="modal">SUBMIT</button>
+														<button type="submit" class="btn btn-primary m-0 me-4" >SUBMIT</button>
 														<button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
 													</div>
 													<div>
-														<p id="contactValidationMsg"></p>
+														<h5 id="contactValidationMsg"></h5>
 													</div>
 												</div>
 											</form>
@@ -205,7 +205,6 @@
 										<div  class="d-flex subHeader">
 											<p class="contactMainTitle" id="setTitle">UPLOAD CONTACT</p>
 										</div>
-										<p id="contactValidationMsg" class="commonStyle"></p>
 										<div class="commonStyle contactFormSection">
 											<form action="" method="post" id="submitExcel" enctype="multipart/form-data">
 												<div class="lastNameSection d-flex flex-column">
@@ -218,10 +217,13 @@
 												</div>
 												<div class="d-flex mt-4">
 													<input type="hidden" id="hiddenId" value="0">
-													<button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
+													<button type="submit" class="btn btn-primary m-0 me-4">SUBMIT</button>
 													<button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
 												</div>
 											</form>
+											<div>
+												<h5 id="excelUploadMsg" class="uploadExcel"></h5>
+											</div>
 										</div>
 									</div>
 								</div>
