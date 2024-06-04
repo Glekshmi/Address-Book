@@ -264,10 +264,12 @@ $(document).ready(function () {
 			processData: false,
 			dataType: 'JSON',
 			success: function (response) {
+				alert(response.message);
 				if (response.success) {
-					$("#excelUploadMsg").html(response.message).css("color", "green");
+					$("#excelValidationMsg").html(response.message).css("color", "green");
+					window.location.href = "?action=display";
 				} else {
-					$("#excelUploadMsg").html(response.message).css("color", "red");
+					$("#excelValidationMsg").html(response.message).css("color", "red");
 				}
 			},
 			error: function (xhr, status, error) {

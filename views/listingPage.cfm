@@ -222,7 +222,7 @@
 												</div>
 											</form>
 											<div>
-												<h5 id="excelUploadMsg" class="uploadExcel"></h5>
+												<p id="excelValidationMsg" class="excelErrorMsg"></p>
 											</div>
 										</div>
 									</div>

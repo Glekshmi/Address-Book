@@ -178,67 +178,78 @@
         <cfreturn {"success":"true"}>
     </cffunction>
 
-    <cffunction name="checkExcelFileExist" access="remote" returntype="any">
+    <cffunction name="checkExcelFileExist" access="remote" returntype="boolean">
         <cfargument  name="fileExcel" required="true">
         <cfset local.path = ExpandPath("../assets/uploads/")>
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
         <cfset local.excelSheet = cffile.serverFile>
         <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
-        <cfset columnNames = ListToArray(spreadsheetData.columnList)>
-        <cfset predefinedTitles = ["Title", "FirstName", "LastName", "Gender", "DOB", "Photo", "Address", "Street", "Pincode", "Email", "Phone"]>
-        <cfloop array="#columnNames#" index="columnName">
-            <cfset isTitleMatch = false>
-            <cfloop array="#predefinedTitles#" index="title">
-                <cfif CompareNoCase(columnName, title) EQ 0>
-                    <cfset isTitleMatch = true>
+        
+        <cfset imageColumn = "F">
+        <cfset rowWithImage = 2> 
+        <cfset imageURL = excelData[imageColumn][rowWithImage]>
+        <cfdump  var="#imageURL#" abort>
+        <cfquery name="getColumnName">
+            SELECT COLUMN_NAME
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_NAME = 'ContactsTable'
+            AND TABLE_SCHEMA = 'dbo'
+        </cfquery>
+        <cfset ColNames = []>
+        <cfloop query="getColumnName">
+            <cfset arrayAppend(ColNames, getColumnName.COLUMN_NAME)>
+        </cfloop>
+            <cfset excelColNames = ListToArray(lCase(spreadsheetData.columnList))> 
+        <cfset matchCount = 0>
+        <cfloop array="#excelColNames#" index="headerName">
+            <cfif arrayFindNoCase(ColNames, headerName)>
+                <cfset matchCount = matchCount + 1>
+            </cfif>
+        </cfloop>
+        <cfif matchCount eq arrayLen(excelColNames)>
+            <cfloop query="#spreadsheetData#">
+                <cfset local.title = spreadsheetData.Title>
+                <cfset local.firstName = spreadsheetData.FirstName>
+                <cfset local.lastName = spreadsheetData.LastName>
+                <cfset local.gender = spreadsheetData.Gender>
+                <cfset local.dob = spreadsheetData.DOB>
+                <cfset local.photo = spreadsheetData.Photo>
+                <cfset local.address = spreadsheetData.Address>
+                <cfset local.street = spreadsheetData.Street>
+                <cfset local.pincode = spreadsheetData.Pincode>
+                <cfset local.email = spreadsheetData.Email>
+                <cfset local.phone = spreadsheetData.Phone>
+                <cfset local.requiredPincode = replace(local.pincode, ",", "", "all")>
+                <cfset local.requiredPhone = replace(local.phone, ",", "", "all")>
+                <cfquery name="qryGetEmail">
+                    select 1 from ContactsTable
+                    where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                </cfquery>
+                <cfif qryGetEmail.recordCount>
+                    <cfcontinue>
+                <cfelse>
+                    <cfquery name="qrySaveContact" result="resultSaveContact">
+                        insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
+                        values(
+                            <cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.lastName#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.gender#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.dob#" cfsqltype="cf_sql_date">,
+                            <cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.address#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.street#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.requiredPincode#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#local.requiredPhone#" cfsqltype="cf_sql_varchar">,
+                            <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
+                        )
+                    </cfquery>
                 </cfif>
             </cfloop>
-        </cfloop>
-        <cfdump  var="#isTitleMatch#" abort>
-        <cfloop query="#spreadsheetData#">
-            <cfset local.title = spreadsheetData.Title>
-            <cfset local.firstName = spreadsheetData.FirstName>
-            <cfset local.lastName = spreadsheetData.LastName>
-            <cfset local.gender = spreadsheetData.Gender>
-            <cfset local.dob = spreadsheetData.DOB>
-            <cfset local.photo = spreadsheetData.Photo>
-            <cfset local.address = spreadsheetData.Address>
-            <cfset local.street = spreadsheetData.Street>
-            <cfset local.pincode = spreadsheetData.Pincode>
-            <cfset local.email = spreadsheetData.Email>
-            <cfset local.phone = spreadsheetData.Phone>
-            <cfset local.requiredPincode = replace(local.pincode, ",", "", "all")>
-            <cfset local.requiredPhone = replace(local.phone, ",", "", "all")>
-            <cfquery name="qryGetEmail" >
-                select 1 from ContactsTable
-                where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
-            </cfquery>
-            <cfif qryGetEmail.recordCount>
-                <cfcontinue>
-            <cfelse>
-                <cfquery name="qrySaveContact" result="resultSaveContact">
-                    insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
-                    values(
-                        <cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.lastName#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.gender#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.dob#" cfsqltype="cf_sql_date">,
-                        <cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.address#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.street#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.requiredPincode#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#local.requiredPhone#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
-                    )
-                </cfquery>
-            </cfif>
-       </cfloop>
-       <cfif resultSaveContact.recordCount>
             <cfreturn true>
         <cfelse>
             <cfreturn false>
-       </cfif>
+        </cfif>
     </cffunction>    
 </cfcomponent>
