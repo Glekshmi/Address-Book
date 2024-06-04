@@ -134,9 +134,9 @@ component {
     remote any function checkExcelFileExist() returnFormat="JSON"{
         local.excelFile = fileExcel;
         local.getExcelFile=variables.compObj.checkExcelFileExist(fileExcel = local.excelFile);
-        if(local.getExcelFile.recordCount)
-            return {"success":true,"message":"successfully inserted"};
+        if(local.getExcelFile)
+            return {"success":true,"message":"Successfully inserted file"};
         else
-            return {"success":false,"message":"error has occurred"};
+            return {"success":false,"message":"Invalid column names"};
     }
 }

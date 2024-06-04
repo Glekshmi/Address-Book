@@ -12,7 +12,7 @@
 					</a>
 				</div>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarText">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
@@ -205,7 +205,6 @@
 										<div  class="d-flex subHeader">
 											<p class="contactMainTitle" id="setTitle">UPLOAD CONTACT</p>
 										</div>
-										<p id="contactValidationMsg" class="commonStyle"></p>
 										<div class="commonStyle contactFormSection">
 											<form action="" method="post" id="submitExcel" enctype="multipart/form-data">
 												<div class="lastNameSection d-flex flex-column">
@@ -218,10 +217,13 @@
 												</div>
 												<div class="d-flex mt-4">
 													<input type="hidden" id="hiddenId" value="0">
-													<button type="submit" class="btn btn-primary m-0 me-4 "data-bs-dismiss="modal" >SUBMIT</button>
+													<button type="submit" class="btn btn-primary m-0 me-4">SUBMIT</button>
 													<button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
 												</div>
 											</form>
+											<div>
+												<p id="excelValidationMsg" class="excelErrorMsg"></p>
+											</div>
 										</div>
 									</div>
 								</div>
