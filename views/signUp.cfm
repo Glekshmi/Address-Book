@@ -1,4 +1,5 @@
 <cfoutput>
+	<cfset myComponent = createObject("component", "controllers/addressBook").login()>
 	<div class="container ">
 		<div class="row loginContainer">
 			<div class="col-2 loginSectionImg signInSection">
@@ -27,7 +28,7 @@
 						<input type="file" name="strPhoto" id="photo">
 					</div>
 					<div class="loginBtnSection">
-						<button type="submit" class="btn btn-outline-primary btnSubmit" id="registerBtn">REGISTER</button>
+						<button type="submit" class="btn btn-outline-primary btnSubmit registerBtn" id="registerBtn">REGISTER</button>
 					</div>
 				</form>
 			</div>

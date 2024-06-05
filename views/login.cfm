@@ -7,7 +7,7 @@
 			</div>
 			<div class="col-4 loginSectionContent">
 				<p class="loginTitle">LOGIN</p>
-				<p id="validationMsg"></p>
+				<p id="validationMsg" class="validationMsg"></p>
 				<br>
 				<form action="?action=login" method="post">
 					<div class="input-field">
