@@ -1,30 +1,6 @@
 <cfoutput>
 	<cfif session.userLoggedIn>
 		<cfset variables.profilePhoto = session.profileURL?session.profile:"./assets/uploads/"&session.photo>
-		<nav class="navbar navbar-expand-lg navbarStyle">
-			<div class="container-fluid">
-				<div class="navLogoTitle">
-					<a href="?action=display">
-						<img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
-					</a>
-					<a class="navbar-brand" href="?action=display">
-						<h3 class="logoTitle">ADDRESS BOOK</h3>
-					</a>
-				</div>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarText">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-					<div class="d-flex gap-4">
-						<div class="d-flex">
-							<span class="material-symbols-outlined navbarLogIcon">logout</span>
-							<a class="navLinks logoutLink" href="./controllers/addressBook.cfc?method=logout">Logout</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</nav>
 		<div class="listingPageSection">
 			<div class="topDownloadBar gap-2">
 				<a href="?action=pdf" target="_blank">
@@ -326,6 +302,8 @@
 		</div>
 		</div>
 		</body>
+	<cfelse>
+		<cfinclude  template="login.cfm">
 	</cfif>
 </cfoutput>
 </html>

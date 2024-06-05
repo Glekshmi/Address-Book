@@ -264,10 +264,9 @@ $(document).ready(function () {
 			processData: false,
 			dataType: 'JSON',
 			success: function (response) {
-				alert(response.message);
 				if (response.success) {
 					$("#excelValidationMsg").html(response.message).css("color", "green");
-					window.location.href = "?action=display";
+					window.location.href ="?action=display";
 				} else {
 					$("#excelValidationMsg").html(response.message).css("color", "red");
 				}

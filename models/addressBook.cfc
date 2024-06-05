@@ -184,11 +184,6 @@
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
         <cfset local.excelSheet = cffile.serverFile>
         <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
-        
-        <cfset imageColumn = "F">
-        <cfset rowWithImage = 2> 
-        <cfset imageURL = excelData[imageColumn][rowWithImage]>
-        <cfdump  var="#imageURL#" abort>
         <cfquery name="getColumnName">
             SELECT COLUMN_NAME
             FROM INFORMATION_SCHEMA.COLUMNS
