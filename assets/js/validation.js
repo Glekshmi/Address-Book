@@ -7,7 +7,7 @@ $(document).ready(function () {
 		}
 		if (Object.keys(params).length > 0) {
 			localStorage.setItem('authInfo', JSON.stringify(params));
-			window.history.pushState({}, document.title, "http://127.0.0.1:8500/Address%20Book%20Task/Address-Book/");
+			window.history.pushState({}, document.title, "http://127.0.0.1/mysite.local/");
 		}
 		let info = JSON.parse(localStorage.getItem('authInfo'));
 		if (info) {
@@ -323,7 +323,7 @@ function signIn() {
 		.attr('action', oauth2Endpoint);
 	let params = {
 		"client_id": "662790131837-emjjrjcck71ier01p7c22cidel397q82.apps.googleusercontent.com",
-		"redirect_uri": "http://127.0.0.1:8500/Address%20Book%20Task/Address-Book/?action=display",
+		"redirect_uri": "https://redirectmeto.com/http://mysite.local/?action=display",
 		"response_type": "token",
 		"scope": "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
 		"include_granted_scopes": "true",
