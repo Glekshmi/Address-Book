@@ -1,4 +1,7 @@
 <cfscript>
+    // cleanUrl = url.url;
+    // urlSegments = listToArray(cleanUrl, '/');
+    // url.action = urlSegments[1];
 
     cfparam(name="url.action", default="login", pattern="");
 
@@ -17,7 +20,6 @@
 
         case "display":
             include "/views/header.cfm";
-            include "/views/navbar.cfm";
             include "/views/listingPage.cfm";
         break;
 

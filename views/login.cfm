@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div class="loginBtnSection">
-					<p>Don't have an account?<a href="?action=signup">Register here.</a></p>
+					<p>Don't have an account?<a href="/signup">Register here.</a></p>
 				</div>
 			</div>
 		</div>
