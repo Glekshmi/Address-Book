@@ -2,7 +2,7 @@
 <cfset variables.strSignUpLink=''>
 <cfset variables.strLogImg=session.userLoggedIn?"logout":"login">
 <cfset variables.strSignUpImg=session.userLoggedIn?"":"person">
-<cfset variables.strLoginLink= session.userLoggedIn?"Logout":"Login">
+<!--- <cfset variables.strLoginLink= session.userLoggedIn?"Logout":"Login"> --->
 <cfset variables.strSignUpLink= session.userLoggedIn?"":"Sign Up">
 <cfoutput>
 	<nav class="navbar navbar-expand-lg navbarStyle">
@@ -27,7 +27,7 @@
 					</div>
 					<div class="d-flex">
 						<span class="material-symbols-outlined navbarLogIcon">#variables.strLogImg#</span>
-						<a class="navLinks" href="./controllers/addressBook.cfc?method=logout">#variables.strLoginLink#</a>
+						<a class="navLinks" href="?action=login">Login</a>
 					</div>
 				</div>
 			</div>
