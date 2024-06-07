@@ -23,7 +23,7 @@
 				<div class="d-flex gap-4">
 					<div class="d-flex">
 						<span class="material-symbols-outlined navbarLogIcon">#variables.strSignUpImg#</span>
-						<a class="navLinks" href="?action=signup">#variables.strSignUpLink#</a>
+						<a class="navLinks" href="/signup">#variables.strSignUpLink#</a>
 					</div>
 					<div class="d-flex">
 						<span class="material-symbols-outlined navbarLogIcon">#variables.strLogImg#</span>

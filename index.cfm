@@ -1,4 +1,5 @@
 <cfscript>
+
     cfparam(name="url.action", default="login", pattern="");
 
     switch(lcase(url.action)){
