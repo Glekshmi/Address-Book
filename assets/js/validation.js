@@ -36,7 +36,7 @@ $(document).ready(function () {
 							if (response.success && response.message != '') {
 								ssoSaveUser(formData);
 							} else if (response.success)
-								window.location = "?action=display";
+								window.location = "/display";
 						},
 						error: function (xhr, status, error) {
 							console.log("An error occurred while checking:" + error);
@@ -77,7 +77,7 @@ $(document).ready(function () {
 			dataType: 'json',
 			success: function (response) {
 				if (response.success) {
-					window.location ="?action=display";
+					window.location ="/display";
 				} else
 					console.log('an unexpected error has occurred');
 			}
@@ -104,7 +104,7 @@ $(document).ready(function () {
 			success: function (response) {
 				if (response.success == true) {
 					$("#validationMsg").html(response.message).css("color", "green");
-						window.location.href = "?action=display";
+						window.location.href = "/display";
 				} else {
 					$("#validationMsg").html(response.message).css("color", "red");
 				}
@@ -140,7 +140,7 @@ $(document).ready(function () {
 				success: function (response) {
 					if (response.success == true) {
 						$("#registerError").html(response.message).css("color", "green");
-						window.location.href = "?action=login";
+						window.location.href = "/login";
 					} else {
 						$("#registerError").html(response.message).css("color", "red");
 					}
@@ -192,6 +192,7 @@ $(document).ready(function () {
 			}
 		});
 	});
+
 	$('.btnEdit').click(function () {
 		var contactId = $(this).data('id');
 		$('#setTitle').html("EDIT CONTACT");
@@ -266,7 +267,7 @@ $(document).ready(function () {
 			success: function (response) {
 				if (response.success) {
 					$("#excelValidationMsg").html(response.message).css("color", "green");
-					window.location.href ="?action=display";
+					window.location.href ="/display";
 				} else {
 					$("#excelValidationMsg").html(response.message).css("color", "red");
 				}
@@ -312,7 +313,6 @@ $(document).ready(function () {
         window.print();
         window.location.href = "?action=display";
     });
-
 
 });
 
@@ -443,7 +443,6 @@ function contactValidate() {
 	var strPincode = $('#strPincode').val().trim();
 	var strPhone = $('#strPhone').val().trim();
 	var phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
-	//var addressRegex = /^[\w\d\s.,#\-\/]+$/; 
 	var emailRegex =/^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 	var currentYear = new Date().getFullYear();

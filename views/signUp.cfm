@@ -8,7 +8,7 @@
 			<div class="col-4 loginSectionContent signInSection">
 				<p class="loginTitle">SIGN UP</p>
 				<p id="registerError"></p>
-				<form action="?action=signup" method="post">
+				<form action="/signup" method="post">
 					<div class="input-field">
 						<input type="text" name="strFullName" id="fullName" placeholder="Full Name">  
 					</div>
