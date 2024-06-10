@@ -8,10 +8,10 @@
 	<nav class="navbar navbar-expand-lg navbarStyle">
 		<div class="container-fluid">
 			<div class="navLogoTitle">
-				<a href="?action=login">
+				<a href="/login">
 					<img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
 				</a>
-				<a class="navbar-brand" href="?action=login">
+				<a class="navbar-brand" href="/login">
 					<h3 class="logoTitle">ADDRESS BOOK</h3>
 				</a>
 			</div>
@@ -23,11 +23,11 @@
 				<div class="d-flex gap-4">
 					<div class="d-flex">
 						<span class="material-symbols-outlined navbarLogIcon">#variables.strSignUpImg#</span>
-						<a class="navLinks" href="?action=signup">#variables.strSignUpLink#</a>
+						<a class="navLinks" href="/signup">#variables.strSignUpLink#</a>
 					</div>
 					<div class="d-flex">
 						<span class="material-symbols-outlined navbarLogIcon">#variables.strLogImg#</span>
-						<a class="navLinks" href="?action=login">Login</a>
+						<a class="navLinks" href="/login">Login</a>
 					</div>
 				</div>
 			</div>

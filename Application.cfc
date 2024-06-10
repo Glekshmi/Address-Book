@@ -52,7 +52,7 @@ component
 	
 	}
 	function onRequest( String scriptName ){
-		include "./index.cfm";		
+		 include "./index.cfm";		
 
 	}
 	function onError( Any error, String eventName ){

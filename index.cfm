@@ -1,52 +1,47 @@
 <cfscript>
-    // cleanUrl = url.url;
-    // urlSegments = listToArray(cleanUrl, '/');
-    // url.action = urlSegments[1];
 
     cfparam(name="url.action", default="login", pattern="");
 
-    switch(lcase(url.action)){
-        case "login":
-            include "/views/header.cfm";
-            include "/views/navbar.cfm";
-            include "/views/login.cfm";
-        break;
+        switch(lcase(url.action)){
 
-        case "signup":
-            include "/views/header.cfm";
-            include "/views/navbar.cfm";
-            include "/views/signUp.cfm";
-        break;
+            case "login":
+                include "/views/header.cfm";
+                include "/views/navbar.cfm";
+                include "/views/login.cfm";
+            break;
 
-        case "display":
-            include "/views/header.cfm";
-            include "/views/listingPage.cfm";
-        break;
+            case "signup":
+                include "/views/header.cfm";
+                include "/views/navbar.cfm";
+                include "/views/signUp.cfm";
+            break;
 
-        case "pdf":
-            include "/views/header.cfm";
-            include "/views/listingPagePdf.cfm";
-        break;
+            case "display":
+                include "/views/header.cfm";
+                include "/views/listingPage.cfm";
+            break;
 
-        case "sheet":
-            include "/views/header.cfm";
-            include "/views/listingPageExcel.cfm";
-        break;
+            case "pdf":
+                include "/views/header.cfm";
+                include "/views/listingPagePdf.cfm";
+            break;
 
-        case "error":
-            include "/views/errorPage.cfm";
-        break;
+            case "sheet":
+                include "/views/header.cfm";
+                include "/views/listingPageExcel.cfm";
+            break;
 
-
-        case "logout":
-            include "/views/login.cfm";
-        break;
+            case "error":
+                include "/views/errorPage.cfm";
+            break;
 
 
-        // The provided event could not be matched.
-        default:
-           // throw( type="InvalidEvent" );
-           //include "/views/dummy.cfm";
-        break;
-    }
+            case "logout":
+                include "/views/login.cfm";
+            break;
+
+            default:
+            break;
+        }
+  
 </cfscript>
