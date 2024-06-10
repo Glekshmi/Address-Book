@@ -36,7 +36,7 @@ $(document).ready(function () {
 							if (response.success && response.message != '') {
 								ssoSaveUser(formData);
 							} else if (response.success)
-								window.location = "/display";
+								window.location = "?action=display";
 						},
 						error: function (xhr, status, error) {
 							console.log("An error occurred while checking:" + error);
@@ -77,7 +77,7 @@ $(document).ready(function () {
 			dataType: 'json',
 			success: function (response) {
 				if (response.success) {
-					window.location ="/display";
+					window.location ="?action=display";
 				} else
 					console.log('an unexpected error has occurred');
 			}
@@ -311,7 +311,7 @@ $(document).ready(function () {
         var printArea = $('#printContent').html();
         $('body').html(printArea);
         window.print();
-        window.location.href = "?action=display";
+        window.location.href = "/display";
     });
 
 });
@@ -323,12 +323,12 @@ function signIn() {
 		.attr('action', oauth2Endpoint);
 	let params = {
 		"client_id": "662790131837-emjjrjcck71ier01p7c22cidel397q82.apps.googleusercontent.com",
-		"redirect_uri": "https://redirectmeto.com/http://mysite.local/?action=display",
+		"redirect_uri": "https://redirectmeto.com/http://mysite.local/display",
 		"response_type": "token",
 		"scope": "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
 		"include_granted_scopes": "true",
 		"state": 'pass-through-value'
-	};
+	}; 
 	$.each(params, function (name, value) {
 		$('<input>')
 			.attr('type', 'hidden')
@@ -385,10 +385,10 @@ function saveContact() {
 			if (response.success) {
 				if (response.message == '') {
 					$("#contactValidationMsg").html("Successfully completed registration").css("color", "green");
-					window.location.href = "?action=display";
+					window.location.href = "/display";
 				} else {
 					$("#contactValidationMsg").html(response.message).css("color", "green");
-					window.location.href = "?action=display";
+					window.location.href = "/display";
 				}
 			} else {
 				$("#contactValidationMsg").html("You can now update the contact").css("color", "red");

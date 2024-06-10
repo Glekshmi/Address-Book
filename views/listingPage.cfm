@@ -4,10 +4,10 @@
 		<nav class="navbar navbar-expand-lg navbarStyle">
 			<div class="container-fluid">
 				<div class="navLogoTitle">
-					<a href="?action=display">
+					<a href="/display">
 						<img src="./assets/images/contact-book.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
 					</a>
-					<a class="navbar-brand" href="?action=display">
+					<a class="navbar-brand" href="/display">
 						<h3 class="logoTitle">ADDRESS BOOK</h3>
 					</a>
 				</div>
