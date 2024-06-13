@@ -65,7 +65,6 @@ component {
 
     remote any function registerUser() returnFormat="JSON" {
         local.errorsMsg ='';
-        local.emailRegex = "^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$";
         local.passwordRegex  = '^[a-zA-Z]+[\W_][0-9]+$';
         if (len(strFullName) EQ 0 || len(strEmail) EQ 0 || len(strUsername) EQ 0 || len(strPassword) EQ 0)
             local.errorsMsg &= "All fields are required"&"<br>";
@@ -73,8 +72,6 @@ component {
             local.errorsMsg &= "Full Name should contain alphabets only"&"<br>";
         else if (reFind("\d", strUsername))
             local.errorsMsg &= "Username should contain alphabets only"&"<br>";
-        else if (NOT reFind(local.emailRegex, strEmail))
-            local.errorsMsg &= "Please enter a valid email id"&"<br>";
         else if (len(strPassword) < 8)
             local.errorsMsg &= "Password should be at least 8 characters long"&"<br>";
         else if (NOT reFind(local.passwordRegex, strPassword))
@@ -100,7 +97,7 @@ component {
 
     public function login() {
         if(session.userLoggedIn)
-        cflocation(url="?action=display");
+        cflocation(url="/display", addToken = false);
     }
     
     remote any function logout() {
@@ -109,7 +106,8 @@ component {
         session.profile='';
         session.photo='';
         session.profileURL = false;
-        cflocation(url="../?action=login");
+
+        cflocation(url="/login", addToken = false);
     }
 
     remote any function checkEmailExist(contactId, strEmail) returnFormat="JSON"{

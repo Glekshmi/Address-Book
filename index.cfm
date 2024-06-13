@@ -32,6 +32,7 @@
             break;
 
             case "error":
+                include "/views/header.cfm";
                 include "/views/errorPage.cfm";
             break;
 

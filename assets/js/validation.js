@@ -1,6 +1,7 @@
 $(document).ready(function () {
 	$(document).ready(function () {
 		let params = {};
+		params={"http://mysite.local/":"display"};
 		let regex = /([^&=]+)=([^&]*)/g,m;
 		while ((m = regex.exec(location.href)) !== null) {
 			params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
@@ -36,7 +37,7 @@ $(document).ready(function () {
 							if (response.success && response.message != '') {
 								ssoSaveUser(formData);
 							} else if (response.success)
-								window.location = "?action=display";
+								window.location = "/display";
 						},
 						error: function (xhr, status, error) {
 							console.log("An error occurred while checking:" + error);
@@ -77,7 +78,7 @@ $(document).ready(function () {
 			dataType: 'json',
 			success: function (response) {
 				if (response.success) {
-					window.location ="?action=display";
+					window.location ="/display";
 				} else
 					console.log('an unexpected error has occurred');
 			}
@@ -104,7 +105,7 @@ $(document).ready(function () {
 			success: function (response) {
 				if (response.success == true) {
 					$("#validationMsg").html(response.message).css("color", "green");
-						window.location.href = "/display";
+					window.location.href = "/display";
 				} else {
 					$("#validationMsg").html(response.message).css("color", "red");
 				}
@@ -139,8 +140,11 @@ $(document).ready(function () {
 				dataType: 'JSON',
 				success: function (response) {
 					if (response.success == true) {
-						$("#registerError").html(response.message).css("color", "green");
-						window.location.href = "/login";
+						setTimeout(function(){
+							$("#registerError").html(response.message).css("color", "green");
+							window.location.href = "/login";
+						},1000
+						);
 					} else {
 						$("#registerError").html(response.message).css("color", "red");
 					}
@@ -159,6 +163,9 @@ $(document).ready(function () {
 		$('#setTitle').html("CREATE CONTACT");
 	});
 
+	$("#uploadContactBtn").click(function () {
+		$("#submitExcel")[0].reset();
+	});
 
 	$('.btnView').click(function () {
 		var contactId = $(this).data('id');
@@ -281,7 +288,6 @@ $(document).ready(function () {
 
 	$('.confirmDeleteBtn').click(function () {
 		deleteId = $(this).data('id');
-		var deleteElement = $(this).closest('tr');
 		$.ajax({
 			type: 'POST',
 			url: './models/addressBook.cfc?method=deleteContact',
@@ -290,7 +296,10 @@ $(document).ready(function () {
 			},
 			success: function (response) {
 				if (response.success == "true") {
-					deleteElement.remove();
+					setTimeout(function(){
+						window.location.href = "/display";
+					},1000
+					);
 				}
 			},
 			error: function (xhr, status, error) {
@@ -400,21 +409,25 @@ function saveContact() {
 
 function signUpValidate() {
 	var registerErrorMsg = '';
-	var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-	var passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 	var strFullName = $('#fullName').val().trim();
 	var strEmail = $('#email').val().trim();
 	var strUsername = $('#username').val().trim();
 	var strPassword = $('#password').val().trim();
 	var strConfirmpassword = $('#confirmpassword').val().trim();
+	var emailRegex =/^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	var passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 	if (strFullName == '' || strEmail == '' || strUsername == '' || strPassword == '' || strConfirmpassword == '') {
 		registerErrorMsg += 'All fields are required!' + "<br>";
 	} else if (/\d/.test(strFullName)) {
 		registerErrorMsg += 'FullName field should contain alphabets only!' + "<br>";
+	} else if (strFullName.length > 15 || strFullName.length < 3) {
+		registerErrorMsg += 'Exceeded the length of Full Name!';
 	} else if (!strEmail.match(emailRegex)) {
 		registerErrorMsg += 'Please enter a valid email id!' + "<br>";
 	} else if (/\d/.test(strUsername)) {
 		registerErrorMsg += 'Username field should contain alphabets only!' + "<br>";
+	} else if (strUsername.length > 15 || strUsername.length < 3) {
+		registerErrorMsg += 'Exceeded the length of Full Name!';
 	} else if (strPassword.length < 8) {
 		registerErrorMsg += 'Password should be at least 8 characters long!' + "<br>";
 	} else if (!strPassword.match(passwordRegex)) {
@@ -425,9 +438,8 @@ function signUpValidate() {
 	if (registerErrorMsg != '') {
 		$("#registerError").html(registerErrorMsg).css("color", "red");
 		return false;
-	} else {
+	} 
 		return true;
-	}
 }
 
 function contactValidate() {
