@@ -11,12 +11,9 @@ component
 	this.mappings[ "/views" ] = (this.baseDirectory & "views/");
 	this.mappings[ "/controllers" ] = (this.baseDirectory & "controllers/");
 	this.mappings[ "/layouts" ] = (this.baseDirectory & "layouts/");
-
-	
 	this.name="ContactsTable";
 	this.ormEnabled="true";
 	this.dataSource="coldfusionDb";
-	
 
 	function onApplicationStart(){
 		return( true );
@@ -38,7 +35,6 @@ component
 			this.onSessionStart();
 			
 		}
-		//ORMReload();
 		request.event = [];
 		if (
 			!isNull( url.event ) &&
@@ -49,7 +45,6 @@ component
 		}
 		request.viewData = {};
 		return( true );
-	
 	}
 	function onRequest( String scriptName ){
 		 include "./index.cfm";		

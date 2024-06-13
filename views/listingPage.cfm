@@ -27,7 +27,7 @@
 		</nav>
 		<div class="listingPageSection">
 			<div class="topDownloadBar gap-2">
-				<a href="?action=pdf" target="_blank">
+				<a href="/pdf" target="_blank">
 					<img src="./assets/images/pdf.PNG" alt="Download PDF" width="30" height="32" class="d-inline-block align-text-top logoutImg">
 				</a>
 				<a href="?action=sheet" target="_blank">
@@ -327,7 +327,7 @@
 		</div>
 		</body>
 	<cfelse>
-		<cfinclude  template="login.cfm">
+		<cflocation  url="/login" addToken = false>
 	</cfif>
 </cfoutput>
 </html>

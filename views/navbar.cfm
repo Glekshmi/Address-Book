@@ -2,7 +2,6 @@
 <cfset variables.strSignUpLink=''>
 <cfset variables.strLogImg=session.userLoggedIn?"logout":"login">
 <cfset variables.strSignUpImg=session.userLoggedIn?"":"person">
-<!--- <cfset variables.strLoginLink= session.userLoggedIn?"Logout":"Login"> --->
 <cfset variables.strSignUpLink= session.userLoggedIn?"":"Sign Up">
 <cfoutput>
 	<nav class="navbar navbar-expand-lg navbarStyle">

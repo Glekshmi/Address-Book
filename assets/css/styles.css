@@ -459,7 +459,7 @@ button {
 
 .tableField {
 	color: rgb(20 105 173 / 81%);
-	padding: 0 20px !important;
+	/* padding: 0 20px !important; */
 }
 
 .viewSection {
@@ -619,7 +619,7 @@ td {
 	word-wrap: break-word;
 }
 .excelErrorMsg{
-	padding: 13px 55px;
+	padding: 13px 8px;
     width: fit-content;
 }
 .btnEdit:hover{
@@ -666,7 +666,8 @@ td {
 
 .errorTitle{
 	display: flex !important;
-    align-items: center!important ;
-    justify-content: center!important ;
-    padding: 100px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 42px 1px !important;
+    color: red !important;
 }
