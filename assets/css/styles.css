@@ -2,6 +2,12 @@
 	padding: 0;
 	margin: 0;
 }
+:root{
+	--white : #ffffff;
+	--darkBlue : #1469adcf;
+	--gray : #eaeaea;
+	--silverSand : #c5c3c3;
+}
 .logoTitle,
 .navLinks,
 .navLogoTitle,
@@ -63,14 +69,14 @@
 
 .logoTitle,
 .navLinks {
-	color: white;
+	color: var(--white);
 	font-size: 15px;
 	top: 5px;
 }
 
 .navbar {
 	padding-top: 2px !important;
-	background-color: rgb(20 105 173 / 81%);
+	background-color: var(--darkBlue);
 }
 
 .navLinks {
@@ -110,14 +116,14 @@
 	height: 430px;
 }
 .loginSectionImg {
-	border: 1px solid rgb(20 105 173 / 81%);
+	border: 1px solid var(--darkBlue);
 	border-top-left-radius: 20px;
 	border-bottom-left-radius: 20px;
-	background-color: rgb(20 105 173 / 81%);
+	background-color: var(--darkBlue);
 }
 
 .loginSectionContent {
-	border: 1px solid white;
+	border: 1px solid var(--white);
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
 }
@@ -133,7 +139,7 @@
 }
 
 .loginTitle {
-	color: rgb(20 105 173 / 81%);
+	color: var(--darkBlue);
 	font-size: 28px;
 }
 
@@ -230,10 +236,10 @@ button {
 
 .btnSubmit {
 	width: 245px !important;
-	border: 1px solid rgb(20 105 173 / 81%) !important;
+	border: 1px solid var(--darkBlue) !important;
 	border-radius: 20px !important;
 	padding: 3px !important;
-	color: rgb(20 105 173 / 81%) !important;
+	color: var(--darkBlue) !important;
 }
 
 .mediaIcons {
@@ -266,12 +272,12 @@ button {
 }
 
 .topDownloadBar {
-        justify-content: end;
-        left: 90px;
-        top: 20px;
-        height: 60px;
-        border-radius: 4px;
-        padding-right: 45px;
+	justify-content: end;
+	left: 90px;
+	top: 20px;
+	height: 60px;
+	border-radius: 4px;
+	padding-right: 45px;
 }
 
 .NavbarLogoutLink {
@@ -282,31 +288,31 @@ button {
 .createContactSection,
 .dataListingSection,
 .loginSectionContent {
-	background-color: white;
+	background-color: var(--white);
 }
 .createContactSection,
 .listingPageSection {
 	flex-direction: column;
 }
 .createContactSection {
-    	padding: 20px;
-    	width: 20%;
+	padding: 20px;
+	width: 20%;
 }
 
 .dataListingSection {
-    	min-height: 300px;
+	min-height: 300px;
 }
 
 .listingPageSection {
 	padding: 0 8%;
    	margin: 30px 0px;
-    	gap: 20px;
+    gap: 20px;
 }
 
 .midSection {
-    	align-items: flex-start;
-    	justify-content: flex-start;
-    	gap: 10px;
+	align-items: flex-start;
+	justify-content: flex-start;
+	gap: 10px;
 }
 
 .loginUserImg img {
@@ -319,13 +325,13 @@ button {
 	padding: 2px !important;
 	border-radius: 20px !important;
 	font-size: 13px !important;
-	color: white !important;
-	background-color: rgb(20 105 173 / 81%) !important;
+	color: var(--white) !important;
+	background-color: var(--darkBlue) !important;
 	border: none !important;
 }
 
 .navbarLogIcon {
-	color: white;
+	color: var(--white);
 	font-size: medium !important;
 	top: 9px;
 }
@@ -333,7 +339,7 @@ button {
 .popupContactHeader,
 .uploadPopup,
 .popupContactHeader {
-	background-color: white !important;
+	background-color: var(--white) !important;
 }
 
 .popupContactHeader {
@@ -361,7 +367,7 @@ button {
 
 .contactMainTitle {
 	top: 8px;
-	color: rgb(20 105 173);
+	color: var(--darkBlue);
 	font-size: larger;
 	font-weight: 700;
 }
@@ -372,13 +378,13 @@ button {
 }
 
 .personalContact {
-	border-bottom: 2px solid rgb(20 105 173);
+	border-bottom: 2px solid var(--darkBlue);
 	width: 338px;
 }
 
 .personalContact p {
 	margin-bottom: 1px;
-	color: rgb(20 105 173 / 81%);
+	color: var(--darkBlue);
 	font-size: large;
 	font-weight: 700;
 }
@@ -386,8 +392,8 @@ button {
 .commonInputStyle {
 	border-left: none;
 	border-right: none;
-	border-top-color: #eaeaea;
-	border-bottom-color: #c5c3c3;
+	border-top-color: var(--gray);
+	border-bottom-color: var(--silverSand);
 }
 
 .selectTitle {
@@ -405,8 +411,8 @@ button {
 
 .commonNameStyle {
 	border: none;
-	border-top: 1px solid #eaeaea;
-	border-bottom: 1px solid #c5c3c3;
+	border-top: 1px solid var(--gray);
+	border-bottom: 1px solid var(--silverSand);
 }
 
 .firstNameSection,
@@ -432,7 +438,7 @@ button {
 }
 
 .photoStyle p {
-	color: rgb(20 105 173 / 81%);
+	color: var(--darkBlue);
 	font-size: medium;
 	font-weight: 500;
 }
@@ -458,8 +464,7 @@ button {
 }
 
 .tableField {
-	color: rgb(20 105 173 / 81%);
-	/* padding: 0 20px !important; */
+	color: var(--darkBlue);
 }
 
 .viewSection {
@@ -478,7 +483,7 @@ button {
 }
 
 .contactTextColor {
-	color: rgb(20 105 173 / 97%);
+	color: var(--darkBlue);
 }
 
 .tableRowStyle {
@@ -498,7 +503,7 @@ button {
 }
 tr,
 thead {
-	border-bottom: 1px solid #eaeaea !important;
+	border-bottom: 1px solid var(--gray) !important;
 }
 th, td {
 	text-align: left;
@@ -516,8 +521,8 @@ td {
 }
 
 .tableDataRow {
-	border-top: 1px solid #eaeaea;
-	border-bottom: 1px solid #eaeaea;
+	border-top: 1px solid var(--gray);
+	border-bottom: 1px solid var(--gray);
 	line-height: 65px;
 }
 
@@ -545,8 +550,8 @@ td {
 .viewBtn {
 	padding : 2px 25px !important;
 	border-radius: 15px !important;
-	border-color: rgb(20 105 173 / 81%) !important;
-	color: rgb(20 105 173 / 81%) !important;
+	border-color: var(--darkBlue) !important;
+	color: var(--darkBlue) !important;
 	font-size: small !important;
 }
 
@@ -623,24 +628,24 @@ td {
     width: fit-content;
 }
 .btnEdit:hover{
-	background-color: white !important;
+	background-color: var(--white) !important;
 }
 
 .btnDelete:hover{
-	background-color: white !important;
+	background-color: var(--white) !important;
 }
 
 .btnView:hover{
-	background-color: white !important;
+	background-color: var(--white) !important;
 }
 
 .navLinks:hover{
 	text-decoration: none;
-	color: white !important;
+	color: var(--white) !important;
 }
 
 .btnSubmit:hover{
-	background-color: white !important;
+	background-color: var(--white) !important;
 }
 
 .file-upload-button,
