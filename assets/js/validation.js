@@ -273,8 +273,11 @@ $(document).ready(function () {
 			dataType: 'JSON',
 			success: function (response) {
 				if (response.success) {
-					$("#excelValidationMsg").html(response.message).css("color", "green");
-					window.location.href ="/display";
+					setTimeout(function(){
+						$("#excelValidationMsg").html(response.message).css("color", "green");
+						window.location.href ="/display";	
+					},1000
+					);
 				} else {
 					$("#excelValidationMsg").html(response.message).css("color", "red");
 				}

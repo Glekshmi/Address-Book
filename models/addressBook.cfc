@@ -244,9 +244,9 @@
                         </cfquery>
                     </cfif>
                 </cfloop>
-                <cfreturn {"success":true,"message":"Successfully inserted file!"}>
+                <cfreturn {"success":true,"message":"Successfully inserted the file!"}>
             <cfelse>
-                <cfreturn {"success":false,"message":"Column names arent matching!"}>
+                <cfreturn {"success":false,"message":"Column names aren't matching!"}>
             </cfif>
         <cfelse>
             <cfreturn {"success":false,"message":"File contain column names only!"}>
