@@ -296,6 +296,11 @@
 												</div>
 												<p id="phone" class="contactTextColor viewField"></p>
 											</div>
+											<div class="d-flex pt-5 ps-5">
+												<div class="btnViewClose">
+													<button type="button" class="btn btn-primary btnViewClose" data-bs-dismiss="modal">CLOSE</button>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div class="px-5 createContactImgSection">

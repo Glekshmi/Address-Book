@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <title>User Registration</title>
+        <title>Address Book</title>
         <link href="./assets/css/styles.css" rel="stylesheet">
         <link href="./assets/css/icon.css" rel="stylesheet">
         <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
