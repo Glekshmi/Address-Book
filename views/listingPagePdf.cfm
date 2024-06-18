@@ -1,7 +1,7 @@
 
 <cfoutput>
     <cfhtmltopdf>
-        <table class="w-100">
+        <table class="w-10">
             <thead>
                 <tr class="text-primary">
                     <th class="tableField FieldFontSize">Photo</th>
@@ -13,6 +13,7 @@
                     <th class="tableField FieldFontSize">Pincode</th>
                     <th class="tableField FieldFontSize">Email</th>
                     <th class="tableField FieldFontSize">Phone</th>
+                    <th class="tableField FieldFontSize">Hobbies</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,7 +22,7 @@
                     <cfset  contactId= data.getUserId()>
                     <cfif session.UserId EQ data.getAdminId()>
                         <div>
-                            <tr class="ms-5">
+                            <tr class="ms-0">
                                 <td><img src="./assets/uploads/#data.getPhoto()#" alt="image" width="30" height="30"></td>
                                 <td>#data.getFirstName()# #data.getLastName()#</td>
                                 <td>#data.getGender()#</td>
@@ -31,6 +32,7 @@
                                 <td>#data.getPincode()#</td>
                                 <td>#data.getEmail()#</td>
                                 <td>#data.getPhone()#</td>
+                                <td>#data.getHobbies()#</td>
                             </tr>
                         </div>
                     </cfif>
