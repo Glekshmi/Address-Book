@@ -179,12 +179,12 @@ $(document).ready(function () {
 				var data = JSON.parse(response);
 				var columns = data.COLUMNS;
 				var rowData = data.DATA[0];
-				for (var i = 0; i < columns.length; i++) {
+				for(var i = 0; i < columns.length; i++) {
 					var column = columns[i];
 					var value = rowData[i];
 					if (column.toLowerCase() === 'photo') {
 						$('#photo').attr('src', './assets/uploads/' + value);
-					} else if (column.toLowerCase() === 'dob') {
+					} else if(column.toLowerCase() === 'dob') {
 						var dateString = value;
 						var date = new Date(dateString);
 						var formattedDate = date.getDate() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getFullYear()).slice(-4);
@@ -205,12 +205,15 @@ $(document).ready(function () {
 		$('#setTitle').html("EDIT CONTACT");
 			$.ajax({
 				type: 'POST',
-				url: './models/addressBook.cfc?method=getContact',
+				url: './models/addressBook.cfc',
 				data: {
+					method : 'getContact',
 					contactId: contactId
 				},
 				success: function (response) {
 					var data = JSON.parse(response);
+					var hobby = data.hobbies;
+					var hobbyArray = hobby.split(',');
 					var dateString = data.dob;
 					var date = new Date(dateString);
 					var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
@@ -225,7 +228,15 @@ $(document).ready(function () {
 					$('#strPincode').val(data.pincode);
 					$('#strEmail').val(data.email);
 					$('#strPhone').val(data.phone);
+					var chkBoxIdValue = {'Reading':'#checkBox1','Drawing':'#checkBox2','Swimming':'#checkBox3','Dancing':'#checkBox4','Crafts work':'#checkBox5','Bottle art':'#checkBox6','Cycling':'#checkBox7','Cooking':'#checkBox8','Gardening':'#checkBox9','Writing':'#checkBox10'};
+					for(var i=0; i<hobbyArray.length; i++) {
+						var chkBoxId = chkBoxIdValue[hobbyArray[i]];
+						if(chkBoxId){
+							$(chkBoxId).prop("checked", true);
+						}
+					}
 					$('#hiddenId').prop('value', contactId);
+
 				},
 				error: function (xhr, status, error) {
 					console.log("An error occurred:" + error);
@@ -372,6 +383,11 @@ function saveContact() {
 	var strPhone = $('#strPhone').val().trim();
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
+	var strHobbies = [];
+    $(':checkbox:checked').each(function(i){
+        strHobbies[i] = $(this).val();
+		
+    });
 	var imageFile = $('#imagePath')[0].files[0];
 	var formData = new FormData();
 	formData.append('contactId', contactId);
@@ -386,6 +402,7 @@ function saveContact() {
 	formData.append('strPincode', strPincode);
 	formData.append('strEmail', strEmail);
 	formData.append('strPhone', strPhone);
+	formData.append('strHobbies', strHobbies);
 	$.ajax({
 		url: './models/addressBook.cfc?method=saveContact',
 		type: 'post',
@@ -490,7 +507,7 @@ function contactValidate() {
 	} else if (enteredYear > currentYear) {
 		contactErrorMsg += 'Entered year is invalid!';
 	} else if (isNaN(strPincode)) {
-		contactErrorMsg += 'Phone field should contain digits only!';
+		contactErrorMsg += 'Pincode field should contain digits only!';
 	} else if (strPincode.length > 6) {
 		contactErrorMsg += 'Exceeded the limit of pincode!';
 	}

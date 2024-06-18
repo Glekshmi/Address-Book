@@ -98,6 +98,7 @@
         <cfargument name="strPincode" required="true" >
         <cfargument name="strEmail" required="true" type="string">
         <cfargument name="strPhone" required="true" >
+        <cfargument name="strHobbies" required="true" type="string">
         <cfset local.contactDate = dateFormat(arguments.strDOB, "dd-mm-yyyy")>
         <cfset local.success = ''>
         <cfset local.path = ExpandPath("../assets/uploads/")>
@@ -117,13 +118,14 @@
                 Pincode=<cfqueryparam value="#arguments.strPincode#" cfsqltype="cf_sql_varchar">,
                 Email=<cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">,
                 Phone=<cfqueryparam value="#arguments.strPhone#" cfsqltype="cf_sql_varchar">,
-                AdminId=<cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
+                AdminId=<cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">,
+                Hobbies=<cfqueryparam value="#arguments.strHobbies#" cfsqltype="cf_sql_varchar">
                 where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
             </cfquery>
             <cfreturn {"success":true, "message":"Updated successfully"}>
         <cfelse>
             <cfquery name="qrySaveContact" result="resultSaveContact">
-                insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
+                insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId,Hobbies)
                 values(
                     <cfqueryparam value="#arguments.strTitle#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strFirstName#" cfsqltype="cf_sql_varchar">,
@@ -136,7 +138,8 @@
                     <cfqueryparam value="#arguments.strPincode#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strEmail#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.strPhone#" cfsqltype="cf_sql_varchar">,
-                    <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
+                    <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">,
+                    <cfqueryparam value="#arguments.strHobbies#" cfsqltype="cf_sql_varchar">
                 )
             </cfquery>
             <cftry>
@@ -154,19 +157,23 @@
     <cffunction name="getContactDetails" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
         <cfquery name="qryGetContactDetails" datasource="coldfusionDb">
-            select concat(Title,' ',FirstName,' ',LastName) as Name,Gender,DOB,Photo,concat(Address,' ',Street) as Address,Pincode,Email,Phone from ContactsTable
+            select concat(Title,' ',FirstName,' ',LastName) as Name,Gender,DOB,Photo,concat(Address,' ',Street) as Address,Pincode,Email,Phone,Hobbies from ContactsTable
             where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
-        <cfreturn serializeJSON(qryGetContactDetails)>
+        <cfif session.userLoggedIn>
+            <cfreturn serializeJSON(qryGetContactDetails)>
+        </cfif>
     </cffunction>
 
     <cffunction name="getContact" access="remote" returnFormat="json">
         <cfargument  name="contactId" required="true">
         <cfquery name="qryGetContactDetails" >
-            select Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone from ContactsTable
+            select Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,Hobbies from ContactsTable
             where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
         </cfquery>
-        <cfreturn {"success":true,"title":qryGetContactDetails.Title,"firstname":qryGetContactDetails.Firstname,"lastname":qryGetContactDetails.LastName,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"photo":qryGetContactDetails.Photo,"address":qryGetContactDetails.Address,"street":qryGetContactDetails.Street,"pincode":qryGetContactDetails.Pincode,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone}>
+        <cfif session.userLoggedIn>
+            <cfreturn {"success":true,"title":qryGetContactDetails.Title,"firstname":qryGetContactDetails.Firstname,"lastname":qryGetContactDetails.LastName,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"photo":qryGetContactDetails.Photo,"address":qryGetContactDetails.Address,"street":qryGetContactDetails.Street,"pincode":qryGetContactDetails.Pincode,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone,"hobbies":qryGetContactDetails.Hobbies}>
+        </cfif>
     </cffunction>
 
     <cffunction name="deleteContact" access="remote" returnFormat="json">
@@ -184,6 +191,7 @@
         <cffile action="upload" destination="#local.path#" nameConflict="makeunique">
         <cfset local.excelSheet = cffile.serverFile>
         <cfspreadsheet action="read" src="#local.path#/#local.excelSheet#" query="spreadsheetData" headerrow="1" rows='2-10'>
+<!---         <cfdump  var="#spreadsheetData#" abort> --->
         <cfset existHeadersOnly = spreadsheetData.recordCount>
         <cfif existHeadersOnly GTE 1>
             <cfquery name="getColumnName">
@@ -216,6 +224,7 @@
                     <cfset local.pincode = spreadsheetData.Pincode>
                     <cfset local.email = spreadsheetData.Email>
                     <cfset local.phone = spreadsheetData.Phone>
+                    <cfset local.hobbies = spreadsheetData.Hobbies>
                     <cfset local.requiredPincode = replace(local.pincode, ",", "", "all")>
                     <cfset local.requiredPhone = replace(local.phone, ",", "", "all")>
                     <cfquery name="qryGetEmail">
@@ -226,7 +235,7 @@
                         <cfcontinue>
                     <cfelse>
                         <cfquery name="qrySaveContact" result="resultSaveContact">
-                            insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
+                            insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId,Hobbies)
                             values(
                                 <cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
                                 <cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
@@ -239,7 +248,8 @@
                                 <cfqueryparam value="#local.requiredPincode#" cfsqltype="cf_sql_varchar">,
                                 <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">,
                                 <cfqueryparam value="#local.requiredPhone#" cfsqltype="cf_sql_varchar">,
-                                <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
+                                <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">,
+                                <cfqueryparam value="#local.hobbies#" cfsqltype="cf_sql_varchar">
                             )
                         </cfquery>
                     </cfif>

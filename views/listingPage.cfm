@@ -30,7 +30,7 @@
 				<a href="/pdf" target="_blank">
 					<img src="./assets/images/pdf.PNG" alt="Download PDF" width="30" height="32" class="d-inline-block align-text-top logoutImg">
 				</a>
-				<a href="?action=sheet" target="_blank">
+				<a href="/sheet" target="_blank">
 					<img src="./assets/images/excel.PNG" alt="" width="26" height="32" class="d-inline-block align-text-top logoutImg">
 				</a>
 				<a>
@@ -176,9 +176,58 @@
 															<label for="strPhone">Phone*</label>
 															<input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" value="+91" placeholder="Your Phone Number" >
 														</div>
+														<div class="d-flex flex-column">
+															<label for="strPhone">Hobbies*</label>
+															<div class="d-flex">
+																<div class="me-3">
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox1" name="selector[]" value="Reading">
+																		<label for="vehicle1">Reading</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox2" name="selector[]" value="Drawing">
+																		<label for="vehicle2">Drawing</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox3" name="selector[]" value="Swimming">
+																		<label for="vehicle3">Swimming</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox4" name="selector[]" value="Dancing">
+																		<label for="vehicle2">Dancing</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox5" name="selector[]" value="Crafts work">
+																		<label for="vehicle3">Crafts work</label>
+																	</div>
+																</div>
+																<div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox6" name="selector[]" value="Bottle art">
+																		<label for="vehicle1">Bottle art</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox7" name="selector[]" value="Cycling">
+																		<label for="vehicle2">Cycling</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox8" name="selector[]" value="Cooking">
+																		<label for="vehicle3">Cooking</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox9" name="selector[]" value="Gardening">
+																		<label for="vehicle2">Gardening</label>
+																	</div>
+																	<div class="d-flex">
+																		<input type="checkbox" id="checkBox10" name="selector[]" value="Writing">
+																		<label for="vehicle3">Writing</label>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 													
-													<div class="d-flex mt-4">
+													<div class="d-flex mt-5 ms-3">
 														<input type="hidden" id="hiddenId" value="0">
 														<button type="submit" class="btn btn-primary m-0 me-4" >SUBMIT</button>
 														<button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
@@ -295,6 +344,14 @@
 													&nbsp
 												</div>
 												<p id="phone" class="contactTextColor viewField"></p>
+											</div>
+											<div class="d-flex">
+												<div class="d-flex col-3 justify-content-between">
+													<p class="contactTextColor viewField viewOuterTag">Hobbies</p>
+													<p class="contactTextColor viewField viewInnerTag viewPhone">:</p>
+													&nbsp
+												</div>
+												<p id="hobbies" class="contactTextColor viewField"></p>
 											</div>
 											<div class="d-flex pt-5 ps-5">
 												<div class="btnViewClose">

@@ -11,5 +11,7 @@
         <script src="./assets/js/domPurify.js"></script>
         <script src="./assets/js/jquery.js"></script>
         <script src="./assets/js/validation.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
     </head>
     <body class="bodySection">
