@@ -19,7 +19,7 @@
             <tbody>
                 <cfset contacts = EntityLoad("ContactsTable")>
                 <cfloop array="#contacts#" index="data">
-                    <cfset  contactId= data.getUserId()>
+                    <cfset  contactId = data.getUserId()>
                     <cfif session.UserId EQ data.getAdminId()>
                         <div>
                             <tr class="ms-0">
@@ -32,7 +32,10 @@
                                 <td>#data.getPincode()#</td>
                                 <td>#data.getEmail()#</td>
                                 <td>#data.getPhone()#</td>
-                                <td>#data.getHobbies()#</td>
+                                <cfset hobby = EntityLoad("HobbyTable",{contactId = data})>
+                                <cfloop array="#hobby#" index="items">
+                                    <td>#items.getHobbies()#</td>
+                                </cfloop>
                             </tr>
                         </div>
                     </cfif>

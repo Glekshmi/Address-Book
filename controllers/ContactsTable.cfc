@@ -12,5 +12,4 @@ component persistent="true" table="ContactsTable" {
     property name="Email";
     property name="Phone";
     property name="AdminId";
-    property name="Hobbies";
 }
