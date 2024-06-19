@@ -211,6 +211,7 @@ $(document).ready(function () {
 					var data = JSON.parse(response);
 					var hobby = data.hobbies;
 					var hobbyArray = hobby.join(' ');
+					alert(hobbyArray);
 					$('.strHobbies').select2();
 					var dateString = data.dob;
 					var date = new Date(dateString);
@@ -226,7 +227,7 @@ $(document).ready(function () {
 					$('#strPincode').val(data.pincode);
 					$('#strEmail').val(data.email);
 					$('#strPhone').val(data.phone);
-					$('.strHobbies').val(hobbyArray).trigger('change');
+					$('.strHobbies').val(data.hobbies).trigger('change');
 					$('#hiddenId').prop('value', contactId);
 
 				},

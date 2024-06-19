@@ -253,7 +253,8 @@
             <cfloop query="getHobbyColName">
                 <cfset arrayAppend(ColNames, getHobbyColName.COLUMN_NAME)>
             </cfloop>
-                <cfset excelColNames = ListToArray(lCase(spreadsheetData.columnList))> 
+            
+            <cfset excelColNames = ListToArray(lCase(spreadsheetData.columnList))> 
             <cfset matchCount = 0>
             <cfloop array="#excelColNames#" index="headerName">
                 <cfif arrayFindNoCase(ColNames, headerName)>
@@ -284,7 +285,7 @@
                         <cfcontinue>
                     <cfelse>
                         <cfquery name="qrySaveContact" result="resultSaveContact">
-                            insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId,Hobbies)
+                            insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
                             values(
                                 <cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
                                 <cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
@@ -301,8 +302,10 @@
                                 
                             )
                         </cfquery>
+                        <cfset local.contactId = resultSaveContact.generatedKey>
+                       
                         <cfset local.hobbyList = listToArray(local.hobbies,",")>
-                        <cfdump  var="#local.hobbyList#" abort>
+                        
                         <cfloop array="#hobbyList#" index="hobby">
                             <cfquery name="qrySaveHobby" result="resultSaveHobby">
                                 insert into HobbyTable(contactId,Hobbies)

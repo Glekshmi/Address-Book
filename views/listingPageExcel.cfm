@@ -2,7 +2,6 @@
     <cfset contacts = EntityLoad("ContactsTable")>
     <cfset excelQuery = queryNew("Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,Hobbies","varchar,varchar,varchar,varchar,date,varchar,varchar,varchar,varchar,varchar,varchar,varchar")> 
     
-    <cfset local.hobbies =''>
     <cfloop array="#contacts#" index="contact">
         <cfif session.UserId Eq contact.getAdminId()>
             <cfset local.title = contact.getTitle()>
@@ -20,6 +19,7 @@
             <cfloop array="#hobby#" index="items">
                 <cfset local.hobbies = items.getHobbies()>
             </cfloop>
+            
             <cfset queryAddRow(excelQuery, 1)>
             <cfset querySetCell(excelQuery, "Title", local.title)>
             <cfset querySetCell(excelQuery, "FirstName", local.firstName)>
@@ -32,7 +32,9 @@
             <cfset querySetCell(excelQuery, "Pincode", local.pincode)>
             <cfset querySetCell(excelQuery, "Email", local.email)>
             <cfset querySetCell(excelQuery, "Phone", local.phone)>
-            <cfset querySetCell(excelQuery, "Hobbies", local.hobbies)>
+            <cfloop array="#hobby#" index="items">
+                <cfset querySetCell(excelQuery, "Hobbies", items)>
+            </cfloop>
         </cfif>
     </cfloop>
     <cfset excelPath = ExpandPath("./contactDetail.xlsx")>
