@@ -177,60 +177,28 @@
 															<input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" value="+91" placeholder="Your Phone Number" >
 														</div>
 														<div class="d-flex flex-column">
-															<label for="strPhone">Hobbies*</label>
-															<div class="d-flex">
-																<div class="me-3">
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox1" name="selector[]" value="Reading">
-																		<label for="vehicle1">Reading</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox2" name="selector[]" value="Drawing">
-																		<label for="vehicle2">Drawing</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox3" name="selector[]" value="Swimming">
-																		<label for="vehicle3">Swimming</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox4" name="selector[]" value="Dancing">
-																		<label for="vehicle2">Dancing</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox5" name="selector[]" value="Crafts work">
-																		<label for="vehicle3">Crafts work</label>
-																	</div>
-																</div>
-																<div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox6" name="selector[]" value="Bottle art">
-																		<label for="vehicle1">Bottle art</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox7" name="selector[]" value="Cycling">
-																		<label for="vehicle2">Cycling</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox8" name="selector[]" value="Cooking">
-																		<label for="vehicle3">Cooking</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox9" name="selector[]" value="Gardening">
-																		<label for="vehicle2">Gardening</label>
-																	</div>
-																	<div class="d-flex">
-																		<input type="checkbox" id="checkBox10" name="selector[]" value="Writing">
-																		<label for="vehicle3">Writing</label>
-																	</div>
-																</div>
+															<label for="strHobbies">Hobbies*</label>
+															<div class="hobbyList">
+																<select class="strHobbies" multiple="true">
+																	<option value="Reading" >Reading </option>
+																	<option value="Drawing" id="Drawing">Drawing </option>
+																	<option value="Writing">Writing </option>
+																	<option value="Cooking">Cooking </option>
+																	<option value="Singing">Singing </option>
+																	<option value="Dancing">Dancing </option>
+																	<option value="Cycling">Cycling </option>
+																	<option value="Gardening">Gardening </option>
+																	<option value="Bottle Art">BottleArt </option>
+																	<option value="Swimming">Swimming </option>
+																</select>
 															</div>
 														</div>
-													</div>
+													</div>		
 													
-													<div class="d-flex mt-5 ms-3">
+													<div class="d-flex ms-5 gap-5 mt-5">
 														<input type="hidden" id="hiddenId" value="0">
-														<button type="submit" class="btn btn-primary m-0 me-4" >SUBMIT</button>
-														<button type="button" class="btn btn-primary m-0 ms-5" data-bs-dismiss="modal">CLOSE</button>
+														<button type="submit" class="btn btn-primary " >SUBMIT</button>
+														<button type="button" class="btn btn-primary" data-bs-dismiss="modal">CLOSE</button>
 													</div>
 													<div>
 														<h5 id="contactValidationMsg"></h5>
@@ -387,6 +355,14 @@
 			</div>
 		</div>
 		</div>
+	 	<script> 
+        $(document).ready(function() {
+            $(".strHobbies").select2({
+                placeholder: "select hobbies",
+                tags: true,
+            });
+        })
+    </script>
 		</body>
 	<cfelse>
 		<cflocation  url="/login" addToken = false>

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	
 	$(document).ready(function () {
 		let params = {};
 		params={"http://mysite.local/":"display"};
@@ -175,24 +176,19 @@ $(document).ready(function () {
 			data: {
 				contactId: contactId
 			},
-			success: function (response) {
-				var data = JSON.parse(response);
-				var columns = data.COLUMNS;
-				var rowData = data.DATA[0];
-				for(var i = 0; i < columns.length; i++) {
-					var column = columns[i];
-					var value = rowData[i];
-					if (column.toLowerCase() === 'photo') {
-						$('#photo').attr('src', './assets/uploads/' + value);
-					} else if(column.toLowerCase() === 'dob') {
-						var dateString = value;
-						var date = new Date(dateString);
-						var formattedDate = date.getDate() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getFullYear()).slice(-4);
-						$('#' + column.toLowerCase()).html(formattedDate);
-					} else {
-						$('#' + column.toLowerCase()).html(value);
-					}
-				}
+				success: function (response) {
+					var data = JSON.parse(response);
+					var hobbies = data.hobbies.join(',');
+					
+					$('#name').html(data.name);
+					$('#gender').html(data.gender);
+					$('#dob').html(data.dob);
+					$('#address').html(data.address);
+					$('#pincode').html(data.pincode);
+					$('#email').html(data.email);
+					$('#phone').html(data.phone);
+					$('#hobbies').html(hobbies);
+					$('#photo').attr('src', './assets/uploads/' + data.photo);
 			},
 			error: function (xhr, status, error) {
 				console.error(xhr.responseText);
@@ -202,6 +198,7 @@ $(document).ready(function () {
 
 	$('.btnEdit').click(function () {
 		var contactId = $(this).data('id');
+		
 		$('#setTitle').html("EDIT CONTACT");
 			$.ajax({
 				type: 'POST',
@@ -213,7 +210,8 @@ $(document).ready(function () {
 				success: function (response) {
 					var data = JSON.parse(response);
 					var hobby = data.hobbies;
-					var hobbyArray = hobby.split(',');
+					var hobbyArray = hobby.join(' ');
+					$('.strHobbies').select2();
 					var dateString = data.dob;
 					var date = new Date(dateString);
 					var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
@@ -228,13 +226,7 @@ $(document).ready(function () {
 					$('#strPincode').val(data.pincode);
 					$('#strEmail').val(data.email);
 					$('#strPhone').val(data.phone);
-					var chkBoxIdValue = {'Reading':'#checkBox1','Drawing':'#checkBox2','Swimming':'#checkBox3','Dancing':'#checkBox4','Crafts work':'#checkBox5','Bottle art':'#checkBox6','Cycling':'#checkBox7','Cooking':'#checkBox8','Gardening':'#checkBox9','Writing':'#checkBox10'};
-					for(var i=0; i<hobbyArray.length; i++) {
-						var chkBoxId = chkBoxIdValue[hobbyArray[i]];
-						if(chkBoxId){
-							$(chkBoxId).prop("checked", true);
-						}
-					}
+					$('.strHobbies').val(hobbyArray).trigger('change');
 					$('#hiddenId').prop('value', contactId);
 
 				},
@@ -336,8 +328,12 @@ $(document).ready(function () {
         window.print();
         window.location.href = "/display";
     });
+		
 
 });
+
+
+
 
 function signIn() {
 	let oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -383,11 +379,8 @@ function saveContact() {
 	var strPhone = $('#strPhone').val().trim();
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
-	var strHobbies = [];
-    $(':checkbox:checked').each(function(i){
-        strHobbies[i] = $(this).val();
-		
-    });
+	var strHobbies = $(".strHobbies option:selected").text();
+	alert(strHobbies);
 	var imageFile = $('#imagePath')[0].files[0];
 	var formData = new FormData();
 	formData.append('contactId', contactId);
@@ -426,6 +419,7 @@ function saveContact() {
 		},
 	});
 }
+
 
 function signUpValidate() {
 	var registerErrorMsg = '';
@@ -474,6 +468,11 @@ function contactValidate() {
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
 	var strPhone = $('#strPhone').val().trim();
+	var strHobbies = [];
+    $(':checkbox:checked').each(function(i){
+        strHobbies[i] = $(this).val();
+		
+    });
 	var phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
 	var emailRegex =/^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -510,7 +509,7 @@ function contactValidate() {
 		contactErrorMsg += 'Pincode field should contain digits only!';
 	} else if (strPincode.length > 6) {
 		contactErrorMsg += 'Exceeded the limit of pincode!';
-	}
+	} 
 	
 	if (contactErrorMsg != '') {
 		$("#contactValidationMsg").text(contactErrorMsg).css("color", "red");

@@ -681,3 +681,15 @@ td {
 	margin-left: 25px;
     margin-top: 50px;
 }
+
+.pdfTable{
+	word-wrap: break-word;
+}
+
+.hobbyList{
+	width : 100%;
+	max-width: 200px;
+}
+.strHobbies {
+	min-width: 100%;
+}
