@@ -192,7 +192,6 @@
             <cfloop query="qryGetHobbies">
                 <cfset ArrayAppend(hobbiesArray, qryGetHobbies.Hobbies)>
             </cfloop>
-<!---             <cfreturn serializeJSON(qryGetContactDetails,qryGetHobbies)> --->
           <cfreturn  {"name":qryGetContactDetails.Name,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"photo":qryGetContactDetails.Photo,"address":qryGetContactDetails.Address,"pincode":qryGetContactDetails.Pincode,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone,"hobbies":hobbiesArray}>
         </cfif>
     </cffunction>
@@ -212,7 +211,6 @@
             <cfloop query="qryGetHobbies">
                 <cfset ArrayAppend(hobbiesArray, qryGetHobbies.Hobbies)>
             </cfloop>
-
             <cfreturn {"success":true,"title":qryGetContactDetails.Title,"firstname":qryGetContactDetails.Firstname,"lastname":qryGetContactDetails.LastName,"gender":qryGetContactDetails.Gender,"dob":qryGetContactDetails.DOB,"photo":qryGetContactDetails.Photo,"address":qryGetContactDetails.Address,"street":qryGetContactDetails.Street,"pincode":qryGetContactDetails.Pincode,"email":qryGetContactDetails.Email,"phone":qryGetContactDetails.Phone,"hobbies":hobbiesArray}>
         </cfif>
     </cffunction>
