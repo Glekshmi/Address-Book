@@ -226,7 +226,7 @@ $(document).ready(function () {
 					$('#strPincode').val(data.pincode);
 					$('#strEmail').val(data.email);
 					$('#strPhone').val(data.phone);
-					$('.strHobbies').val(hobbyArray).trigger('change');
+					$('.strHobbies').val(data.hobbies).trigger('change');
 					$('#hiddenId').prop('value', contactId);
 
 				},
@@ -380,7 +380,6 @@ function saveContact() {
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
 	var strHobbies = $(".strHobbies option:selected").text();
-	alert(strHobbies);
 	var imageFile = $('#imagePath')[0].files[0];
 	var formData = new FormData();
 	formData.append('contactId', contactId);

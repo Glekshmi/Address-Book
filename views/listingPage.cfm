@@ -180,7 +180,7 @@
 															<label for="strHobbies">Hobbies*</label>
 															<div class="hobbyList">
 																<select class="strHobbies" multiple="true">
-																	<option value="Reading" >Reading </option>
+																	<option value="Reading">Reading </option>
 																	<option value="Drawing" id="Drawing">Drawing </option>
 																	<option value="Writing">Writing </option>
 																	<option value="Cooking">Cooking </option>
