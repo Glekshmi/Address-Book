@@ -211,7 +211,6 @@ $(document).ready(function () {
 					var data = JSON.parse(response);
 					var hobby = data.hobbies;
 					var hobbyArray = hobby.join(' ');
-					alert(hobbyArray);
 					$('.strHobbies').select2();
 					var dateString = data.dob;
 					var date = new Date(dateString);
@@ -381,7 +380,6 @@ function saveContact() {
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
 	var strHobbies = $(".strHobbies option:selected").text();
-	alert(strHobbies);
 	var imageFile = $('#imagePath')[0].files[0];
 	var formData = new FormData();
 	formData.append('contactId', contactId);
