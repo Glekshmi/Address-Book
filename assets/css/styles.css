@@ -679,17 +679,33 @@ td {
 
 .btnViewClose{
 	margin-left: 25px;
-    margin-top: 50px;
 }
 
 .pdfTable{
 	word-wrap: break-word;
 }
 
-.hobbyList{
-	width : 100%;
-	max-width: 200px;
+.form{
+	width : 300px;
 }
 .strHobbies {
 	min-width: 100%;
 }
+
+.select2-container{
+	width : 175px !important;
+}
+
+
+ul li:hover, ul li:focus {
+	color:red;
+}
+   
+li{
+list-style: none;
+}
+
+/*.select2-search__field{
+	width: 100% !important;
+    max-width: fit-content !important;
+}*/
