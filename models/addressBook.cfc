@@ -134,19 +134,46 @@
                 AdminId=<cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
                 where UserId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
             </cfquery> 
-            <cfquery name="qryDeleteHobby">
-                delete from ContactHobbyLinkTable
-                where contactId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
+            <cfset newHobbyIdArr = listToArray(arguments.intHobbies,',')>
+            <cfset existingHobbyIds ="">
+            <cfquery name="getExistingIds">
+                select HobbyId
+                from ContactHobbyLinkTable
+                where ContactId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
             </cfquery>
-            <cfloop array="#local.hobbyList#" index="hobby">
-                <cfquery name="qrySaveHobby" result="resultSaveHobby">
-                    insert into ContactHobbyLinkTable(ContactId,HobbyId)
-                    values(
-                        <cfqueryparam value="#contactId#" cfsqltype="cf_sql_integer">,
-                        <cfqueryparam value="#hobby#" cfsqltype="cf_sql_integer">
-                    )
-                </cfquery>
+            <cfloop query="getExistingIds">
+                <cfif getExistingIds.recordCount>
+                    <cfset existingHobbyIds &= getExistingIds.HobbyId &','>
+                <cfelse>
+                    <cfset existingHobbyIds = getExistingIds.HobbyId>
+                </cfif>
             </cfloop>
+            <cfset existingHobbyIdArr = listToArray(existingHobbyIds)>
+            <cfset addedHobbies =[]>
+            <cfset removedHobbies = []>
+            <cfset addedHobbies = hobbiesDifference(newHobbyIdArr, existingHobbyIdArr)>
+            <cfset removedHobbies = hobbiesDifference(existingHobbyIdArr, newHobbyIdArr)>
+            <cfset remLen = arrayLen(removedHobbies)>
+            <cfif arrayLen(addedHobbies) GT 0>
+                <cfloop array="#addedHobbies#" index="addHobby">
+                    <cfquery name="qrySaveHobby" result="resultSaveHobby">
+                        insert into ContactHobbyLinkTable(ContactId,HobbyId)
+                        values(
+                            <cfqueryparam value="#contactId#" cfsqltype="cf_sql_integer">,
+                            <cfqueryparam value="#addHobby#" cfsqltype="cf_sql_integer">
+                        )
+                    </cfquery>
+                </cfloop>
+            </cfif>
+            <cfif arrayLen(removedHobbies) GT 0>
+                <cfloop array="#removedHobbies#" index="removeHobby">
+                    <cfquery name="qryDeleteHobby" result="delRes">
+                        delete from ContactHobbyLinkTable
+                        where contactId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
+                        And hobbyId In (<cfqueryparam value="#removeHobby#" cfsqltype="cf_sql_varchar" list="true"> )
+                    </cfquery>
+                </cfloop>
+           </cfif>
             <cfreturn {"success":true, "message":"Updated successfully"}>
         <cfelse>
             <cfquery name="qrySaveContact" result="resultSaveContact">
@@ -186,6 +213,25 @@
             </cftry>
             <cfreturn {"success":local.success,"message":''}>
         </cfif>
+    </cffunction>
+
+    <cffunction name="hobbiesDifference" access="public" returntype="array">
+    <cfargument name="newList" required="true">
+    <cfargument name="oldlist" required="true">
+    <cfset var diff = []> 
+    <cfloop index="i" from="1" to="#arrayLen(arguments.newList)#" step="1">
+        <cfset var found = false> 
+        <cfloop index="j" from="1" to="#arrayLen(arguments.oldlist)#" step="1">
+            <cfif arguments.newList[i] EQ arguments.oldlist[j]>
+                <cfset found = true>
+                <cfbreak>
+            </cfif>
+        </cfloop>
+        <cfif not found>
+            <cfset arrayAppend(diff, arguments.newList[i])>
+        </cfif>
+    </cfloop>
+    <cfreturn diff>
     </cffunction>
 
     <cffunction name="getContact" access="remote" returnFormat="json">

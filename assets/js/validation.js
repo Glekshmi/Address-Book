@@ -1,11 +1,13 @@
 $(document).ready(function () {
 	
 	$('.hobbieDropdown .select-box').click(function() {
+		
         $(this).toggleClass('active');
         $('#optionsList').toggle();
     });
 
     $('#optionsList').on('click', 'option', function(event) {
+		
         event.preventDefault();
         $(this).toggleClass('selected');
         this.selected = $(this).hasClass('selected');
@@ -274,6 +276,8 @@ $(document).ready(function () {
 	$('#submitForm').on('submit', function () {
 		var contactId = $('#hiddenId').val().trim();
 		var strEmail = $('#strEmail').val().trim();
+		var newHobbies = $('#optionsList').val();
+		//alert(newHobbies); 
 		var selectedHobbies = [];
         $('#optionsList option.selected').each(function() {
             selectedHobbies.push($(this).val());
@@ -382,8 +386,7 @@ function setHobbiesList(data) {
 		var hobbyName = hobby[1];
 		optionsList.append('<option value="' + hobbyId + '">' + hobbyName + '</option>');
 	});
-}
-
+	}
 $.ajax({
 	url: './models/addressBook.cfc?method=getHobbies',
 	method: 'GET',
@@ -397,6 +400,7 @@ $.ajax({
 });
 
 function updateHobbiesList() {
+	
 	var hobbies = [];
 	$('#optionsList option.selected').each(function() {
 		hobbies.push($(this).text());
