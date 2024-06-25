@@ -177,10 +177,10 @@
 															<input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" value="+91" placeholder="Your Phone Number" >
 														</div>
 														<div class="d-flex flex-column">
-															<label for="strHobbies">Hobbies*</label>
-															<div class="form-group form">
-																<select class="strHobbies" id="hobbies" multiple="true">
-																</select>
+															<label for="strPhone">Hobbies*</label>
+															<div class="hobbieDropdown" id="hobbies">
+																<div class="select-box">Select Options</div>
+																<select id="optionsList" multiple></select>
 															</div>
 														</div>
 													</div>		

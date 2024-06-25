@@ -32,10 +32,11 @@
                                 <td>#data.getPincode()#</td>
                                 <td>#data.getEmail()#</td>
                                 <td>#data.getPhone()#</td>
-                                <cfset hobby = EntityLoad("HobbyTable",{contactId = data})>
-                                <cfloop array="#hobby#" index="items">
-                                    <td>#items.getHobbies()#</td>
-                                </cfloop>
+                                <cfset hobby = EntityLoad("ContactHobbyLinkTable",{contactId = data})>
+                                <cfloop array="#hobby#" index="hobbysList">
+                                    <cfset hobbyList = EntityLoadByPK("HobbysTable", hobbysList.getHobbyId())>
+                                    <td>#hobbyList.getHobbies()#</td>
+                                </cfloop>                                
                             </tr>
                         </div>
                     </cfif>

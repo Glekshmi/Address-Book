@@ -685,27 +685,33 @@ td {
 	word-wrap: break-word;
 }
 
-.form{
-	width : 300px;
-}
-.strHobbies {
-	min-width: 100%;
+.hobbieDropdown { 
+	position: relative; 
+	width: 200px; 
 }
 
-.select2-container{
-	width : 175px !important;
+.select-box { 
+	cursor: pointer; 
+	padding: 10px; 
+	border: 1px solid #ccc; 
 }
 
-
-ul li:hover, ul li:focus {
-	color:red;
+#optionsList { 
+	display: none;
+	position: absolute;
+	top: 100%; 
+	left: 0; 
+	width: 100%; 
+	border: 1px solid #ccc; 
+	background: #fff; 
+	max-height: 150px; 
+	overflow-y: auto; 
 }
-   
-li{
-list-style: none;
+
+#optionsList option { 
+	padding: 10px; cursor: pointer; 
 }
 
-/*.select2-search__field{
-	width: 100% !important;
-    max-width: fit-content !important;
-}*/
+#optionsList option:hover, #optionsList option.selected { 
+	background: #f0f0f0; 
+}

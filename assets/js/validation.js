@@ -1,5 +1,18 @@
 $(document).ready(function () {
 	
+	$('.hobbieDropdown .select-box').click(function() {
+        $(this).toggleClass('active');
+        $('#optionsList').toggle();
+    });
+
+    $('#optionsList').on('click', 'option', function(event) {
+        event.preventDefault();
+        $(this).toggleClass('selected');
+        this.selected = $(this).hasClass('selected');
+        updateHobbiesList();
+    });
+
+
 	$(document).ready(function () {
 		let params = {};
 		params={"http://mysite.local/":"display"};
@@ -236,13 +249,19 @@ $(document).ready(function () {
 					$('#strPhone').val(rowData[10]);
 					$('#fileName').html(rowData[5]);
 					$('#hiddenId').prop('value', contactId);
-					$('.strHobbies').select2();
-                    $('.strHobbies').val(rowData[11]);
 
+					var hobbyIds = rowData[12].split(',');
+					$('#optionsList option.selected').removeClass('selected');
+					for (var i = 0; i < hobbyIds.length; i++) {
+						var id = hobbyIds[i].trim(); 
+						var option = $('#optionsList option[value="' + id + '"]');
+						if (option.length) {
+							option.addClass('selected');
+							option[0].selected = true;
+						}
+					}
+					updateHobbiesList();
 					
-					
-
-						
 					}
 
 				},
@@ -255,6 +274,12 @@ $(document).ready(function () {
 	$('#submitForm').on('submit', function () {
 		var contactId = $('#hiddenId').val().trim();
 		var strEmail = $('#strEmail').val().trim();
+		var selectedHobbies = [];
+        $('#optionsList option.selected').each(function() {
+            selectedHobbies.push($(this).val());
+        });
+        var selectedHobbies = selectedHobbies.join(', ');
+		
 		if(contactValidate()) {
 			$.ajax({
 				url: "./controllers/addressBook.cfc?method=checkEmailExist",
@@ -266,7 +291,7 @@ $(document).ready(function () {
 				dataType: 'JSON',
 				success: function (response) {
 					if (response.success) {
-						saveContact();
+						saveContact(selectedHobbies);
 					} else {
 						$("#contactValidationMsg").html(response.message).css("color","red");
 					}
@@ -345,39 +370,44 @@ $(document).ready(function () {
         window.location.href = "/display";
     });
 
-	$(".strHobbies").select2({
-		placeholder: "Select hobbies",
-		minimumResultsForSearch: -1
-	});
-
-	$(".strHobbies").on("select2:open", function() {
-		var $select = $(this);
-		if ($select.find('option').length === 0) {
-			$.ajax({
-				type: 'POST',
-				url: './models/addressBook.cfc?method=getHobbies',
-				success: function(response) {
-					if(response){
-						var data = JSON.parse(response);
-						$select.empty();
-						$.each(data.DATA, function(index, rowData) {
-							var hobbyId = rowData[0];
-							var hobby = rowData[1];  
-							$select.append('<option value="' + hobbyId + '">' + hobby + '</option>');
-						});
-						$select.trigger('change.select2');
-					}
-				},
-				error: function(xhr, status, error) {
-					console.log("An error occurred:", error);
-				}
-			});
-		}
-	});
-	
-
 
 });
+
+function setHobbiesList(data) {
+	var optionsList = $('#optionsList');
+	optionsList.empty();
+	var hobbies = data.DATA;
+	hobbies.forEach(function(hobby) {
+		var hobbyId = hobby[0];
+		var hobbyName = hobby[1];
+		optionsList.append('<option value="' + hobbyId + '">' + hobbyName + '</option>');
+	});
+}
+
+$.ajax({
+	url: './models/addressBook.cfc?method=getHobbies',
+	method: 'GET',
+	dataType: 'json',
+	success: function(response) {
+		setHobbiesList(response);
+	},
+	error: function() {
+		console.error('Failed to fetch hobbies.');
+	}
+});
+
+function updateHobbiesList() {
+	var hobbies = [];
+	$('#optionsList option.selected').each(function() {
+		hobbies.push($(this).text());
+		
+	});
+	if (hobbies.length > 0) {
+		$('.select-box').text(hobbies.join(', '));
+	} else {
+		$('.select-box').text('Select Options');
+	}
+}
 
 
 function updateFileName(input) {
@@ -412,7 +442,7 @@ function signIn() {
 	$form.appendTo('body').submit();
 }
 
-function saveContact() {
+function saveContact(selectedHobbies) {
 	var contactId = $('#hiddenId').val().trim();
 	var strTitle = $('#strTitle').val().trim();
 	var strFirstName = $('#strFirstName').val().trim();
@@ -424,9 +454,9 @@ function saveContact() {
 	var strPhone = $('#strPhone').val().trim();
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
-	var intHobbyId = $('.strHobbies').val();
+	var intHobbyId = selectedHobbies;
+	
 	var imageFile = $('#imagePath')[0].files[0];
-	alert(imageFile);
 	var formData = new FormData();
 	formData.append('contactId', contactId);
 	formData.append('strTitle', strTitle);
