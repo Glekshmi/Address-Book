@@ -1,5 +1,20 @@
 $(document).ready(function () {
 	
+	$('.hobbieDropdown .select-box').click(function() {
+		
+        $(this).toggleClass('active');
+        $('#optionsList').toggle();
+    });
+
+    $('#optionsList').on('click', 'option', function(event) {
+		
+        event.preventDefault();
+        $(this).toggleClass('selected');
+        this.selected = $(this).hasClass('selected');
+        updateHobbiesList();
+    });
+
+
 	$(document).ready(function () {
 		let params = {};
 		params={"http://mysite.local/":"display"};
@@ -172,23 +187,32 @@ $(document).ready(function () {
 		var contactId = $(this).data('id');
 		$.ajax({
 			type: 'POST',
-			url: './models/addressBook.cfc?method=getContactDetails',
+			url: './models/addressBook.cfc?method=getContact',
 			data: {
 				contactId: contactId
 			},
 				success: function (response) {
-					var data = JSON.parse(response);
-					var hobbies = data.hobbies.join(',');
+					if(response){
+						var data = JSON.parse(response);
+						var rowData = data.DATA[0];
+						var name = `${rowData[0]} ${rowData[1]} ${rowData[2]}`;
+						var address = `${rowData[6]} ${rowData[7]}`;
+
+						var dateString = rowData[4];
+						var date = new Date(dateString);
+						var formattedDate = date.getDate() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getFullYear()).slice(-4);
+
+						$('#name').html(name);
+						$('#gender').html(rowData[3]);
+						$('#dob').html(formattedDate);
+						$('#address').html(address);
+						$('#pincode').html(rowData[8]);
+						$('#email').html(rowData[9]);
+						$('#phone').html(rowData[10]);
+						$('#hobby').html(rowData[11]);
+						$('#photo').attr('src', './assets/uploads/' + rowData[5]);
+					}
 					
-					$('#name').html(data.name);
-					$('#gender').html(data.gender);
-					$('#dob').html(data.dob);
-					$('#address').html(data.address);
-					$('#pincode').html(data.pincode);
-					$('#email').html(data.email);
-					$('#phone').html(data.phone);
-					$('#hobbies').html(hobbies);
-					$('#photo').attr('src', './assets/uploads/' + data.photo);
 			},
 			error: function (xhr, status, error) {
 				console.error(xhr.responseText);
@@ -198,7 +222,6 @@ $(document).ready(function () {
 
 	$('.btnEdit').click(function () {
 		var contactId = $(this).data('id');
-		
 		$('#setTitle').html("EDIT CONTACT");
 			$.ajax({
 				type: 'POST',
@@ -208,26 +231,40 @@ $(document).ready(function () {
 					contactId: contactId
 				},
 				success: function (response) {
+					if(response){
 					var data = JSON.parse(response);
-					var hobby = data.hobbies;
-					var hobbyArray = hobby.join(' ');
-					$('.strHobbies').select2();
-					var dateString = data.dob;
+					var rowData = data.DATA[0];
+					var dateString = rowData[4];
 					var date = new Date(dateString);
 					var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-					$('#strTitle').val(data.title);
-					$('#strFirstName').val(data.firstname);
-					$('#strLastName').val(data.lastname);
-					$('#strGender').val(data.gender);
+					
+					$('#strTitle').val(rowData[0]);
+					$('#strFirstName').val(rowData[1]);
+					$('#strLastName').val(rowData[2]);
+					$('#strGender').val(rowData[3]);
 					$('#strDOB').val(formattedDate);
-					$('#filePhoto').attr('src', './assets/uploads/' + data.photo);
-					$('#strAddress').val(data.address);
-					$('#strStreet').val(data.street);
-					$('#strPincode').val(data.pincode);
-					$('#strEmail').val(data.email);
-					$('#strPhone').val(data.phone);
-					$('.strHobbies').val(data.hobbies).trigger('change');
+					$('#filePhoto').attr('src', './assets/uploads/' + rowData[5]);
+					$('#strAddress').val(rowData[6]);
+					$('#strStreet').val(rowData[7]);
+					$('#strPincode').val(rowData[8]);
+					$('#strEmail').val(rowData[9]);
+					$('#strPhone').val(rowData[10]);
+					$('#fileName').html(rowData[5]);
 					$('#hiddenId').prop('value', contactId);
+
+					var hobbyIds = rowData[12].split(',');
+					$('#optionsList option.selected').removeClass('selected');
+					for (var i = 0; i < hobbyIds.length; i++) {
+						var id = hobbyIds[i].trim(); 
+						var option = $('#optionsList option[value="' + id + '"]');
+						if (option.length) {
+							option.addClass('selected');
+							option[0].selected = true;
+						}
+					}
+					updateHobbiesList();
+					
+					}
 
 				},
 				error: function (xhr, status, error) {
@@ -239,6 +276,14 @@ $(document).ready(function () {
 	$('#submitForm').on('submit', function () {
 		var contactId = $('#hiddenId').val().trim();
 		var strEmail = $('#strEmail').val().trim();
+		var newHobbies = $('#optionsList').val();
+		//alert(newHobbies); 
+		var selectedHobbies = [];
+        $('#optionsList option.selected').each(function() {
+            selectedHobbies.push($(this).val());
+        });
+        var selectedHobbies = selectedHobbies.join(', ');
+		
 		if(contactValidate()) {
 			$.ajax({
 				url: "./controllers/addressBook.cfc?method=checkEmailExist",
@@ -250,7 +295,7 @@ $(document).ready(function () {
 				dataType: 'JSON',
 				success: function (response) {
 					if (response.success) {
-						saveContact();
+						saveContact(selectedHobbies);
 					} else {
 						$("#contactValidationMsg").html(response.message).css("color","red");
 					}
@@ -314,12 +359,12 @@ $(document).ready(function () {
 		});
 	});
 
-	$('#imagePath').change(function () {
-		updateFileName(this);
-	});
-
 	$('#googleSignIn').on("click", function () {
 		signIn();
+	});
+
+	$('#imagePath').change(function () {
+		updateFileName(this);
 	});
 
 	$('#print').on('click', function () {
@@ -328,12 +373,55 @@ $(document).ready(function () {
         window.print();
         window.location.href = "/display";
     });
-		
+
 
 });
 
+function setHobbiesList(data) {
+	var optionsList = $('#optionsList');
+	optionsList.empty();
+	var hobbies = data.DATA;
+	hobbies.forEach(function(hobby) {
+		var hobbyId = hobby[0];
+		var hobbyName = hobby[1];
+		optionsList.append('<option value="' + hobbyId + '">' + hobbyName + '</option>');
+	});
+	}
+$.ajax({
+	url: './models/addressBook.cfc?method=getHobbies',
+	method: 'GET',
+	dataType: 'json',
+	success: function(response) {
+		setHobbiesList(response);
+	},
+	error: function() {
+		console.error('Failed to fetch hobbies.');
+	}
+});
+
+function updateHobbiesList() {
+	
+	var hobbies = [];
+	$('#optionsList option.selected').each(function() {
+		hobbies.push($(this).text());
+		
+	});
+	if (hobbies.length > 0) {
+		$('.select-box').text(hobbies.join(', '));
+	} else {
+		$('.select-box').text('Select Options');
+	}
+}
 
 
+function updateFileName(input) {
+	var fileNamePlaceholder = document.getElementById("fileName");
+	if (input.files.length > 0) {
+		fileNamePlaceholder.textContent = input.files[0].name;
+	} else {
+		fileNamePlaceholder.textContent = 'No file chosen';
+	}
+}
 
 function signIn() {
 	let oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -358,16 +446,7 @@ function signIn() {
 	$form.appendTo('body').submit();
 }
 
-function updateFileName(input) {
-	var fileNamePlaceholder = document.getElementById("fileName");
-	if (input.files.length > 0) {
-		fileNamePlaceholder.textContent = input.files[0].name;
-	} else {
-		fileNamePlaceholder.textContent = 'No file chosen';
-	}
-}
-
-function saveContact() {
+function saveContact(selectedHobbies) {
 	var contactId = $('#hiddenId').val().trim();
 	var strTitle = $('#strTitle').val().trim();
 	var strFirstName = $('#strFirstName').val().trim();
@@ -379,7 +458,8 @@ function saveContact() {
 	var strPhone = $('#strPhone').val().trim();
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
-	var strHobbies = $(".strHobbies option:selected").text();
+	var intHobbyId = selectedHobbies;
+	
 	var imageFile = $('#imagePath')[0].files[0];
 	var formData = new FormData();
 	formData.append('contactId', contactId);
@@ -394,7 +474,7 @@ function saveContact() {
 	formData.append('strPincode', strPincode);
 	formData.append('strEmail', strEmail);
 	formData.append('strPhone', strPhone);
-	formData.append('strHobbies', strHobbies);
+	formData.append('intHobbies', intHobbyId);
 	$.ajax({
 		url: './models/addressBook.cfc?method=saveContact',
 		type: 'post',
@@ -467,11 +547,6 @@ function contactValidate() {
 	var strEmail = $('#strEmail').val().trim();
 	var strPincode = $('#strPincode').val().trim();
 	var strPhone = $('#strPhone').val().trim();
-	var strHobbies = [];
-    $(':checkbox:checked').each(function(i){
-        strHobbies[i] = $(this).val();
-		
-    });
 	var phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
 	var emailRegex =/^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

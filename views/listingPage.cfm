@@ -141,7 +141,7 @@
 																<input type="file" id="imagePath" name="imagePath">
 																<div class="d-flex align-items-center">
 																	<div class="file-upload-button">Choose File</div>
-																	<span id="fileName"></span>
+																	<p id="fileName"></p>
 																</div>
 															</div>
 														</div>
@@ -177,20 +177,10 @@
 															<input type="text" id="strPhone" class="commonNameStyle setDateWidth" name="strPhone" value="+91" placeholder="Your Phone Number" >
 														</div>
 														<div class="d-flex flex-column">
-															<label for="strHobbies">Hobbies*</label>
-															<div class="hobbyList">
-																<select class="strHobbies" multiple="true">
-																	<option value="Reading">Reading </option>
-																	<option value="Drawing" id="Drawing">Drawing </option>
-																	<option value="Writing">Writing </option>
-																	<option value="Cooking">Cooking </option>
-																	<option value="Singing">Singing </option>
-																	<option value="Dancing">Dancing </option>
-																	<option value="Cycling">Cycling </option>
-																	<option value="Gardening">Gardening </option>
-																	<option value="Bottle Art">BottleArt </option>
-																	<option value="Swimming">Swimming </option>
-																</select>
+															<label for="strPhone">Hobbies*</label>
+															<div class="hobbieDropdown" id="hobbies">
+																<div class="select-box">Select Options</div>
+																<select id="optionsList" multiple></select>
 															</div>
 														</div>
 													</div>		
@@ -319,7 +309,7 @@
 													<p class="contactTextColor viewField viewInnerTag viewPhone">:</p>
 													&nbsp
 												</div>
-												<p id="hobbies" class="contactTextColor viewField"></p>
+												<p id="hobby" class="contactTextColor viewField"></p>
 											</div>
 											<div class="d-flex pt-5 ps-5">
 												<div class="btnViewClose">
@@ -355,14 +345,14 @@
 			</div>
 		</div>
 		</div>
-	 	<script> 
+	 	<!--<script> 
         $(document).ready(function() {
             $(".strHobbies").select2({
-                placeholder: "select hobbies",
-                tags: true,
+                placeholder: "Select hobbies",
+                tags: true
             });
         })
-    </script>
+    </script>-->
 		</body>
 	<cfelse>
 		<cflocation  url="/login" addToken = false>
