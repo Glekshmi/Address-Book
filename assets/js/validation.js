@@ -1,13 +1,11 @@
 $(document).ready(function () {
 	
 	$('.hobbieDropdown .select-box').click(function() {
-		
         $(this).toggleClass('active');
         $('#optionsList').toggle();
     });
 
     $('#optionsList').on('click', 'option', function(event) {
-		
         event.preventDefault();
         $(this).toggleClass('selected');
         this.selected = $(this).hasClass('selected');
@@ -276,8 +274,7 @@ $(document).ready(function () {
 	$('#submitForm').on('submit', function () {
 		var contactId = $('#hiddenId').val().trim();
 		var strEmail = $('#strEmail').val().trim();
-		var newHobbies = $('#optionsList').val();
-		//alert(newHobbies); 
+		//var newHobbies = $('#optionsList').val();
 		var selectedHobbies = [];
         $('#optionsList option.selected').each(function() {
             selectedHobbies.push($(this).val());
@@ -377,13 +374,12 @@ $(document).ready(function () {
 
 });
 
+
 function setHobbiesList(data) {
 	var optionsList = $('#optionsList');
 	optionsList.empty();
 	var hobbies = data.DATA;
-	hobbies.forEach(function(hobby) {
-		var hobbyId = hobby[0];
-		var hobbyName = hobby[1];
+	hobbies.forEach(function([hobbyId, hobbyName]) {
 		optionsList.append('<option value="' + hobbyId + '">' + hobbyName + '</option>');
 	});
 	}
@@ -392,7 +388,9 @@ $.ajax({
 	method: 'GET',
 	dataType: 'json',
 	success: function(response) {
-		setHobbiesList(response);
+		if(response){
+			setHobbiesList(response);
+		}
 	},
 	error: function() {
 		console.error('Failed to fetch hobbies.');
