@@ -716,5 +716,15 @@ td {
 
 #optionsList option:hover, #optionsList option.selected { 
 	background: #f0f0f0; 
-	
+}
+.btnTemplate:hover{
+	color: green;
+}
+.excelTemplate{
+	font-size: 9px;
+	color: white;
+	text-decoration: none;
+}
+.excelTemplate:hover{
+	color: white;
 }

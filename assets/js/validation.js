@@ -194,8 +194,7 @@ $(document).ready(function () {
 						var data = JSON.parse(response);
 						var rowData = data.DATA[0];
 						var name = `${rowData[0]} ${rowData[1]} ${rowData[2]}`;
-						var address = `${rowData[6]} ${rowData[7]}`;
-
+						var address = `${rowData[6]} ${rowData[7]}`; 
 						var dateString = rowData[4];
 						var date = new Date(dateString);
 						var formattedDate = date.getDate() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getFullYear()).slice(-4);
@@ -210,7 +209,6 @@ $(document).ready(function () {
 						$('#hobby').html(rowData[11]);
 						$('#photo').attr('src', './assets/uploads/' + rowData[5]);
 					}
-					
 			},
 			error: function (xhr, status, error) {
 				console.error(xhr.responseText);
@@ -235,7 +233,6 @@ $(document).ready(function () {
 					var dateString = rowData[4];
 					var date = new Date(dateString);
 					var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-					
 					$('#strTitle').val(rowData[0]);
 					$('#strFirstName').val(rowData[1]);
 					$('#strLastName').val(rowData[2]);
@@ -320,7 +317,8 @@ $(document).ready(function () {
 				if (response.success) {
 					setTimeout(function(){
 						$("#excelValidationMsg").html(response.message).css("color", "green");
-						window.location.href ="/display";	
+						downloadExcelResult();
+							
 					},1000
 					);
 				} else {
@@ -374,6 +372,16 @@ $(document).ready(function () {
 
 });
 
+function downloadFile() {
+	alert("in");
+	var downloadUrl = "?action=download"; 
+	var link = $('<a style="display: none;"></a>');
+	link.attr('href', downloadUrl);
+	link.attr('target', '_blank');  
+	$('body').append(link);
+	link[0].click();
+	link.remove();
+}
 
 function setHobbiesList(data) {
 	var optionsList = $('#optionsList');
