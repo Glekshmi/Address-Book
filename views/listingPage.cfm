@@ -209,6 +209,11 @@
 							<div class="modal-content ps-3 uploadContainer">
 								<div class="d-flex ">
 									<div class="uploadPopup">
+										<div class="d-flex align-items-baseline justify-content-end p-2 gap-1">
+											<button class="btn btn-success p-1 btnTemplate"><a href="/download" target="_blank" class="excelTemplate">result</a></button>
+											<button class="btn btn-success p-1 btnTemplate"><a href="/data" target="_blank" class="excelTemplate">Template with data</a></button>
+											<button class="btn btn-success p-1 btnTemplate"><a href="/plain" target="_blank" class="excelTemplate">Plain template</a></button>
+										</div>
 										<div  class="d-flex subHeader">
 											<p class="contactMainTitle" id="setTitle">UPLOAD CONTACT</p>
 										</div>

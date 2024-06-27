@@ -36,6 +36,20 @@
                 include "/views/errorPage.cfm";
             break;
 
+            case "data":
+                include "/views/header.cfm";
+                include "/views/dataTemplate.cfm";
+            break;
+
+            case "plain":
+                include "/views/header.cfm";
+                include "/views/plainTemplate.cfm";
+            break;
+
+            case "download":
+                include "/views/header.cfm";
+                include "/views/result.cfm";
+            break;
 
             case "logout":
                 include "/views/login.cfm";

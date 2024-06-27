@@ -1,13 +1,11 @@
 $(document).ready(function () {
 	
 	$('.hobbieDropdown .select-box').click(function() {
-		
         $(this).toggleClass('active');
         $('#optionsList').toggle();
     });
 
     $('#optionsList').on('click', 'option', function(event) {
-		
         event.preventDefault();
         $(this).toggleClass('selected');
         this.selected = $(this).hasClass('selected');
@@ -196,8 +194,7 @@ $(document).ready(function () {
 						var data = JSON.parse(response);
 						var rowData = data.DATA[0];
 						var name = `${rowData[0]} ${rowData[1]} ${rowData[2]}`;
-						var address = `${rowData[6]} ${rowData[7]}`;
-
+						var address = `${rowData[6]} ${rowData[7]}`; 
 						var dateString = rowData[4];
 						var date = new Date(dateString);
 						var formattedDate = date.getDate() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getFullYear()).slice(-4);
@@ -212,7 +209,6 @@ $(document).ready(function () {
 						$('#hobby').html(rowData[11]);
 						$('#photo').attr('src', './assets/uploads/' + rowData[5]);
 					}
-					
 			},
 			error: function (xhr, status, error) {
 				console.error(xhr.responseText);
@@ -237,7 +233,6 @@ $(document).ready(function () {
 					var dateString = rowData[4];
 					var date = new Date(dateString);
 					var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-					
 					$('#strTitle').val(rowData[0]);
 					$('#strFirstName').val(rowData[1]);
 					$('#strLastName').val(rowData[2]);
@@ -276,8 +271,7 @@ $(document).ready(function () {
 	$('#submitForm').on('submit', function () {
 		var contactId = $('#hiddenId').val().trim();
 		var strEmail = $('#strEmail').val().trim();
-		var newHobbies = $('#optionsList').val();
-		//alert(newHobbies); 
+		//var newHobbies = $('#optionsList').val();
 		var selectedHobbies = [];
         $('#optionsList option.selected').each(function() {
             selectedHobbies.push($(this).val());
@@ -323,7 +317,8 @@ $(document).ready(function () {
 				if (response.success) {
 					setTimeout(function(){
 						$("#excelValidationMsg").html(response.message).css("color", "green");
-						window.location.href ="/display";	
+						downloadExcelResult();
+							
 					},1000
 					);
 				} else {
@@ -377,13 +372,22 @@ $(document).ready(function () {
 
 });
 
+function downloadFile() {
+	alert("in");
+	var downloadUrl = "?action=download"; 
+	var link = $('<a style="display: none;"></a>');
+	link.attr('href', downloadUrl);
+	link.attr('target', '_blank');  
+	$('body').append(link);
+	link[0].click();
+	link.remove();
+}
+
 function setHobbiesList(data) {
 	var optionsList = $('#optionsList');
 	optionsList.empty();
 	var hobbies = data.DATA;
-	hobbies.forEach(function(hobby) {
-		var hobbyId = hobby[0];
-		var hobbyName = hobby[1];
+	hobbies.forEach(function([hobbyId, hobbyName]) {
 		optionsList.append('<option value="' + hobbyId + '">' + hobbyName + '</option>');
 	});
 	}
@@ -392,7 +396,9 @@ $.ajax({
 	method: 'GET',
 	dataType: 'json',
 	success: function(response) {
-		setHobbiesList(response);
+		if(response){
+			setHobbiesList(response);
+		}
 	},
 	error: function() {
 		console.error('Failed to fetch hobbies.');
