@@ -131,7 +131,8 @@ component {
 
     remote any function checkExcelFileExist() returnFormat="JSON"{
         local.excelFile = fileExcel;
-        local.getExcelFile=variables.compObj.checkExcelFileExist(fileExcel = local.excelFile);
+        local.getExcelFile = variables.compObj.checkExcelFileExist(fileExcel = local.excelFile);
         return local.getExcelFile;
     }
+
 }
