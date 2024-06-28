@@ -317,13 +317,12 @@ $(document).ready(function () {
 				if (response.success) {
 					setTimeout(function(){
 						$("#excelValidationMsg").html(response.message).css("color", "green");
-						downloadExcelResult();
-							
+						window.location.href = "/display";
 					},1000
 					);
-				} else {
-					$("#excelValidationMsg").html(response.message).css("color", "red");
-				}
+				 } else {
+				 	$("#excelValidationMsg").html(response.message).css("color", "red");
+				 }
 			},
 			error: function (xhr, status, error) {
 				console.log("An error occurred:" + error);
@@ -372,16 +371,6 @@ $(document).ready(function () {
 
 });
 
-function downloadFile() {
-	alert("in");
-	var downloadUrl = "?action=download"; 
-	var link = $('<a style="display: none;"></a>');
-	link.attr('href', downloadUrl);
-	link.attr('target', '_blank');  
-	$('body').append(link);
-	link[0].click();
-	link.remove();
-}
 
 function setHobbiesList(data) {
 	var optionsList = $('#optionsList');
@@ -504,7 +493,6 @@ function saveContact(selectedHobbies) {
 		},
 	});
 }
-
 
 function signUpValidate() {
 	var registerErrorMsg = '';

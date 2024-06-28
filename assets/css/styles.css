@@ -728,3 +728,11 @@ td {
 .excelTemplate:hover{
 	color: white;
 }
+
+.btnData{
+	background-color: #2196F3 !important;
+}
+
+.btnPlain{
+	background-color: #20c997 !important;
+}

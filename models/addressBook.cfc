@@ -254,10 +254,8 @@
 
     <cffunction name="checkExcelFileExist" access="remote" returnformat="json">
     <cfargument name="fileExcel" required="true" type="string">
-
     <cfset local.path = ExpandPath("../assets/uploads/")>
     <cffile action="upload" fileField="fileExcel" destination="#local.path#" nameConflict="makeunique">
-
     <cfset local.excelSheet = cffile.serverFile>
     <cfspreadsheet action="read" src="#local.path##local.excelSheet#" query="spreadsheetData" headerrow="1" rows="2-10">
 
@@ -297,10 +295,18 @@
 
         <cfif matchCount EQ arrayLen(excelColNames)>
             <cfset Upload_Result = SpreadsheetNew()>
-            <cfset headers = ["Title", "First Name", "Last Name", "Gender", "DOB", "Photo", "Address", "Street", "Pincode", "Email", "Phone", "Hobbies", "Result"]>
+            <cfset headers = ["Title", "FirstName", "LastName", "Gender", "DOB", "Photo", "Address", "Street", "Pincode", "Email", "Phone", "Hobbies", "Result"]>
             <cfloop index="i" from="1" to="#ArrayLen(headers)#">
                 <cfset SpreadsheetSetCellValue(Upload_Result, headers[i], 1, i)>
             </cfloop>
+          <!---  <cfdump var="#SpreadsheetInfo(Upload_Result)#">
+            <cfloop index="j" from="1" to="#ArrayLen(headers)#">
+                <cfset SpreadsheetSetCellValue(Upload_Result, 'abc', 2, j)>
+            </cfloop>
+            
+                <cfdump var="#SpreadsheetGetCellValue(Upload_Result,2,1)#">
+            
+            <cfabort>--->
             <cfset rowIndex = 2>
             <cfloop query="spreadsheetData">
                 <cfset local.title = spreadsheetData.Title>
@@ -319,123 +325,149 @@
                 <cfset local.requiredPhone = replace(local.phone, ",", "", "all")>
                 
                 <cfset local.validationErrors = []>
+                <cfset local.emailRegex = "^[a-zA-Z0-9._%+-]+(?:\+1)?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
 
-                <cfif len(trim(local.title)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "Title .")>
-                    </cfif>
+                <cfset local.phoneRegex = "^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$">
+                <cfif len(trim(local.title)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "title missing")>
+                </cfif>
+            
+                <cfif len(trim(local.firstName)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "firstname missing")>
+                <cfelseif len(local.firstName) GT 15>
+                    <cfset arrayAppend(local.validationErrors, "firstname limit exceeded")>
+                </cfif>
                 
-                    <cfif len(trim(local.firstName)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "First Name .")>
+                <cfif len(trim(local.lastName)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "lastname missing")>
+                <cfelseif len(local.lastName) GT 15>
+                    <cfset arrayAppend(local.validationErrors, "lastname limit exceeded")>
+                </cfif>
+                
+                <cfif len(trim(local.gender)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "gender missing")>
+                </cfif>
+
+                <cfif len(trim(local.dob)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "dob missing")>
+                <cfelseif isValid("integer", local.dob)>
+                    <cfset arrayAppend(local.validationErrors, "invalid dob")>
+                </cfif>
+
+                <cfif len(trim(local.photo)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "photo missing")>
+                </cfif>
+
+                <cfif len(trim(local.address)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "address missing")>
+                </cfif>
+
+                <cfif len(trim(local.street)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "street missing")>
+                </cfif>
+
+                <cfif len(trim(local.requiredPincode)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "pincode missing")>
+                <cfelseif len(local.requiredPincode) GT 6>
+                    <cfset arrayAppend(local.validationErrors, "pincode limit exceeded")>
+                </cfif>
+
+                <cfif len(trim(local.email)) EQ 0>  
+                    <cfset arrayAppend(local.validationErrors, "email missing")>
+                <cfelseif NOT reFindNoCase(local.emailRegex, local.email)>
+                    <cfset arrayAppend(local.validationErrors, "Invalid email")>    
+                </cfif>
+            
+                <cfif len(trim(local.phone)) EQ 0>
+                    <cfset arrayAppend(local.validationErrors, "phone missing")>
+                <cfelseif NOT reFindNoCase(local.phoneRegex, local.requiredPhone)>
+                    <cfset arrayAppend(local.validationErrors, "invalid phone")>
+                </cfif>
+            
+                <cfset validHobbies = ["Reading", "Drawing", "Writing", "Cooking", "Singing", "Dancing", "Cycling", "Gardening", "BottleArt", "Swimming"]>
+                <cfset local.hobbiesList = listToArray(local.hobbies)>
+                <cfloop array="#local.hobbiesList#" index="hobby">
+                    <cfif not arrayFindNoCase(validHobbies, trim(hobby))>
+                        <cfset arrayAppend(local.validationErrors, "invalid hobby: #hobby#")>
                     </cfif>
+                </cfloop>
+                
+                <cfif arrayLen(local.validationErrors) EQ 0>
+                    <cfquery name="qryGetEmail">
+                        Select 1
+                        From ContactsTable
+                        Where Email = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                    </cfquery>
                     
-                    <cfif len(trim(local.lastName)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "Last Name .")>
-                    </cfif>
-                    
-                    <cfif len(trim(local.gender)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "Gender")>
-                    </cfif>
-
-                    <cfif len(trim(local.dob)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "dob")>
-                    </cfif>
-
-                    <cfif len(trim(local.photo)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "photo")>
-                    </cfif>
-
-                    <cfif len(trim(local.address)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "address")>
-                    </cfif>
-
-                    <cfif len(trim(local.street)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "street")>
-                    </cfif>
-
-                    <cfif len(trim(local.pincode)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "pincode")>
-                    </cfif>
-
-                    <cfif len(trim(local.email)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "email")>
-                    </cfif>
-                
-                    <cfif len(trim(local.phone)) eq 0>
-                        <cfset arrayAppend(local.validationErrors, "phone")>
-                    </cfif>
-                
-                    <cfset validHobbies = ["Reading", "Drawing", "Writing", "Cooking", "Singing", "Dancing", "Cycling", "Gardening", "BottleArt", "Swimming"]>
-                    <cfset local.hobbiesList = listToArray(local.hobbies)>
-                    <cfloop array="#local.hobbiesList#" index="hobby">
-                        <cfif not arrayFindNoCase(validHobbies, trim(hobby))>
-                            <cfset arrayAppend(local.validationErrors, "invalid hobby: #hobby#")>
-                        </cfif>
-                    </cfloop>
-
-                    <cfif arrayLen(local.validationErrors) EQ 0>
-                        <cfquery name="qryGetEmail">
-                            Select 1
-                            From ContactsTable
-                            Where Email = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                    <cfif qryGetEmail.recordCount>
+                        <cfquery name="qryUpdateContact">
+                            update ContactsTable 
+                            set Title=<cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
+                            FirstName=<cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
+                            LastName=<cfqueryparam value="#local.lastName#" cfsqltype="cf_sql_varchar">,
+                            Gender=<cfqueryparam value="#local.gender#" cfsqltype="cf_sql_varchar">,
+                            DOB=<cfqueryparam value="#local.dob#" cfsqltype="cf_sql_date">,
+                            Photo=<cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
+                            Address=<cfqueryparam value="#local.address#" cfsqltype="cf_sql_varchar">,
+                            Street=<cfqueryparam value="#local.street#" cfsqltype="cf_sql_varchar">,
+                            Pincode=<cfqueryparam value="#local.requiredPincode#" cfsqltype="cf_sql_varchar">,
+                            Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">,
+                            Phone=<cfqueryparam value="#local.requiredPhone#" cfsqltype="cf_sql_varchar">,
+                            AdminId=<cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
+                            where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
                         </cfquery>
-
-                        <cfif qryGetEmail.recordCount>
-                        <cfdump  var="#qryGetEmail.recordCount#">
-                            <cfquery name="qryUpdateContact">
-                                update ContactsTable 
-                                set Title=<cfqueryparam value="#local.title#" cfsqltype="cf_sql_varchar">,
-                                FirstName=<cfqueryparam value="#local.firstName#" cfsqltype="cf_sql_varchar">,
-                                LastName=<cfqueryparam value="#local.lastName#" cfsqltype="cf_sql_varchar">,
-                                Gender=<cfqueryparam value="#local.gender#" cfsqltype="cf_sql_varchar">,
-                                DOB=<cfqueryparam value="#local.dob#" cfsqltype="cf_sql_date">,
-                                Photo=<cfqueryparam value="#local.photo#" cfsqltype="cf_sql_varchar">,
-                                Address=<cfqueryparam value="#local.address#" cfsqltype="cf_sql_varchar">,
-                                Street=<cfqueryparam value="#local.street#" cfsqltype="cf_sql_varchar">,
-                                Pincode=<cfqueryparam value="#local.requiredPincode#" cfsqltype="cf_sql_varchar">,
-                                Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">,
-                                Phone=<cfqueryparam value="#local.requiredPhone#" cfsqltype="cf_sql_varchar">,
-                                AdminId=<cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_varchar">
-                                where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                        <cfquery name="getExistingIds">
+                            Select UserId
+                            From ContactsTable
+                            Where Email=<cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                        </cfquery>
+                        <cfset local.getContactId = getExistingIds.UserId>
+                        
+                        <cfif arrayLen(local.hobbiesList)>
+                            <cfquery name="getCurrentIds">
+                                Select HobbyId
+                                From HobbysTable
+                                Where Hobbies In (
+                                <cfqueryparam value="#arrayToList(local.hobbiesList, ',')#" cfsqltype="cf_sql_varchar" list="true">
+                                )
                             </cfquery>
-                            <!--- need to modify --->
-                            <cfset newHobbyIdArr = listToArray(local.hobbies,',')>
-                            <cfif arrayLen(newHobbyIdArr)>
-                                <cfquery name="getExistingIds">
-                                    Select HobbyId
-                                    From ContactHobbyLinkTable
-                                    Where ContactId=<cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
-                                </cfquery>
-                                <cfset existingHobbyIds ="">
-                                <cfset existingHobbyIds = ValueList(getExistingIds.HobbyId)>
-                                <cfset existingHobbyIdArr = listToArray(existingHobbyIds)>
-                                <cfset addedHobbies =[]>
-                                <cfset removedHobbies = []>
-                                <cfset addedHobbies = hobbiesDifference(newHobbyIdArr, existingHobbyIdArr)>
-                                <cfset removedHobbies = hobbiesDifference(existingHobbyIdArr, newHobbyIdArr)>
-                                <cfif arrayLen(addedHobbies) GT 0>
-                                    <cfloop array="#addedHobbies#" index="addHobby">
-                                        <cfquery name="qrySaveHobby" result="resultSaveHobby">
-                                            Insert Into ContactHobbyLinkTable(ContactId,HobbyId)
-                                            Values(
-                                                <cfqueryparam value="#contactId#" cfsqltype="cf_sql_integer">,
-                                                <cfqueryparam value="#addHobby#" cfsqltype="cf_sql_integer">
-                                            )
-                                        </cfquery>
-                                    </cfloop>
-                                </cfif>
-                                <cfif arrayLen(removedHobbies) GT 0>
-                                    <cfquery name="qryDeleteHobby" result="delRes">
-                                        Delete from ContactHobbyLinkTable
-                                        where ContactId = <cfqueryparam value="#arguments.contactId#" cfsqltype="cf_sql_integer">
-                                        And HobbyId In (
-                                            <cfqueryparam value="#arrayToList(removedHobbies, ',')#" cfsqltype="cf_sql_integer" list="true">
+                            
+                            <cfquery name="getExistingIds">
+                                Select HobbyId
+                                From ContactHobbyLinkTable
+                                Where ContactId=<cfqueryparam value="#local.getContactId#" cfsqltype="cf_sql_integer">
+                            </cfquery>
+                            <cfset existingHobbyIdArr ="">
+                            <cfset currentHobbyIdArr = "">
+                            <cfset currentHobbyIdArr = listToArray(ValueList(getCurrentIds.HobbyId))>
+                            <cfset existingHobbyIdArr = listToArray(ValueList(getExistingIds.HobbyId))>
+                            <cfset addedHobbies =[]>
+                            <cfset removedHobbies = []>
+                            <cfset addedHobbies = hobbiesDifference(currentHobbyIdArr, existingHobbyIdArr)>
+                            <cfset removedHobbies = hobbiesDifference(existingHobbyIdArr, currentHobbyIdArr)>
+                            <cfif arrayLen(addedHobbies) GT 0>
+                                <cfloop array="#addedHobbies#" index="addHobby">
+                                    <cfquery name="qrySaveHobby" result="resultSaveHobby">
+                                        Insert Into ContactHobbyLinkTable(ContactId,HobbyId)
+                                        Values(
+                                            <cfqueryparam value="#local.getContactId#" cfsqltype="cf_sql_integer">,
+                                            <cfqueryparam value="#addHobby#" cfsqltype="cf_sql_integer">
                                         )
                                     </cfquery>
-                                </cfif>
+                                </cfloop>
                             </cfif>
-                            <!--- need to modify end --->
-                            <cfset local.status = "Updated">
-                        <cfelse>
+                            <cfif arrayLen(removedHobbies) GT 0>
+                                <cfquery name="qryDeleteHobby" result="delRes">
+                                    Delete from ContactHobbyLinkTable
+                                    where ContactId = <cfqueryparam value="#local.getContactId#" cfsqltype="cf_sql_integer">
+                                    And HobbyId In (
+                                        <cfqueryparam value="#arrayToList(removedHobbies, ',')#" cfsqltype="cf_sql_integer" list="true">
+                                    )
+                                </cfquery>
+                            </cfif>
+                        </cfif>
+                        <cfset local.status = "Updated">
+                    <cfelse>
                             <cfquery name="qrySaveContact" result="resultSaveContact">
                             insert into ContactsTable(Title,FirstName,LastName,Gender,DOB,Photo,Address,Street,Pincode,Email,Phone,AdminId)
                             values(
@@ -453,10 +485,10 @@
                                 <cfqueryparam value="#session.UserId#" cfsqltype="cf_sql_integer">
                             )
                             </cfquery>
-                            <cfset local.contactId = resultSaveContact.generatedKey>
-                            <cfset local.hobbyList = listToArray(local.hobbies, " ")> 
-                            <cfif arrayLen(local.hobbyList) GT 0>
-                                <cfloop array="#local.hobbyList#" index="hobbys">
+                            <cfset local.contactId = resultSaveContact.generatedKey> 
+                            <cfif arrayLen(local.hobbiesList) GT 0>
+                                 <cfset local.hobbyId = []>
+                                <cfloop array="#local.hobbiesList#" index="hobbys">
                                     <cfquery name="getHobbyIds" result="resultId">
                                         select HobbyId
                                         FROM HobbysTable
@@ -464,12 +496,10 @@
                                             <cfqueryparam value="#hobbys#" cfsqltype="cf_sql_varchar" list="true"> 
                                         )
                                     </cfquery>
-                                </cfloop>
-                                <cfset local.hobbyId = []>
-                                <cfloop query="getHobbyIds">
                                     <cfset arrayAppend(local.HobbyId, getHobbyIds.HobbyId)>
                                 </cfloop>
-                                <cfloop array="#local.hobbyId#" index="hobbiesId">
+                                
+                                <cfloop array="#local.HobbyId#" index="hobbiesId">
                                     <cfquery name="qrySaveHobby" result="resultHobby">
                                         insert into ContactHobbyLinkTable(ContactId,HobbyId)
                                         values(
@@ -479,34 +509,31 @@
                                     </cfquery>
                                 </cfloop>
                             </cfif>
-                            <cfset local.status = "Added">
                         </cfif>
+                        <cfset local.status = "Added">
                 <cfelse>
                     <cfset local.status = arrayToList(local.validationErrors, '<br>')>
                 </cfif>
-
                 <cfset excelData = [
                     local.title, local.firstName, local.lastName, local.gender, local.dob, local.photo, 
-                    local.address, local.street, local.pincode, local.email, local.phone, local.hobbies, local.status ]>
-                
+                    local.address, local.street, local.requiredPincode, local.email, local.requiredPhone, local.hobbies, local.status ]>
                     <cfloop index="colIndex" from="1" to="#ArrayLen(excelData)#">
                         <cfset SpreadsheetSetCellValue(Upload_Result, excelData[colIndex], rowIndex, colIndex)>
                     </cfloop>
+             <cfset rowIndex = rowIndex + 1>
             </cfloop>
-            <cfset rowIndex = rowIndex + 1>
-            
+    
             <cfset filePath = ExpandPath("./Upload_Result.xlsx")>
-            <cfspreadsheet action="write" filename="#filePath#" name="Upload_Result">
-            <cfheader name="Content-Disposition" value="attachment; filename=Upload_Result.xlsx">
-            <cfcontent file="#filePath#" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-
+            <cfspreadsheet action="write" filename="#session.downloadFilePath#" name="Upload_Result" overwrite="true">
+            <cfset session.downloadFilePath = filePath>
+            <cfreturn {"success": true, "message": "File uploaded successfully!"}>
         <cfelse>
-            <cfreturn {"success": false, "message": "Column names aren't matching!"}>
-        </cfif>
+            <cfreturn {"success": false, "message": "Column names arent matching!"}>
+        </cfif> 
     <cfelse>
         <cfreturn {"success": false, "message": "File contains headers only!"}>
     </cfif>
-</cffunction>
+    </cffunction>
 
 
     <cffunction name="getHobbies" access="remote" returnFormat="json">

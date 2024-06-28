@@ -36,6 +36,7 @@
 				<a>
 					<img src="./assets/images/printer.PNG" alt="" width="32" height="34" id="print" class="d-inline-block align-text-top logoutImg">
 				</a>
+				<button class="btn btn-info p-1 btnTemplate"><a href="/download" target="_blank" class="excelTemplate">result</a></button>
 			</div>
 			<div class="midSection">
 				<div class="createContactSection">
@@ -210,9 +211,8 @@
 								<div class="d-flex ">
 									<div class="uploadPopup">
 										<div class="d-flex align-items-baseline justify-content-end p-2 gap-1">
-											<button class="btn btn-success p-1 btnTemplate"><a href="/download" target="_blank" class="excelTemplate">result</a></button>
-											<button class="btn btn-success p-1 btnTemplate"><a href="/data" target="_blank" class="excelTemplate">Template with data</a></button>
-											<button class="btn btn-success p-1 btnTemplate"><a href="/plain" target="_blank" class="excelTemplate">Plain template</a></button>
+											<button class="btn p-1 btnTemplate btnData"><a href="/data" target="_blank" class="excelTemplate">Template with data</a></button>
+											<button class="btn p-1 btnTemplate btnPlain"><a href="/plain" target="_blank" class="excelTemplate">Plain template</a></button>
 										</div>
 										<div  class="d-flex subHeader">
 											<p class="contactMainTitle" id="setTitle">UPLOAD CONTACT</p>
