@@ -1,62 +1,40 @@
 <cfscript>
-
     cfparam(name="url.action", default="login", pattern="");
+    session.getAction = url.action;
 
-        switch(lcase(url.action)){
-
-            case "login":
-                include "/views/header.cfm";
-                include "/views/navbar.cfm";
-                include "/views/login.cfm";
-            break;
-
-            case "signup":
-                include "/views/header.cfm";
-                include "/views/navbar.cfm";
-                include "/views/signUp.cfm";
-            break;
-
-            case "display":
-                include "/views/header.cfm";
-                include "/views/listingPage.cfm";
-            break;
-
-            case "pdf":
-                include "/views/header.cfm";
-                include "/views/listingPagePdf.cfm";
-            break;
-
-            case "sheet":
-                include "/views/header.cfm";
-                include "/views/listingPageExcel.cfm";
-            break;
-
-            case "error":
-                include "/views/header.cfm";
-                include "/views/errorPage.cfm";
-            break;
-
-            case "data":
-                include "/views/header.cfm";
-                include "/views/dataTemplate.cfm";
-            break;
-
-            case "plain":
-                include "/views/header.cfm";
-                include "/views/plainTemplate.cfm";
-            break;
-
-            case "download":
-                include "/views/header.cfm";
-                include "/views/result.cfm";
-            break;
-
-            case "logout":
-                include "/views/login.cfm";
-            break;
-
-            default:
-            break;
-        }
-  
+    if (lcase(url.action) eq "login") {
+        include "/views/header.cfm";
+        include "/views/navbar.cfm";
+        include "/views/login.cfm";
+    }
+    else if (lcase(url.action) eq "signup") {
+        include "/views/header.cfm";
+        include "/views/navbar.cfm";
+        include "/views/signUp.cfm";
+    }
+    else if (lcase(url.action) eq "display") {
+        include "/views/header.cfm";
+        include "/views/listingPage.cfm";
+    }
+    else if (lcase(url.action) eq "pdf") {
+        include "/views/header.cfm";
+        include "/views/listingPagePdf.cfm";
+    }
+    else if (lcase(url.action) eq "data" or lcase(url.action) eq "sheet") {
+        include "/views/dataTemplate.cfm";
+    }
+    else if (lcase(url.action) eq "plain") {
+        include "/views/plainTemplate.cfm";
+    }
+    else if (lcase(url.action) eq "download") {
+        include "/views/result.cfm";
+    }
+    else if (lcase(url.action) eq "error") {
+        include "/views/header.cfm";
+        include "/views/errorPage.cfm";
+    }
+    else if (lcase(url.action) eq "logout") {
+        include "/views/login.cfm";
+    }
+    
 </cfscript>

@@ -5,5 +5,5 @@
 <cfset filePath = ExpandPath("./Plain_Template.xlsx")>
 <cfspreadsheet action="write" filename="#filePath#" query="excelQuery" sheetname="contacts">
 <cfheader name="Content-Disposition" value="attachment; filename=Plain_Template.xlsx">
-<cfcontent file="#filePath#" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+<cfcontent file="#filePath#" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" deleteFile="true">
 </cfoutput>

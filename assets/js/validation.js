@@ -260,7 +260,6 @@ $(document).ready(function () {
 					updateHobbiesList();
 					
 					}
-
 				},
 				error: function (xhr, status, error) {
 					console.log("An error occurred:" + error);
@@ -307,7 +306,7 @@ $(document).ready(function () {
 		var formData = new FormData();
 		formData.append('fileExcel', fileExcel);
 		$.ajax({
-			url: "./controllers/addressBook.cfc?method=checkExcelFileExist",
+			url: "./controllers/addressBook.cfc?method=uploadExcelFile",
 			type: 'post',
 			data: formData,
 			contentType: false,
@@ -368,9 +367,7 @@ $(document).ready(function () {
         window.location.href = "/display";
     });
 
-
 });
-
 
 function setHobbiesList(data) {
 	var optionsList = $('#optionsList');
@@ -485,7 +482,7 @@ function saveContact(selectedHobbies) {
 				} else {
 					$("#contactValidationMsg").html(response.message).css("color", "green");
 					window.location.href = "/display";
-				}
+				} 
 			} else {
 				$("#contactValidationMsg").html("You can now update the contact").css("color", "red");
 				return false;

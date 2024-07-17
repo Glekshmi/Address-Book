@@ -29,6 +29,7 @@ component
 		session.fullName = '';
 		session.profileURL=false;
 		session.downloadFilePath ='';
+		session.getAction = '';
 	}
 	function onRequestStart( String scriptName ){
 		if (structKeyExists( url, "init" )){

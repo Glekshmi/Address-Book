@@ -23,11 +23,11 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> 
 		</nav>
 		<div class="listingPageSection">
-			<div class="topDownloadBar gap-2">
-				<a href="/pdf" target="_blank">
+			<div class="topDownloadBar gap-2">  
+				<a href="/pdf" target="_blank">  
 					<img src="./assets/images/pdf.PNG" alt="Download PDF" width="30" height="32" class="d-inline-block align-text-top logoutImg">
 				</a>
 				<a href="/sheet" target="_blank">
@@ -36,7 +36,6 @@
 				<a>
 					<img src="./assets/images/printer.PNG" alt="" width="32" height="34" id="print" class="d-inline-block align-text-top logoutImg">
 				</a>
-				<button class="btn btn-info p-1 btnTemplate"><a href="/download" target="_blank" class="excelTemplate">result</a></button>
 			</div>
 			<div class="midSection">
 				<div class="createContactSection">
@@ -90,7 +89,7 @@
 						<div class="modal bd-example-modal-lg fade contactPopUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="myModal">
 							<div class="modal-dialog modal-lg p-1">
 								<div class="modal-content ps-3 outerContainer">
-									<div class="d-flex justify-content-between ">
+									<div class="d-flex justify-content-between">
 										<div class="popupContactHeader">
 											<div  class="d-flex justify-content-center subHeader">
 												<p class="contactMainTitle" id="setTitle"></p>
@@ -105,8 +104,8 @@
 															<label for="strTitle">Title*</label>
 															<select name ="strTitle" id="strTitle" class="selectTitle commonInputStyle">
 																<option selected value=""></option>
-																<option value="Miss">Miss.</option>
-																<option value="Mr.">Mr.</option>
+																<option value="Miss">Miss</option>
+																<option value="Mr">Mr</option>
 															</select>
 														</div>
 														<div class="d-flex flex-column">
@@ -213,6 +212,7 @@
 										<div class="d-flex align-items-baseline justify-content-end p-2 gap-1">
 											<button class="btn p-1 btnTemplate btnData"><a href="/data" target="_blank" class="excelTemplate">Template with data</a></button>
 											<button class="btn p-1 btnTemplate btnPlain"><a href="/plain" target="_blank" class="excelTemplate">Plain template</a></button>
+											<button class="btn btn-info p-1 btnTemplate"><a href="/download" target="_blank" class="excelTemplate">Upload Result</a></button>
 										</div>
 										<div  class="d-flex subHeader">
 											<p class="contactMainTitle" id="setTitle">UPLOAD CONTACT</p>
