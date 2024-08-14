@@ -504,10 +504,10 @@
                     <cfset local.successIndex++>
                     <cfset local.shiftIndex = local.successIndex>
                 <cfelse>
-                    <cfset local.errorIndex++>
+                    <cfset local.errorIndex++>  
                     <cfset local.shiftIndex = local.errorIndex>
                 </cfif>
-                 <cfloop index="colIndex" from="1" to="#ArrayLen(local.excelData)-1#">
+                <cfloop index="colIndex" from="1" to="#ArrayLen(local.excelData)-1#">
                     <cfset SpreadsheetSetCellValue(local.Upload_Result, local.excelData[colIndex], local.shiftIndex, colIndex)>
                 </cfloop>
                 <cfset local.rowIndex++>
@@ -527,7 +527,7 @@
     <cfelse>
         <cfreturn {"success": false, "message": "File contain headers only!"}>
     </cfif>
-    </cffunction> 
+    </cffunction>
 
     <cffunction name="getHobbies" access="remote" returnFormat="json">
     <cfquery name="qryGetHobbies">
